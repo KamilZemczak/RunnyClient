@@ -24,8 +24,8 @@ public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     LoginActivity loginActivity;
     TextView user;
-    EditText username, email, age, gender, weight, height;
-    String str_username, str_email, str_age, str_gender, str_weight, str_height;
+    EditText username, email, age, gender, weight, height, city, about;
+    String str_username, str_email, str_age, str_gender, str_weight, str_height, str_city, str_about;
     Integer int_id = loginActivity.currentId;
 
     @Override
@@ -53,27 +53,41 @@ public class ProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //user = (TextView) findViewById(R.id.tvUserShow);
-        //username = (EditText) findViewById(R.id.etUsernameE);
-        //email = (EditText) findViewById(R.id.etEmailE);
-        //age = (EditText) findViewById(R.id.etAgeE);
-        //gender = (EditText) findViewById(R.id.etGenderE);
-        //weight = (EditText) findViewById(R.id.etWeightE);
-        //height = (EditText) findViewById(R.id.etHeightE);
+        user = (TextView) findViewById(R.id.tvUserShow);
+        username = (EditText) findViewById(R.id.etUsernameE);
+        email = (EditText) findViewById(R.id.etEmailE);
+        age = (EditText) findViewById(R.id.etAgeE);
+        gender = (EditText) findViewById(R.id.etGenderE);
+        weight = (EditText) findViewById(R.id.etWeightE);
+        height = (EditText) findViewById(R.id.etHeightE);
+        city = (EditText) findViewById(R.id.etCityE);
+        about = (EditText) findViewById(R.id.etAboutE);
 
-/*        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
+        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
 
         username.setText(loginActivity.currentUsername, TextView.BufferType.EDITABLE);
         email.setText(loginActivity.currentEmail, TextView.BufferType.EDITABLE);
         age.setText(Integer.toString(loginActivity.currentAge), TextView.BufferType.EDITABLE);
-        if(loginActivity.currentGender!=null && loginActivity.currentGender.equals("M")) {
+        if (loginActivity.currentGender != null && loginActivity.currentGender.equals("M")) {
             gender.setText("Mężczyzna", TextView.BufferType.EDITABLE);
         }
-        if(loginActivity.currentGender!=null && loginActivity.currentGender.equals("K")) {
+        if (loginActivity.currentGender != null && loginActivity.currentGender.equals("K")) {
             gender.setText("Kobieta", TextView.BufferType.EDITABLE);
         }
+        if ((loginActivity.currentWeight) != null) {
+            weight.setText(Integer.toString(LoginActivity.currentWeight), TextView.BufferType.EDITABLE);
+        }
+        if ((loginActivity.currentHeight) != null) {
+            height.setText(Integer.toString(loginActivity.currentHeight), TextView.BufferType.EDITABLE);
+        }
+        if (loginActivity.currentCity != null) {
+            city.setText(loginActivity.currentCity, TextView.BufferType.EDITABLE);
+        }
+        if (loginActivity.currentAbout != null) {
+            about.setText(loginActivity.currentAbout, TextView.BufferType.EDITABLE);
+        }
 
-        gender.setKeyListener(null);*/
+        gender.setKeyListener(null);
     }
 
     @Override
@@ -117,8 +131,6 @@ public class ProfileActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             startActivity(new Intent(this, WelcomeActivity.class));
             // Handle the camera action
-            //Intent h = new Intent(WelcomeActivity.this,ProfileActivity.class);
-            //startActivity(h);
         } else if (id == R.id.nav_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if (id == R.id.nav_training) {
@@ -138,15 +150,18 @@ public class ProfileActivity extends AppCompatActivity
         return true;
     }
 
-   /* public void onUpdate(View view) {
+    public void onUpdate(View view) {
         String str_id = Integer.toString(int_id);
         String str_username = username.getText().toString();
         String str_email = email.getText().toString();
         String str_age = age.getText().toString();
         String str_weight = weight.getText().toString();
         String str_height = height.getText().toString();
+        String str_city = city.getText().toString();
+        String str_about = about.getText().toString();
         String type = "update_user";
         UpdateBackgroundWorker updateBackgroundWorker = new UpdateBackgroundWorker(this);
-        updateBackgroundWorker.execute(type, str_id, str_username, str_email, str_age, str_weight, str_height);
-    }*/
+        updateBackgroundWorker.execute(type, str_id, str_username, str_email, str_age, str_weight, str_height, str_city, str_about);
+        
+    }
 }

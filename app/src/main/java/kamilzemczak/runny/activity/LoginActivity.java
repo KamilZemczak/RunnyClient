@@ -37,16 +37,19 @@ public class LoginActivity extends AppCompatActivity {
 
     EditText username, password;
     String str_username, str_password;
+    public static Integer currentId;
     public static String currentName;
     public static String currentSurname;
     public static String currentUsername;
     public static String currentEmail;
     public static String currentGender;
     public static Integer currentAge;
-    public static Integer currentId;
+    public static Integer currentWeight;
+    public static Integer currentHeight;
+    public static String currentCity;
+    public static String currentAbout;
 
     Button loginButton;
-
 
     /**
      * TODO
@@ -79,8 +82,6 @@ public class LoginActivity extends AppCompatActivity {
         String type = "login";
         String result = null;
         LoginBackgroundWorker loginBackgroundWorker = new LoginBackgroundWorker(this);
-
-
 
         try {
             result = loginBackgroundWorker.execute(type, str_username, str_password).get();
@@ -119,13 +120,26 @@ public class LoginActivity extends AppCompatActivity {
             User currentUser;
             String userJson = jsonBackgroundWorker.execute(type, str_username).get();
             currentUser = mapper.readValue(userJson, User.class);
+            currentId = currentUser.getId();
             currentName = currentUser.getName();
             currentSurname = currentUser.getSurname();
             currentUsername = currentUser.getUsername();
             currentEmail = currentUser.getEmail();
             currentAge = currentUser.getAge();
             currentGender = currentUser.getGender();
-            currentId = currentUser.getId();
+            if (currentUser.getWeight()!=null) {
+                currentWeight = currentUser.getWeight();
+            }
+            if (currentUser.getHeight()!=null) {
+                currentHeight = currentUser.getHeight();
+            }
+            if (currentUser.getCity()!=null) {
+                currentCity = currentUser.getCity();
+            }
+            if (currentUser.getAbout()!=null) {
+                currentAbout = currentUser.getAbout();
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
