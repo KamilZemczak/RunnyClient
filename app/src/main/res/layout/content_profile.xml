@@ -79,11 +79,11 @@
             android:ems="10"
             android:hint="Zmień swój adres email"
             android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/etAgeE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEditPhoto"
+            app:layout_constraintTop_toBottomOf="@+id/etUsernameE"
             app:layout_constraintVertical_bias="0.188" />
 
         <EditText
@@ -96,11 +96,11 @@
             android:ems="10"
             android:hint="Zmień swój wiek"
             android:inputType="number"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/etPasswordE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEditPhoto"
+            app:layout_constraintTop_toBottomOf="@+id/etEmailE"
             app:layout_constraintVertical_bias="0.319" />
 
 
@@ -185,7 +185,7 @@
             android:ems="10"
             android:hint="Zmień swój wzrost"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/etTest"
+            app:layout_constraintBottom_toTopOf="@+id/etCityE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -212,17 +212,34 @@
             android:id="@+id/etCityE"
             android:layout_width="395dp"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_accessibility2"
+            android:drawableLeft="@drawable/ic_location"
             android:drawablePadding="10dp"
             android:drawableRight="@drawable/ic_edit"
             android:ems="10"
             android:hint="Zmień swoją miejscowość"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/bSaveE"
+            app:layout_constraintBottom_toTopOf="@+id/etAboutE"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/etHeightE"
+            app:layout_constraintVertical_bias="0.843" />
+
+        <EditText
+            android:id="@+id/etAboutE"
+            android:layout_width="395dp"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_assignment"
+            android:drawablePadding="10dp"
+            android:drawableRight="@drawable/ic_edit"
+            android:ems="10"
+            android:hint="Zmień informacje o sobie"
+            android:inputType="number"
+            app:layout_constraintBottom_toTopOf="@+id/bSaveE"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/etCityE"
             app:layout_constraintVertical_bias="0.843" />
 
         <Button
@@ -231,12 +248,12 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorProff"
             android:onClick="onUpdate"
-            android:text="ZAPISZ"
+            android:text="ZAPISZ ZMIANY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etTest" />
+            app:layout_constraintTop_toBottomOf="@+id/etAboutE" />
 
     </android.support.constraint.ConstraintLayout>
 
