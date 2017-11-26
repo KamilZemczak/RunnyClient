@@ -195,4 +195,5 @@ TODO:
 4. Podgląd profilu (nowy widok).
 5. Miasto rozpoczyna się od dużej litery.
 6. "About" rozpoczyna się od dużej litery.
+7. Rozmieścić dobrze imię i nazwisko w edycji profilu.
  */
