@@ -51,6 +51,8 @@ public class UpdateBackgroundWorker extends AsyncTask<String, Void, String> {
                 String age = params[4];
                 String weight = params[5];
                 String height = params[6];
+                String city = params[7];
+                String about = params[8];
                 URL url = new URL(update_user_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -63,7 +65,9 @@ public class UpdateBackgroundWorker extends AsyncTask<String, Void, String> {
                         + URLEncoder.encode("email", "UTF-8")+"="+URLEncoder.encode(email, "UTF-8")+"&"
                         + URLEncoder.encode("age", "UTF-8")+"="+URLEncoder.encode(age, "UTF-8")+"&"
                         + URLEncoder.encode("weight", "UTF-8")+"="+URLEncoder.encode(weight, "UTF-8")+"&"
-                        + URLEncoder.encode("height", "UTF-8")+"="+URLEncoder.encode(height, "UTF-8");
+                        + URLEncoder.encode("height", "UTF-8")+"="+URLEncoder.encode(height, "UTF-8")+"&"
+                        + URLEncoder.encode("city", "UTF-8")+"="+URLEncoder.encode(city, "UTF-8")+"&"
+                        + URLEncoder.encode("about", "UTF-8")+"="+URLEncoder.encode(about, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

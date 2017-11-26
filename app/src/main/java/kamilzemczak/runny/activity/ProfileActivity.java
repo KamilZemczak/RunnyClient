@@ -13,20 +13,29 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
+import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UpdateBackgroundWorker;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     LoginActivity loginActivity;
     TextView user;
-    EditText username, email, age, gender, weight, height;
-    String str_username, str_email, str_age, str_gender, str_weight, str_height;
+    EditText username, email, age, gender, weight, height, city, about;
+    String str_username, str_email, str_age, str_gender, str_weight, str_height, str_city, str_about;
     Integer int_id = loginActivity.currentId;
+    Button updateButton;
+
+    String currentUsername = loginActivity.currentUsername;
+    String currentEmail = loginActivity.currentEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,27 +62,43 @@ public class ProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //user = (TextView) findViewById(R.id.tvUserShow);
-        //username = (EditText) findViewById(R.id.etUsernameE);
-        //email = (EditText) findViewById(R.id.etEmailE);
-        //age = (EditText) findViewById(R.id.etAgeE);
-        //gender = (EditText) findViewById(R.id.etGenderE);
-        //weight = (EditText) findViewById(R.id.etWeightE);
-        //height = (EditText) findViewById(R.id.etHeightE);
+        user = (TextView) findViewById(R.id.tvUserShow);
+        username = (EditText) findViewById(R.id.etUsernameE);
+        email = (EditText) findViewById(R.id.etEmailE);
+        age = (EditText) findViewById(R.id.etAgeE);
+        gender = (EditText) findViewById(R.id.etGenderE);
+        weight = (EditText) findViewById(R.id.etWeightE);
+        height = (EditText) findViewById(R.id.etHeightE);
+        city = (EditText) findViewById(R.id.etCityE);
+        about = (EditText) findViewById(R.id.etAboutE);
 
-/*        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
+        updateButton = (Button) findViewById(R.id.bSaveE);
+
+        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
 
         username.setText(loginActivity.currentUsername, TextView.BufferType.EDITABLE);
         email.setText(loginActivity.currentEmail, TextView.BufferType.EDITABLE);
         age.setText(Integer.toString(loginActivity.currentAge), TextView.BufferType.EDITABLE);
-        if(loginActivity.currentGender!=null && loginActivity.currentGender.equals("M")) {
+        if (loginActivity.currentGender != null && loginActivity.currentGender.equals("M")) {
             gender.setText("Mężczyzna", TextView.BufferType.EDITABLE);
         }
-        if(loginActivity.currentGender!=null && loginActivity.currentGender.equals("K")) {
+        if (loginActivity.currentGender != null && loginActivity.currentGender.equals("F")) {
             gender.setText("Kobieta", TextView.BufferType.EDITABLE);
         }
+        if ((loginActivity.currentWeight) != null) {
+            weight.setText(Integer.toString(LoginActivity.currentWeight), TextView.BufferType.EDITABLE);
+        }
+        if ((loginActivity.currentHeight) != null) {
+            height.setText(Integer.toString(loginActivity.currentHeight), TextView.BufferType.EDITABLE);
+        }
+        if (loginActivity.currentCity != null) {
+            city.setText(loginActivity.currentCity, TextView.BufferType.EDITABLE);
+        }
+        if (loginActivity.currentAbout != null) {
+            about.setText(loginActivity.currentAbout, TextView.BufferType.EDITABLE);
+        }
 
-        gender.setKeyListener(null);*/
+        gender.setKeyListener(null);
     }
 
     @Override
@@ -117,8 +142,6 @@ public class ProfileActivity extends AppCompatActivity
         if (id == R.id.nav_home) {
             startActivity(new Intent(this, WelcomeActivity.class));
             // Handle the camera action
-            //Intent h = new Intent(WelcomeActivity.this,ProfileActivity.class);
-            //startActivity(h);
         } else if (id == R.id.nav_profile) {
             startActivity(new Intent(this, ProfileActivity.class));
         } else if (id == R.id.nav_training) {
@@ -138,15 +161,196 @@ public class ProfileActivity extends AppCompatActivity
         return true;
     }
 
-   /* public void onUpdate(View view) {
+    public void onUpdate(View view) {
+        if (!validate()) {
+            onUpdateFailed();
+            return;
+        }
+
         String str_id = Integer.toString(int_id);
         String str_username = username.getText().toString();
         String str_email = email.getText().toString();
         String str_age = age.getText().toString();
         String str_weight = weight.getText().toString();
         String str_height = height.getText().toString();
+        String str_city = city.getText().toString();
+        String str_about = about.getText().toString();
         String type = "update_user";
         UpdateBackgroundWorker updateBackgroundWorker = new UpdateBackgroundWorker(this);
-        updateBackgroundWorker.execute(type, str_id, str_username, str_email, str_age, str_weight, str_height);
-    }*/
+        updateBackgroundWorker.execute(type, str_id, str_username, str_email, str_age, str_weight, str_height, str_city, str_about);
+        onUpdateSuccess();
+    }
+
+    public boolean validate() {
+        boolean valid = true;
+
+        String str_username = username.getText().toString();
+        String str_email = email.getText().toString();
+        String str_age = age.getText().toString();
+        String str_weight = null;
+        String str_height = null;
+        String str_city = null;
+        String str_about = null;
+        Integer int_age = null;
+        Integer int_weight = null;
+        Integer int_height = null;
+
+        if (weight.getText() != null) {
+            str_weight = weight.getText().toString();
+        }
+
+        if (height.getText() != null) {
+            str_height = height.getText().toString();
+        }
+
+        if (city.getText() != null) {
+            str_city = city.getText().toString();
+        }
+
+        if (about.getText() != null) {
+            str_about = about.getText().toString();
+        }
+
+        if (!str_age.isEmpty()) {
+            int_age = Integer.parseInt(str_age);
+        }
+
+        if (!str_weight.isEmpty()) {
+            int_weight = Integer.parseInt(str_weight);
+        }
+
+        if (!str_height.isEmpty()) {
+            int_height = Integer.parseInt(str_height);
+        }
+
+        if (str_username.isEmpty() || str_username.length() < 4 || str_username.length() > 26) {
+            username.setError("Nazwa użytkownika musi zawierać minimum cztery znaki.");
+            valid = false;
+        } else if (!isUniqueUser(str_username) && !sameUsername(str_username)) {
+            username.setError("Nazwa użytkownika jest już używana.");
+            valid = false;
+        } else {
+            username.setError(null);
+        }
+
+        if (str_email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(str_email).matches()) {
+            email.setError("Niepoprawny format email.");
+            valid = false;
+        } else if (!isUniqueEmail(str_email) && !sameEmail(str_email)) {
+            email.setError("Email jest już używany.");
+            valid = false;
+        } else {
+            email.setError(null);
+        }
+
+        if (str_age.isEmpty() || str_age.length() < 1 || str_age.length() > 2) {
+            age.setError("Niepoprawny format wieku.");
+            valid = false;
+        } else if (int_age != null && int_age < 18) {
+            age.setError("Rejestracja w serwisie możliwa od 18 roku życia.");
+            valid = false;
+        } else {
+            age.setError(null);
+        }
+
+        if (!str_weight.isEmpty() && (str_weight.length() < 1 || str_weight.length() > 3)) {
+            weight.setError("Niepoprawny format wagi.");
+            valid = false;
+        } else if (int_weight != null && int_weight < 30) {
+            weight.setError("Najniższa waga dostępna w serwisie to 30kg.");
+            valid = false;
+        } else if (int_weight != null && int_weight > 200) {
+            weight.setError("Najwyższa waga dostępna w serwisie to 200kg.");
+            valid = false;
+        } else {
+            weight.setError(null);
+        }
+
+
+        if (!str_height.isEmpty() && (str_height.length() < 2 || str_height.length() > 3)) {
+            height.setError("Niepoprawny format wzrostu.");
+            valid = false;
+        } else if (int_height != null && int_height < 80) {
+            height.setError("Najniższy wzrost dostępny w serwisie to 80cm.");
+            valid = false;
+        } else if (int_height != null && int_height > 250) {
+            height.setError("Najwyższy wzrost dostępny w serwisie to 250cm.");
+            valid = false;
+        } else {
+            height.setError(null);
+        }
+
+        if (!str_city.isEmpty() && (str_city.length() < 3 || str_city.length() > 24)) {
+            city.setError("Niepoprawny format miasta.");
+            valid = false;
+        } else {
+            city.setError(null);
+        }
+
+        if (!str_about.isEmpty() && str_about.length() < 20) {
+            about.setError("Minimum 20 znaków o sobie.");
+            valid = false;
+        } else if (!str_about.isEmpty() || str_about.length() > 256) {
+            about.setError("Maksymalne 255 znaków o sobie.");
+            valid = false;
+        } else {
+            about.setError(null);
+        }
+
+        return valid;
+    }
+
+    private boolean isUniqueUser(String str_username) {
+        String type = "unique_user";
+        Boolean result = true;
+        UniqueBackgroundWorker uniqueBackgroundWorker = new UniqueBackgroundWorker(this);
+        try {
+            result = uniqueBackgroundWorker.execute(type, str_username).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private boolean isUniqueEmail(String str_email) {
+        String type = "unique_email";
+        Boolean result = true;
+        UniqueBackgroundWorker uniqueBackgroundWorker = new UniqueBackgroundWorker(this);
+        try {
+            result = uniqueBackgroundWorker.execute(type, str_email).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private boolean sameUsername(String str_username) {
+        Boolean result = false;
+        if (str_username.equals(currentUsername)) {
+            result = true;
+        }
+        return result;
+    }
+
+    private boolean sameEmail(String str_email) {
+        Boolean result = false;
+        if (str_email.equals(currentEmail)) {
+            result = true;
+        }
+        return result;
+    }
+
+    public void onUpdateFailed() {
+        Toast.makeText(getBaseContext(), "Zaktualizowanie profilu nieudane.", Toast.LENGTH_LONG).show();
+        updateButton.setEnabled(true);
+    }
+
+    public void onUpdateSuccess() {
+        Toast.makeText(getBaseContext(), "Zaktualizowanie profilu udane.", Toast.LENGTH_LONG).show();
+        updateButton.setEnabled(true);
+    }
 }

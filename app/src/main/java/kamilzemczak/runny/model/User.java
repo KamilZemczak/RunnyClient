@@ -28,7 +28,9 @@ import java.util.Set;
         "passwordConfirm",
         "gender",
         "weight",
-        "height"
+        "height",
+        "city",
+        "about"
 })
 public class User  {
     @JsonProperty("id")
@@ -40,7 +42,7 @@ public class User  {
     @JsonProperty("username")
     private String username;
     @JsonProperty("email")
-    private String email; // private final ThreadLocal<String> email = new ThreadLocal<>();
+    private String email;
     @JsonProperty("age")
     private Integer age;
     @JsonProperty("password")
@@ -53,6 +55,10 @@ public class User  {
     private Integer weight;
     @JsonProperty("height")
     private Integer height;
+    @JsonProperty("city")
+    private String city;
+    @JsonProperty("height")
+    private String about;
     @JsonIgnore
     private Set<Role> roles;
 
@@ -62,7 +68,7 @@ public class User  {
     }
 
    // @JsonIgnore
-    public User(Integer id, String name, String surname, String username, String email, Integer age, String password, String gender, Integer weight, Integer height) {
+    public User(Integer id, String name, String surname, String username, String email, Integer age, String password, String gender, Integer weight, Integer height, String city, String about) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -73,6 +79,8 @@ public class User  {
         this.gender = gender;
         this.weight = weight;
         this.height = height;
+        this.setCity(city);
+        this.setAbout(about);
     }
 
     @JsonProperty("id")
@@ -183,6 +191,26 @@ public class User  {
     @JsonProperty("height")
     public void setHeight(Integer height) {
         this.height = height;
+    }
+
+    @JsonProperty("city")
+    public String getCity() {
+        return city;
+    }
+
+    @JsonProperty("city")
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @JsonProperty("about")
+    public String getAbout() {
+        return about;
+    }
+
+    @JsonProperty("about")
+    public void setAbout(String about) {
+        this.about = about;
     }
 
     @JsonIgnore
