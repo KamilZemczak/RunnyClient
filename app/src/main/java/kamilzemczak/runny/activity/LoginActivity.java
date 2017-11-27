@@ -192,8 +192,4 @@ TODO:
 1. Automatyczne przekierowanie do logowania po założeniu konta (do obmyślenia).
 2. Możliwość edycji hasła (nowy widok).
 3. Móżliwość edycji zdjęcia.
-4. Podgląd profilu (nowy widok).
-5. Miasto rozpoczyna się od dużej litery.
-6. "About" rozpoczyna się od dużej litery.
-7. Rozmieścić dobrze imię i nazwisko w edycji profilu.
  */

@@ -99,7 +99,7 @@ public class WelcomeActivity extends AppCompatActivity
             //Intent h = new Intent(WelcomeActivity.this,ProfileActivity.class);
             //startActivity(h);
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, ViewProfileActivity.class));
         } else if (id == R.id.nav_training) {
             startActivity(new Intent(this, TrainingActivity.class));
         } else if (id == R.id.nav_friend) {

@@ -13,16 +13,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.TextView;
 
 import kamilzemczak.runny.R;
 
-public class DecisionActivity extends AppCompatActivity
+public class ViewProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    LoginActivity loginActivity;
+    TextView user, usernameAge, location, about;
+    Button profile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_decision);
+        setContentView(R.layout.activity_view_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -43,6 +49,25 @@ public class DecisionActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        user = (TextView) findViewById(R.id.tvUserShowV);
+        usernameAge = (TextView) findViewById(R.id.tvUsernameAgeShowV);
+        location = (TextView) findViewById(R.id.tvLocationV);
+        profile = (Button) findViewById(R.id.bEditProfile);
+        about = (TextView) findViewById(R.id.tvAboutInfoV);
+
+        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
+        usernameAge.setText(loginActivity.currentUsername + "," + " " + loginActivity.currentAge + " " + "lat.");
+        if (loginActivity.currentCity != null) {
+            location.setText(loginActivity.currentCity);
+        } else {
+            location.setText("Nie ustawiono lokalizacji.");
+        }
+
+        if(loginActivity.currentAbout!=null) {
+            about.setText(loginActivity.currentAbout);
+        } else {
+            about.setText("Nie ustawiono żadnych informacji o sobie.");
+        }
     }
 
     @Override
@@ -58,7 +83,7 @@ public class DecisionActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.decision, menu);
+        getMenuInflater().inflate(R.menu.view_profile, menu);
         return true;
     }
 
@@ -105,5 +130,9 @@ public class DecisionActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void openEditProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 }

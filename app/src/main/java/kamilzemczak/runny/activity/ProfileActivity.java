@@ -18,12 +18,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
-import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
+import kamilzemczak.runny.backgroundworker.JsonBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UpdateBackgroundWorker;
+import kamilzemczak.runny.model.User;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -72,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity
         city = (EditText) findViewById(R.id.etCityE);
         about = (EditText) findViewById(R.id.etAboutE);
 
-        updateButton = (Button) findViewById(R.id.bSaveE);
+        updateButton = (Button) findViewById(R.id.bEditProfile);
 
         user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
 
@@ -143,7 +149,7 @@ public class ProfileActivity extends AppCompatActivity
             startActivity(new Intent(this, WelcomeActivity.class));
             // Handle the camera action
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this, ProfileActivity.class));
+            startActivity(new Intent(this, ViewProfileActivity.class));
         } else if (id == R.id.nav_training) {
             startActivity(new Intent(this, TrainingActivity.class));
         } else if (id == R.id.nav_friend) {
@@ -179,6 +185,7 @@ public class ProfileActivity extends AppCompatActivity
         UpdateBackgroundWorker updateBackgroundWorker = new UpdateBackgroundWorker(this);
         updateBackgroundWorker.execute(type, str_id, str_username, str_email, str_age, str_weight, str_height, str_city, str_about);
         onUpdateSuccess();
+        getUserDetails();
     }
 
     public boolean validate() {
@@ -194,6 +201,7 @@ public class ProfileActivity extends AppCompatActivity
         Integer int_age = null;
         Integer int_weight = null;
         Integer int_height = null;
+        Integer int_about = null;
 
         if (weight.getText() != null) {
             str_weight = weight.getText().toString();
@@ -209,6 +217,7 @@ public class ProfileActivity extends AppCompatActivity
 
         if (about.getText() != null) {
             str_about = about.getText().toString();
+            int_about = str_about.length();
         }
 
         if (!str_age.isEmpty()) {
@@ -266,7 +275,6 @@ public class ProfileActivity extends AppCompatActivity
             weight.setError(null);
         }
 
-
         if (!str_height.isEmpty() && (str_height.length() < 2 || str_height.length() > 3)) {
             height.setError("Niepoprawny format wzrostu.");
             valid = false;
@@ -287,10 +295,10 @@ public class ProfileActivity extends AppCompatActivity
             city.setError(null);
         }
 
-        if (!str_about.isEmpty() && str_about.length() < 20) {
+        if (!str_about.isEmpty() && int_about < 20) {
             about.setError("Minimum 20 znaków o sobie.");
             valid = false;
-        } else if (!str_about.isEmpty() || str_about.length() > 256) {
+        } else if (!str_about.isEmpty() && int_about > 256) {
             about.setError("Maksymalne 255 znaków o sobie.");
             valid = false;
         } else {
@@ -352,5 +360,51 @@ public class ProfileActivity extends AppCompatActivity
     public void onUpdateSuccess() {
         Toast.makeText(getBaseContext(), "Zaktualizowanie profilu udane.", Toast.LENGTH_LONG).show();
         updateButton.setEnabled(true);
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ViewProfileActivity.class));
+    }
+
+    public void getUserDetails() {
+        String str_username = username.getText().toString();
+        String type = "user_details";
+        JsonBackgroundWorker jsonBackgroundWorker = new JsonBackgroundWorker(this);
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            User currentUser;
+            String userJson = jsonBackgroundWorker.execute(type, str_username).get();
+            currentUser = mapper.readValue(userJson, User.class);
+            loginActivity.currentId = currentUser.getId();
+            loginActivity.currentName = currentUser.getName();
+            loginActivity.currentSurname = currentUser.getSurname();
+            loginActivity.currentUsername = currentUser.getUsername();
+            loginActivity.currentEmail = currentUser.getEmail();
+            loginActivity.currentAge = currentUser.getAge();
+            loginActivity.currentGender = currentUser.getGender();
+            if (currentUser.getWeight()!=null) {
+                loginActivity.currentWeight = currentUser.getWeight();
+            }
+            if (currentUser.getHeight()!=null) {
+                loginActivity.currentHeight = currentUser.getHeight();
+            }
+            if (currentUser.getCity()!=null) {
+                loginActivity.currentCity = currentUser.getCity();
+            }
+            if (currentUser.getAbout()!=null) {
+                loginActivity.currentAbout = currentUser.getAbout();
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

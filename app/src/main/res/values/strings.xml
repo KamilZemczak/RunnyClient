@@ -30,5 +30,6 @@
     <string name="title_activity_history">HistoryActivity</string>
 
     <string name="edit_photo"><b>EDYTUJ ZDJĘCIE</b></string>
+    <string name="title_activity_view_profile">ViewProfile</string>
 
 </resources>
