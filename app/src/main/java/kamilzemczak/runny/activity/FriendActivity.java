@@ -13,11 +13,34 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.backgroundworker.ListBackgroundWorker;
+import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
+import kamilzemczak.runny.model.User;
 
 public class FriendActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ListView allUsers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +66,46 @@ public class FriendActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        allUsers = (ListView) findViewById(R.id.lAllUsers);
+
+        String type = "users_find";
+        String result = null;
+        ListBackgroundWorker listBackgroundWorker = new ListBackgroundWorker(this);
+        try {
+            result = listBackgroundWorker.execute(type).get();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Set allUsers = new HashSet<>();
+            List<User> users = objectMapper.readValue(result, new TypeReference<List<User>>(){});
+            for (User user : users) {
+                Set userDetails = new HashSet<>();
+                userDetails.add(user.getUsername());
+                if(user.getName().isEmpty()) {
+                    userDetails.add("Imie");
+                } else {
+                    userDetails.add(user.getName());
+                }
+                if(user.getSurname().isEmpty()) {
+                    userDetails.add("Nazwisko");
+                } else {
+                    userDetails.add(user.getSurname());
+                }
+                allUsers.add(userDetails);
+        }
+            List<String> usersList = new ArrayList<String>(allUsers);
+            ArrayAdapter adapter = new ArrayAdapter<String>(FriendActivity.this, android.R.layout.simple_list_item_1, usersList);
+            this.allUsers.setAdapter(adapter);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JsonParseException e) {
+            e.printStackTrace();
+        } catch (JsonMappingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

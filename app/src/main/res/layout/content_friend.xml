@@ -8,4 +8,10 @@
     tools:context="kamilzemczak.runny.activity.FriendActivity"
     tools:showIn="@layout/app_bar_friend">
 
+    <ListView
+        android:id="@+id/lAllUsers"
+        android:layout_width="395dp"
+        android:layout_height="587dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
 </android.support.constraint.ConstraintLayout>
