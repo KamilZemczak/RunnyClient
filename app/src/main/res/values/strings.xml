@@ -31,5 +31,7 @@
 
     <string name="edit_photo"><b>EDYTUJ ZDJĘCIE</b></string>
     <string name="title_activity_view_profile">ViewProfile</string>
+    <string name="title_activity_view_user_profile">ViewUserProfile</string>
+    <string name="title_activity_user_friend_list">UserFriendList</string>
 
 </resources>

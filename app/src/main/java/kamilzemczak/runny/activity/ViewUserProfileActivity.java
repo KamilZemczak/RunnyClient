@@ -17,18 +17,17 @@ import android.widget.TextView;
 
 import kamilzemczak.runny.R;
 
-public class WelcomeActivity extends AppCompatActivity
+public class ViewUserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    LoginActivity loginActivity;
-    TextView welcome;
-    DrawerLayout drawer;
-    NavigationView navigationView;
-    Toolbar toolbar = null;
+
+    SearchFriendsActivity searchFriendsActivity;
+    TextView user, usernameAge, location, about;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        setContentView(R.layout.activity_view_user_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -41,17 +40,34 @@ public class WelcomeActivity extends AppCompatActivity
             }
         });
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        welcome = (TextView) findViewById(R.id.tvWelcome);
-        welcome.setText("Witaj w Ready4RUN" + "\n" + loginActivity.currentName + " " + loginActivity.currentSurname + ".");
+        user = (TextView) findViewById(R.id.tvUserShowVU);
+        usernameAge = (TextView) findViewById(R.id.tvUsernameAgeShowVU);
+        location = (TextView) findViewById(R.id.tvLocationVU);
+        about = (TextView) findViewById(R.id.tvAboutInfoVU);
+
+        user.setText(searchFriendsActivity.currentNameP + " " + searchFriendsActivity.currentSurnameP);
+        usernameAge.setText(searchFriendsActivity.currentUsernameP + "," + " " + searchFriendsActivity.currentAgeP + " " + "lat.");
+        if (searchFriendsActivity.currentCityP != null) {
+            location.setText(searchFriendsActivity.currentCityP);
+        } else {
+            location.setText("Nie ustawiono lokalizacji.");
+        }
+
+        if(searchFriendsActivity.currentAboutP!=null) {
+            about.setText(searchFriendsActivity.currentAboutP);
+        } else {
+            about.setText("Nie ustawiono żadnych informacji o sobie.");
+        }
+
     }
 
     @Override
@@ -67,7 +83,7 @@ public class WelcomeActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.welcome, menu);
+        getMenuInflater().inflate(R.menu.view_user_profile, menu);
         return true;
     }
 
@@ -110,7 +126,6 @@ public class WelcomeActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

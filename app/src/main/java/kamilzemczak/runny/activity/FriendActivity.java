@@ -13,38 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
-import kamilzemczak.runny.backgroundworker.ListBackgroundWorker;
-import kamilzemczak.runny.model.User;
 
 public class FriendActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    ListView allUsers;
-    List<User> users = new ArrayList<User>();
-    ArrayList<ArrayList<String>> usersList1234 = new ArrayList<ArrayList<String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,87 +43,6 @@ public class FriendActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
-        allUsers = (ListView) findViewById(R.id.lAllUsers);
-
-        String type = "users_find";
-        String result = null;
-        ListBackgroundWorker listBackgroundWorker = new ListBackgroundWorker(this);
-
-        try {
-            result = listBackgroundWorker.execute(type).get();
-            ObjectMapper objectMapper = new ObjectMapper();
-            users = objectMapper.readValue(result, new TypeReference<List<User>>() {
-            });
-            for (User user : users) {
-                ArrayList<String> usersList123 = new ArrayList<>();
-                usersList123.add(user.getUsername());
-                if (user.getName().isEmpty()) {
-                    usersList123.add("Imie");
-                } else {
-                    usersList123.add(user.getName());
-                }
-                if (user.getSurname().isEmpty()) {
-                    usersList123.add("Nazwisko");
-                } else {
-                    usersList123.add(user.getSurname());
-                }
-                usersList1234.add(usersList123);
-            }
-            ArrayAdapter adapter = new ArrayAdapter<>(FriendActivity.this, android.R.layout.simple_list_item_1, usersList1234);
-            this.allUsers.setAdapter(adapter);
-        } catch (
-                InterruptedException e) {
-            e.printStackTrace();
-        } catch (
-                ExecutionException e) {
-            e.printStackTrace();
-        } catch (
-                JsonParseException e) {
-            e.printStackTrace();
-        } catch (
-                JsonMappingException e) {
-            e.printStackTrace();
-        } catch (
-                IOException e) {
-            e.printStackTrace();
-        }
-
-        allUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //dupa = position;
-                Intent appInfo = new Intent(FriendActivity.this, WelcomeActivity.class);
-                startActivity(appInfo);
-
-                /*JSONArray array = new JSONArray();
-                for (Object dupes : allUsersSet) {
-                    try {
-                        array.put(new JSONObject()
-                                .put("name", dupes));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-
-
-                try {
-                    JSONObject rec = array.getJSONObject(dupa);
-
-                    String statistics = rec.getString("name");
-                    String dupa = null;
-                  a  dupa = "a";
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-
-
-                String test = null;
-
-
-            }
-        });
-
     }
 
     @Override
@@ -183,6 +75,14 @@ public class FriendActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void openFriendList(View view) {
+        startActivity(new Intent(this, UserFriendList.class));
+    }
+
+    public void openSearchFriends(View view) {
+        startActivity(new Intent(this, SearchFriendsActivity.class));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

@@ -118,7 +118,7 @@ public class ViewProfileActivity extends AppCompatActivity
         } else if (id == R.id.nav_training) {
             startActivity(new Intent(this, TrainingActivity.class));
         } else if (id == R.id.nav_friend) {
-            startActivity(new Intent(this, FriendActivity.class));
+            startActivity(new Intent(this, SearchFriendsActivity.class));
         } else if (id == R.id.nav_history) {
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {

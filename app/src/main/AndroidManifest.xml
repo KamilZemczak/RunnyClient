@@ -31,7 +31,7 @@
             android:label="@string/title_activity_training"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.FriendActivity"
+            android:name=".activity.SearchFriendsActivity"
             android:label="@string/title_activity_friend"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -49,6 +49,18 @@
         <activity
             android:name=".activity.ViewProfileActivity"
             android:label="@string/title_activity_view_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.ViewUserProfileActivity"
+            android:label="@string/title_activity_view_user_profile"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.FriendActivity"
+            android:label="@string/title_activity_friend"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.UserFriendList"
+            android:label="@string/title_activity_user_friend_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
