@@ -139,7 +139,7 @@ public class FriendActivity extends AppCompatActivity
 
                     String statistics = rec.getString("name");
                     String dupa = null;
-                    dupa = "a";
+                  a  dupa = "a";
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }*/
