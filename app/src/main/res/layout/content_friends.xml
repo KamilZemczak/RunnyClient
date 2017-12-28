@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".activity.activity_menu.FriendsActivity"
+    tools:showIn="@layout/app_bar_friends">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:id="@+id/bFriendList"
+            android:layout_width="197dp"
+            android:layout_height="118dp"
+            android:layout_marginLeft="3dp"
+            android:text="MOI ZNAJOMI"
+            android:onClick="openFriendsList"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="0.032"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="@+id/bSearchFriends"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+        <Button
+            android:id="@+id/bSearchFriends"
+            android:layout_width="197dp"
+            android:layout_height="118dp"
+            android:layout_marginTop="220dp"
+            android:layout_marginRight="5dp"
+            android:text="SZUKAJ ZNAJOMYCH"
+            android:onClick="openSearchFriends"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.985"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</ScrollView>

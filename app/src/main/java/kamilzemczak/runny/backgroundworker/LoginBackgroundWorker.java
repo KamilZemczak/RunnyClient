@@ -46,7 +46,6 @@ public class LoginBackgroundWorker extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         String login_url = "http://10.0.2.2:8080/login";
-        String test_url = "http://10.0.2.2:8080/getUserDetails";
         if(type.equals("login")) {
             try {
                 String username = params[1];

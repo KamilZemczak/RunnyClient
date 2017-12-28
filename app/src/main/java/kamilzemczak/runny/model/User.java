@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -59,6 +60,8 @@ public class User  {
     private String city;
     @JsonProperty("height")
     private String about;
+    @JsonProperty("friends")
+    private ArrayList<User> friends;
     @JsonIgnore
     private Set<Role> roles;
 
@@ -213,6 +216,16 @@ public class User  {
         this.about = about;
     }
 
+    @JsonProperty("friends")
+    public ArrayList<User> getFriends() {
+        return friends;
+    }
+
+    @JsonProperty("friends")
+    public void setFriends(ArrayList<User> friends) {
+        this.friends = friends;
+    }
+
     @JsonIgnore
     public Set<Role> getRoles() {
         return roles;
@@ -222,5 +235,4 @@ public class User  {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
-
 }

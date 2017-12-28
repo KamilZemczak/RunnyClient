@@ -10,56 +10,56 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.LoginActivity">
+        <activity android:name=".activity.activity_entry.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.RegisterActivity" />
+        <activity android:name=".activity.activity_entry.RegisterActivity" />
         <activity
-            android:name=".activity.WelcomeActivity"
+            android:name=".activity.activity_menu.WelcomeActivity"
             android:label="@string/title_activity_welcome"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ProfileActivity"
+            android:name=".activity.activity_menu.ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.TrainingActivity"
+            android:name=".activity.activity_menu.TrainingActivity"
             android:label="@string/title_activity_training"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SearchFriendsActivity"
+            android:name=".activity.activity_user.SearchFriendsActivity"
             android:label="@string/title_activity_friend"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.HistoryActivity"
+            android:name=".activity.activity_menu.HistoryActivity"
             android:label="@string/title_activity_historiy"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.DecisionActivity"
+            android:name=".activity.activity_menu.ObjectivesActivity"
             android:label="@string/title_activity_decision"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.SettingsActivity"
+            android:name=".activity.activity_menu.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ViewProfileActivity"
+            android:name=".activity.activity_user.ViewOwnProfileActivity"
             android:label="@string/title_activity_view_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.ViewUserProfileActivity"
+            android:name=".activity.activity_user.ViewUserProfileActivity"
             android:label="@string/title_activity_view_user_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.FriendActivity"
+            android:name=".activity.activity_menu.FriendsActivity"
             android:label="@string/title_activity_friend"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.UserFriendList"
+            android:name=".activity.activity_user.SearchUserFriendsActivity"
             android:label="@string/title_activity_user_friend_list"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

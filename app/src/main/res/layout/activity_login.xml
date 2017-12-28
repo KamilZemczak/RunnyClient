@@ -8,7 +8,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="kamilzemczak.runny.activity.LoginActivity">
+    tools:context=".activity.activity_entry.LoginActivity">
 
     <TextView
         android:id="@+id/tvRegisterHere"

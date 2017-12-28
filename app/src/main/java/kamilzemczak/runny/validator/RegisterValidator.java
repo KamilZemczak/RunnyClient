@@ -1,7 +1,6 @@
 package kamilzemczak.runny.validator;
 
-import kamilzemczak.runny.activity.RegisterActivity;
-import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
+import kamilzemczak.runny.activity.activity_entry.RegisterActivity;
 
 /**
  * Created by Kamil Zemczak on 02.11.2017.
