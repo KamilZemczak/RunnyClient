@@ -28,7 +28,6 @@ import android.support.design.widget.Snackbar;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_user.SearchFriendsActivity;
 import kamilzemczak.runny.activity.activity_user.SearchUserFriendsActivity;
-import kamilzemczak.runny.activity.activity_user.ViewOwnProfileActivity;
 
 /**
  * TODO
@@ -118,7 +117,7 @@ public class FriendsActivity extends AppCompatActivity
             startActivity(new Intent(this, WelcomeActivity.class));
             // Handle the camera action
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this, ViewOwnProfileActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
         } else if (id == R.id.nav_training) {
             startActivity(new Intent(this, TrainingActivity.class));
         } else if (id == R.id.nav_friend) {

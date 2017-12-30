@@ -33,5 +33,6 @@
     <string name="title_activity_view_profile">ViewProfile</string>
     <string name="title_activity_view_user_profile">ViewUserProfile</string>
     <string name="title_activity_user_friend_list">UserFriendList</string>
+    <string name="title_activity_view_friend_profile">ViewFriendProfileActivity</string>
 
 </resources>

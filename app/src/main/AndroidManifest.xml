@@ -23,7 +23,7 @@
             android:label="@string/title_activity_welcome"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.activity_menu.ProfileActivity"
+            android:name=".activity.activity_user.EditProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -47,7 +47,7 @@
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.activity_user.ViewOwnProfileActivity"
+            android:name=".activity.activity_menu.ProfileActivity"
             android:label="@string/title_activity_view_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -61,6 +61,10 @@
         <activity
             android:name=".activity.activity_user.SearchUserFriendsActivity"
             android:label="@string/title_activity_user_friend_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.activity_user.ViewFriendProfileActivity"
+            android:label="@string/title_activity_view_friend_profile"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

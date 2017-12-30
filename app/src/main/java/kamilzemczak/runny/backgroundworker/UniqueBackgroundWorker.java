@@ -1,7 +1,7 @@
 /**
  * ***********************************************************
  * Autorskie Prawa Majątkowe Kamil Zemczak
- *
+ * <p>
  * Copyright 2017 Kamil Zemczak
  * ************************************************************
  * Utworzono 02-11-2017, Kamil Zemczak
@@ -49,7 +49,8 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
         String type = params[0];
         String unique_user_url = "http://10.0.2.2:8080/unique_user";
         String unique_email_url = "http://10.0.2.2:8080/unique_email";
-        if(type.equals("unique_user")) {
+        String is_friend_url = "http://10.0.2.2:8080/is_friend";
+        if (type.equals("unique_user")) {
             try {
                 String username = params[1];
                 URL url = new URL(unique_user_url);
@@ -59,7 +60,7 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username, "UTF-8");
+                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -68,7 +69,7 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String result = "";
                 String line = "";
-                while((line = bufferedReader.readLine())!= null) {
+                while ((line = bufferedReader.readLine()) != null) {
                     result += line;
                 }
                 bufferedReader.close();
@@ -80,8 +81,7 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
-        else if(type.equals("unique_email")) {
+        } else if (type.equals("unique_email")) {
             try {
                 String email = params[1];
                 URL url = new URL(unique_email_url);
@@ -91,7 +91,7 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("email", "UTF-8")+"="+URLEncoder.encode(email, "UTF-8");
+                String post_data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(email, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -100,7 +100,40 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
                 String result = "";
                 String line = "";
-                while((line = bufferedReader.readLine())!= null) {
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return Boolean.valueOf(result);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (type.equals("is_friend")) {
+            try {
+                String username = params[1];
+                String friendUsername = params[2];
+                URL url = new URL(is_friend_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
+                        + URLEncoder.encode("friendUsername", "UTF-8") + "=" + URLEncoder.encode(friendUsername, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
                     result += line;
                 }
                 bufferedReader.close();

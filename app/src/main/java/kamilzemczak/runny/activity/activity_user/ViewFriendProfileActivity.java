@@ -30,24 +30,18 @@ import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 
-/**
- * TODO
- */
-public class ViewUserProfileActivity extends AppCompatActivity
+public class ViewFriendProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
-    SearchFriendsActivity searchFriendsActivity;
     LoginActivity loginActivity;
+    SearchUserFriendsActivity searchUserFriendsActivity;
+    SearchFriendsActivity searchFriendsActivity;
     TextView user, usernameAge, location, about;
-    //String str_username, str_friend_username;
-
-    Button addFriendButton;
-
+    Button deleteFriendButton, sendMessageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_user_profile);
+        setContentView(R.layout.activity_view_friend_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -69,27 +63,42 @@ public class ViewUserProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        user = (TextView) findViewById(R.id.tvUserShowVU);
-        usernameAge = (TextView) findViewById(R.id.tvUsernameAgeShowVU);
-        location = (TextView) findViewById(R.id.tvLocationVU);
-        about = (TextView) findViewById(R.id.tvAboutInfoVU);
-        addFriendButton = (Button) findViewById(R.id.bAddFriend);
+        user = (TextView) findViewById(R.id.tvUserShowVF);
+        usernameAge = (TextView) findViewById(R.id.tvUsernameAgeShowVF);
+        location = (TextView) findViewById(R.id.tvLocationVF);
+        about = (TextView) findViewById(R.id.tvAboutInfoVF);
+        sendMessageButton = (Button) findViewById(R.id.bSendMessage);
+        deleteFriendButton = (Button) findViewById(R.id.bDeleteFriend);
 
-        user.setText(searchFriendsActivity.currentNameP + " " + searchFriendsActivity.currentSurnameP);
-        usernameAge.setText(searchFriendsActivity.currentUsernameP + "," + " " + searchFriendsActivity.currentAgeP + " " + "lat.");
-        if (searchFriendsActivity.currentCityP != null) {
-            location.setText(searchFriendsActivity.currentCityP);
+        if ((searchUserFriendsActivity.currentUsernameF != null && !(searchUserFriendsActivity.currentUsernameF != searchFriendsActivity.currentUsernameP)) || searchFriendsActivity.currentUsernameP == null) {
+            user.setText(searchUserFriendsActivity.currentNameF + " " + searchUserFriendsActivity.currentSurnameF);
+            usernameAge.setText(searchUserFriendsActivity.currentUsernameF + "," + " " + searchUserFriendsActivity.currentAgeF + " " + "lat.");
+            if (searchUserFriendsActivity.currentCityF != null) {
+                location.setText(searchUserFriendsActivity.currentCityF);
+            } else {
+                location.setText("Nie ustawiono lokalizacji.");
+            }
+
+            if (searchUserFriendsActivity.currentAboutF != null) {
+                about.setText(searchUserFriendsActivity.currentAboutF);
+            } else {
+                about.setText("Nie ustawiono żadnych informacji o sobie.");
+            }
         } else {
-            location.setText("Nie ustawiono lokalizacji.");
+            user.setText(searchFriendsActivity.currentNameP + " " + searchFriendsActivity.currentSurnameP);
+            usernameAge.setText(searchFriendsActivity.currentUsernameP + "," + " " + searchFriendsActivity.currentAgeP + " " + "lat.");
+            if (searchFriendsActivity.currentCityP != null) {
+                location.setText(searchFriendsActivity.currentCityP);
+            } else {
+                location.setText("Nie ustawiono lokalizacji.");
+            }
+
+            if (searchFriendsActivity.currentAboutP != null) {
+                about.setText(searchFriendsActivity.currentAboutP);
+            } else {
+                about.setText("Nie ustawiono żadnych informacji o sobie.");
+            }
         }
-
-        if(searchFriendsActivity.currentAboutP!=null) {
-            about.setText(searchFriendsActivity.currentAboutP);
-        } else {
-            about.setText("Nie ustawiono żadnych informacji o sobie.");
-        }
-
-
     }
 
     @Override
@@ -105,7 +114,7 @@ public class ViewUserProfileActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_user_profile, menu);
+        getMenuInflater().inflate(R.menu.view_friend_profile, menu);
         return true;
     }
 
@@ -124,15 +133,21 @@ public class ViewUserProfileActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void addFriend(View view) {
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void deleteFriend(View view) {
         String str_username = loginActivity.currentUsername;
-        String str_friend_username = searchFriendsActivity.currentUsernameP;
-        String type = "friend_add";
+        String str_friend_username = searchUserFriendsActivity.currentUsernameF;
+        String type = "friend_delete";
         String result = null;
         FriendBackgroundWorker friendBackgroundWorker = new FriendBackgroundWorker(this);
         try {
             result = friendBackgroundWorker.execute(type, str_username, str_friend_username).get();
             addSuccess();
+            openFriendMenu(view);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -143,10 +158,18 @@ public class ViewUserProfileActivity extends AppCompatActivity
     /**
      * TODO
      */
+    public void openFriendMenu(View view) {
+        startActivity(new Intent(this, SearchUserFriendsActivity.class));
+    }
+
+    /**
+     * TODO
+     */
     public void addSuccess() {
-        Toast.makeText(getBaseContext(), "Dodano uzytkownika do znajomych.", Toast.LENGTH_LONG).show();
-        addFriendButton.setEnabled(false);
-        addFriendButton.setText("UZYTKOWNIK ZOSTAL DODANY DO ZNAJOMYCH.");
+        Toast.makeText(getBaseContext(), "Usunieto uzytkownika ze znajomych.", Toast.LENGTH_LONG).show();
+        deleteFriendButton.setEnabled(false);
+        sendMessageButton.setEnabled(false);
+        deleteFriendButton.setText("UZYTKOWNIK ZOSTAL USUNIETY ZE ZNAJOMYCH.");
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

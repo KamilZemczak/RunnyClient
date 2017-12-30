@@ -27,6 +27,8 @@ import android.support.v7.app.AppCompatActivity;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_user.EditProfileActivity;
+import kamilzemczak.runny.activity.activity_user.SearchUserFriendsActivity;
 import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 
@@ -42,6 +44,7 @@ public class RegisterActivity extends AppCompatActivity {
     RadioButton genderRbutton;
     Button registerButton;
     TextView chooseGender;
+    private View view;
 
     /**
      * TODO
@@ -87,6 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
         RegisterBackgroundWorker registerBackgroundWorker = new RegisterBackgroundWorker(this);
         registerBackgroundWorker.execute(type, str_name, str_surname, str_username, str_email, str_age, str_password, str_passwordConfirm, gender);
         onRegisterSuccess();
+        openLoginPage(view);
     }
 
     /**
@@ -258,5 +262,12 @@ public class RegisterActivity extends AppCompatActivity {
     public void onRegisterSuccess() {
         Toast.makeText(getBaseContext(), "Rejestracja udana.", Toast.LENGTH_LONG).show();
         registerButton.setEnabled(true);
+    }
+
+    /**
+     * TODO
+     */
+    public void openLoginPage(View view) {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

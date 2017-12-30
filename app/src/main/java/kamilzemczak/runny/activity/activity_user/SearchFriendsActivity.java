@@ -31,12 +31,15 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_menu.FriendsActivity;
 import kamilzemczak.runny.activity.activity_menu.HistoryActivity;
 import kamilzemczak.runny.activity.activity_menu.ObjectivesActivity;
 import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
+import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
+import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
 import kamilzemczak.runny.model.User;
 
@@ -45,6 +48,8 @@ import kamilzemczak.runny.model.User;
  */
 public class SearchFriendsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    LoginActivity loginActivity;
 
     ListView allUsers;
     List<User> users = new ArrayList<User>();
@@ -122,9 +127,7 @@ public class SearchFriendsActivity extends AppCompatActivity
         allUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent appInfo = new Intent(SearchFriendsActivity.this, ViewUserProfileActivity.class);
-                startActivity(appInfo);
-
+                String str_username = loginActivity.currentUsername;
                 currentUsernameP = users.get(position).getUsername();
                 currentNameP = users.get(position).getName();
                 currentSurnameP = users.get(position).getSurname();
@@ -142,6 +145,14 @@ public class SearchFriendsActivity extends AppCompatActivity
                 }
                 if (users.get(position).getAbout() != null) {
                     currentAboutP = users.get(position).getAbout();
+                }
+
+                if(isFriend(str_username, currentUsernameP)) {
+                    Intent appInfo = new Intent(SearchFriendsActivity.this, ViewFriendProfileActivity.class);
+                    startActivity(appInfo);
+                } else {
+                    Intent appInfo = new Intent(SearchFriendsActivity.this, ViewUserProfileActivity.class);
+                    startActivity(appInfo);
                 }
             }
         });
@@ -179,6 +190,25 @@ public class SearchFriendsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * TODO
+     * @param str_username TODO
+     * @return TODO
+     */
+    private boolean isFriend(String str_username, String currentUsernameP) {
+        String type = "is_friend";
+        Boolean result = true;
+        UniqueBackgroundWorker uniqueBackgroundWorker = new UniqueBackgroundWorker(this);
+        try {
+            result = uniqueBackgroundWorker.execute(type, str_username, currentUsernameP).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -189,7 +219,7 @@ public class SearchFriendsActivity extends AppCompatActivity
             startActivity(new Intent(this, WelcomeActivity.class));
             // Handle the camera action
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this, ViewOwnProfileActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
         } else if (id == R.id.nav_training) {
             startActivity(new Intent(this, TrainingActivity.class));
         } else if (id == R.id.nav_friend) {

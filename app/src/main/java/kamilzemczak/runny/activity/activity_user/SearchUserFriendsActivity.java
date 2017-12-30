@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -33,6 +34,7 @@ import kamilzemczak.runny.activity.activity_menu.HistoryActivity;
 import kamilzemczak.runny.activity.activity_menu.ObjectivesActivity;
 import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
+import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 import kamilzemczak.runny.model.User;
@@ -45,8 +47,13 @@ public class SearchUserFriendsActivity extends AppCompatActivity
     LoginActivity loginActivity;
     ListView allFriends;
 
+    public static String currentNameF, currentSurnameF, currentUsernameF, currentEmailF, currentGenderF, currentCityF, currentAboutF;
+    public static Integer currentAgeF, currentWeightF, currentHeightF;
+
     List<User> friends = new ArrayList<User>();
     ArrayList<ArrayList<String>> friendsAfterProcessing = new ArrayList<ArrayList<String>>();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +116,33 @@ public class SearchUserFriendsActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        allFriends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent appInfo = new Intent(SearchUserFriendsActivity.this, ViewFriendProfileActivity.class);
+                startActivity(appInfo);
+
+                currentUsernameF = friends.get(position).getUsername();
+                currentNameF = friends.get(position).getName();
+                currentSurnameF = friends.get(position).getSurname();
+                currentEmailF = friends.get(position).getEmail();
+                currentAgeF = friends.get(position).getAge();
+                currentGenderF = friends.get(position).getGender();
+                if (friends.get(position).getWeight() != null) {
+                    currentWeightF = friends.get(position).getWeight();
+                }
+                if (friends.get(position).getHeight() != null) {
+                    currentHeightF = friends.get(position).getHeight();
+                }
+                if (friends.get(position).getCity() != null) {
+                    currentCityF = friends.get(position).getCity();
+                }
+                if (friends.get(position).getAbout() != null) {
+                    currentAboutF = friends.get(position).getAbout();
+                }
+            }
+        });
     }
 
     @Override
@@ -153,7 +187,7 @@ public class SearchUserFriendsActivity extends AppCompatActivity
             startActivity(new Intent(this, WelcomeActivity.class));
             // Handle the camera action
         } else if (id == R.id.nav_profile) {
-            startActivity(new Intent(this, ViewOwnProfileActivity.class));
+            startActivity(new Intent(this, ProfileActivity.class));
         } else if (id == R.id.nav_training) {
             startActivity(new Intent(this, TrainingActivity.class));
         } else if (id == R.id.nav_friend) {

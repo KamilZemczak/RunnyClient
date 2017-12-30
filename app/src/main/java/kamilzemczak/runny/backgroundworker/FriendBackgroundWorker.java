@@ -41,11 +41,12 @@ public class FriendBackgroundWorker extends AsyncTask<String, Void, String> {
     protected String doInBackground(String... params) {
         String type = params[0];
         String friend_add_url = "http://10.0.2.2:8080/friend_add";
+        String friend_delete_url = "http://10.0.2.2:8080/friend_delete";
         String friends_find_url = "http://10.0.2.2:8080/friends_find";
         if (type.equals("friend_add")) {
             try {
                 String username = params[1];
-                String surname = params[2];
+                String friendToAdd = params[2];
                 URL url = new URL(friend_add_url);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("POST");
@@ -54,7 +55,41 @@ public class FriendBackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
-                        + URLEncoder.encode("friendToAdd", "UTF-8") + "=" + URLEncoder.encode(surname, "UTF-8");
+                        + URLEncoder.encode("friendToAdd", "UTF-8") + "=" + URLEncoder.encode(friendToAdd, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (type.equals("friend_delete")) {
+            try {
+                String username = params[1];
+                String friendToDelete = params[2];
+                URL url = new URL(friend_delete_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
+                        + URLEncoder.encode("friendToDelete", "UTF-8") + "=" + URLEncoder.encode(friendToDelete, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
