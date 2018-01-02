@@ -9,12 +9,15 @@
  */
 package kamilzemczak.runny.model;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
+import com.fasterxml.jackson.annotation.JsonAnySetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -31,7 +34,8 @@ import java.util.Set;
         "weight",
         "height",
         "city",
-        "about"
+        "about",
+        "friends"
 })
 public class User  {
     @JsonProperty("id")
@@ -60,10 +64,8 @@ public class User  {
     private String city;
     @JsonProperty("height")
     private String about;
-    @JsonProperty("friends")
-    private ArrayList<User> friends;
-    @JsonIgnore
-    private Set<Role> roles;
+    @JsonProperty
+    private List<User> friends = new ArrayList<User>();
 
     //@JsonIgnore
     public User() {
@@ -82,8 +84,8 @@ public class User  {
         this.gender = gender;
         this.weight = weight;
         this.height = height;
-        this.setCity(city);
-        this.setAbout(about);
+        this.city = city;
+        this.about = about;
     }
 
     @JsonProperty("id")
@@ -217,22 +219,13 @@ public class User  {
     }
 
     @JsonProperty("friends")
-    public ArrayList<User> getFriends() {
+    public List<User> getFriends() {
         return friends;
     }
 
     @JsonProperty("friends")
-    public void setFriends(ArrayList<User> friends) {
+    public void setFriends(List<User> friends) {
         this.friends = friends;
     }
 
-    @JsonIgnore
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    @JsonIgnore
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }

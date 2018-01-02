@@ -56,7 +56,7 @@ public class SearchFriendsActivity extends AppCompatActivity
     List<ArrayList<String>> usersAfterProcessing = new ArrayList<ArrayList<String>>();
 
     public static String currentNameP, currentSurnameP, currentUsernameP, currentEmailP, currentGenderP, currentCityP, currentAboutP;
-    public static Integer currentAgeP, currentWeightP, currentHeightP;
+    public static Integer currentIdP, currentAgeP, currentWeightP, currentHeightP;
 
 
     @Override
@@ -128,6 +128,7 @@ public class SearchFriendsActivity extends AppCompatActivity
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String str_username = loginActivity.currentUsername;
+                currentIdP = users.get(position).getId();
                 currentUsernameP = users.get(position).getUsername();
                 currentNameP = users.get(position).getName();
                 currentSurnameP = users.get(position).getSurname();

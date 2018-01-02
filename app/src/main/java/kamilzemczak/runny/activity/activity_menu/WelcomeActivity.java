@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
+import kamilzemczak.runny.activity.activity_user.MessageActivity;
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

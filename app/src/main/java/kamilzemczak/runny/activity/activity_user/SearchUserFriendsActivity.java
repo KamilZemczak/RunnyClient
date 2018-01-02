@@ -48,7 +48,7 @@ public class SearchUserFriendsActivity extends AppCompatActivity
     ListView allFriends;
 
     public static String currentNameF, currentSurnameF, currentUsernameF, currentEmailF, currentGenderF, currentCityF, currentAboutF;
-    public static Integer currentAgeF, currentWeightF, currentHeightF;
+    public static Integer currentIdF, currentAgeF, currentWeightF, currentHeightF;
 
     List<User> friends = new ArrayList<User>();
     ArrayList<ArrayList<String>> friendsAfterProcessing = new ArrayList<ArrayList<String>>();
@@ -123,6 +123,7 @@ public class SearchUserFriendsActivity extends AppCompatActivity
                 Intent appInfo = new Intent(SearchUserFriendsActivity.this, ViewFriendProfileActivity.class);
                 startActivity(appInfo);
 
+                currentIdF = friends.get(position).getId();
                 currentUsernameF = friends.get(position).getUsername();
                 currentNameF = friends.get(position).getName();
                 currentSurnameF = friends.get(position).getSurname();

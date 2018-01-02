@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".activity.activity_user.EditProfileActivity"
+    tools:context="kamilzemczak.runny.activity.activity_menu.ProfileActivity"
     tools:showIn="@layout/app_bar_profile">
 
     <android.support.constraint.ConstraintLayout
@@ -16,24 +16,24 @@
             android:id="@+id/profile_image"
             android:layout_width="140dp"
             android:layout_height="141dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp"
             android:src="@drawable/profile"
-            android:onClick="showProfile"
             app:border_color="#FF000000"
             app:border_width="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvUserShow"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toTopOf="@+id/tvUserShowV"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
 
         <TextView
-            android:id="@+id/tvUserShow"
+            android:id="@+id/tvUserShowV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="176dp"
-            android:textSize="16sp"
-            android:onClick="showProfile"
+            android:textSize="32sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -42,222 +42,85 @@
             tools:layout_constraintTop_creator="1" />
 
         <TextView
-            android:id="@+id/tvEditPhoto"
+            android:id="@+id/tvUsernameAgeShowV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:text="@string/edit_photo"
-            android:textColor="@color/colorProff"
-            android:textSize="22sp"
-            app:layout_constraintBottom_toBottomOf="@+id/etUsernameE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvUserShow"
-            app:layout_constraintVertical_bias="0.066" />
-
-        <EditText
-            android:id="@+id/etUsernameE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:drawableLeft="@drawable/ic_person2"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień nazwę użytkownika"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/etEmailE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvEditPhoto"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <EditText
-            android:id="@+id/etEmailE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_email"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień swój adres email"
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toTopOf="@+id/etAgeE"
+            android:layout_marginTop="232dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etUsernameE"
-            app:layout_constraintVertical_bias="0.188" />
-
-        <EditText
-            android:id="@+id/etAgeE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_today"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień swój wiek"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/etPasswordE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etEmailE"
-            app:layout_constraintVertical_bias="0.319" />
-
-
-        <EditText
-            android:id="@+id/etPasswordE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_lock"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień hasło"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/etGenderE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAgeE"
-            app:layout_constraintVertical_bias="1.0" />
-
-        <EditText
-            android:id="@+id/etGenderE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:clickable="false"
-            android:cursorVisible="false"
-            android:drawableLeft="@drawable/ic_wc"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_block"
-            android:ems="10"
-            android:focusable="false"
-            android:focusableInTouchMode="false"
-            android:hint="Płeć"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toTopOf="@+id/etWeightE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etPasswordE"
-            app:layout_constraintVertical_bias="0.581" />
-
-        <EditText
-            android:id="@+id/etWeightE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_fitness"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień swoją wagę"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/etHeightE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etGenderE"
-            app:layout_constraintVertical_bias="0.712" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <TextView
-            android:id="@+id/tvKg"
+            android:id="@+id/tvLocationV"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="kg"
-            android:textColor="#808080"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/etWeightE"
-            app:layout_constraintEnd_toStartOf="@+id/etWeightE"
-            app:layout_constraintHorizontal_bias="0.135"
-            app:layout_constraintStart_toEndOf="@+id/etWeightE"
-            app:layout_constraintTop_toBottomOf="@+id/etWeightE"
-            app:layout_constraintVertical_bias="0.492" />
-
-        <EditText
-            android:id="@+id/etHeightE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_accessibility2"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień swój wzrost"
-            android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/etCityE"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etWeightE"
-            app:layout_constraintVertical_bias="0.843" />
-
-        <TextView
-            android:id="@+id/tvCm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:text="cm"
-            android:textColor="#808080"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toTopOf="@+id/etHeightE"
-            app:layout_constraintEnd_toStartOf="@+id/etHeightE"
-            app:layout_constraintHorizontal_bias="0.135"
-            app:layout_constraintStart_toEndOf="@+id/etHeightE"
-            app:layout_constraintTop_toBottomOf="@+id/etHeightE"
-            app:layout_constraintVertical_bias="0.492" />
-
-        <EditText
-            android:id="@+id/etCityE"
-            android:layout_width="395dp"
-            android:layout_height="wrap_content"
+            android:layout_marginTop="256dp"
             android:drawableLeft="@drawable/ic_location"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień swoją miejscowość"
-            android:inputType="textCapSentences"
-            app:layout_constraintBottom_toTopOf="@+id/etAboutE"
+            android:drawableStart="@drawable/ic_location"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etHeightE"
-            app:layout_constraintVertical_bias="0.843" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
-        <EditText
-            android:id="@+id/etAboutE"
-            android:layout_width="395dp"
+        <TextView
+            android:id="@+id/tvAboutV"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/ic_assignment"
-            android:drawablePadding="10dp"
-            android:drawableRight="@drawable/ic_edit"
-            android:ems="10"
-            android:hint="Zmień informacje o sobie"
-            android:inputType="textCapSentences"
-            app:layout_constraintBottom_toTopOf="@+id/bEditProfile"
+            android:layout_marginRight="100dp"
+            android:layout_marginTop="312dp"
+            android:text="O MNIE"
+            android:textSize="26sp"
+            app:layout_constraintRight_toRightOf="@+id/tvLocationV"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="344dp"
+            android:background="@android:color/darker_gray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etCityE"
-            app:layout_constraintVertical_bias="0.843" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
+        <TextView
+            android:id="@+id/tvAboutInfoV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="384dp"
+            android:paddingLeft="20dp"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
 
         <Button
             android:id="@+id/bEditProfile"
             android:layout_width="395dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="548dp"
             android:backgroundTint="@color/colorProff"
-            android:onClick="updateUser"
-            android:text="ZAPISZ ZMIANY"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:onClick="openEditProfile"
+            android:text="EDYTUJ PROFIL"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/etAboutE" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:layout_constraintRight_creator="1"
+            tools:layout_constraintTop_creator="1" />
+
 
     </android.support.constraint.ConstraintLayout>
 

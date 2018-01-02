@@ -23,7 +23,6 @@ import android.support.design.widget.Snackbar;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_user.EditProfileActivity;
-import kamilzemczak.runny.activity.activity_user.SearchFriendsActivity;
 
 public class ProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -35,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_own_profile);
+        setContentView(R.layout.activity_profile);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -90,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.view_own_profile, menu);
+        getMenuInflater().inflate(R.menu.profile, menu);
         return true;
     }
 

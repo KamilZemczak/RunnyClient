@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="548dp"
             android:backgroundTint="@color/colorProff"
-            android:onClick="sendMessage"
+            android:onClick="openMessageView"
             android:text="WYSLIJ WIADOMOSC"
             app:layout_constraintBottom_toTopOf="@+id/bDeleteFriend"
             app:layout_constraintEnd_toEndOf="parent"

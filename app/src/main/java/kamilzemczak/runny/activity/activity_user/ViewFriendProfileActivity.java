@@ -165,6 +165,13 @@ public class ViewFriendProfileActivity extends AppCompatActivity
     /**
      * TODO
      */
+    public void openMessageView(View view) {
+        startActivity(new Intent(this, MessageActivity.class));
+    }
+
+    /**
+     * TODO
+     */
     public void addSuccess() {
         Toast.makeText(getBaseContext(), "Usunieto uzytkownika ze znajomych.", Toast.LENGTH_LONG).show();
         deleteFriendButton.setEnabled(false);

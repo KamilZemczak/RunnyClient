@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="20dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="kamilzemczak.runny.activity.activity_user.MessageActivity"
+    tools:showIn="@layout/app_bar_message">
+
+
+    <RelativeLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <EditText
+            android:id="@+id/etMessageM"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@+id/bSendMessageM"
+            android:layout_weight="0.8"
+            android:hint="Napisz wiadomosc..." />
+
+        <ImageButton
+            android:id="@+id/bSendMessageM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:clickable="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_menu_send"
+            android:background="@android:color/transparent"
+            android:layout_weight="0.2"/>
+
+        <ListView
+            android:id="@+id/messagesContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/etMessageM"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentTop="false"
+            android:layout_below="@+id/tvAuthorUsernameM"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp"
+            android:divider="@null"
+            android:listSelector="@android:color/transparent"
+            android:transcriptMode="alwaysScroll" />
+
+        <TextView
+            android:id="@+id/tvAuthorUsernameM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical"
+            android:singleLine="false"
+            android:textSize="20dp"
+            android:onClick="showAuthorProfile"/>
+
+        <TextView
+            android:id="@+id/tvRecipientUsernameM"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textSize="20dp"
+            android:onClick="showRecipientProfile"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
