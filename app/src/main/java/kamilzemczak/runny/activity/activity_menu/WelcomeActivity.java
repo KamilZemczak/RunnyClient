@@ -1,9 +1,13 @@
 package kamilzemczak.runny.activity.activity_menu;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,19 +17,60 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
-import kamilzemczak.runny.activity.activity_user.MessageActivity;
+import kamilzemczak.runny.activity.activity_user.CommentActivity;
+import kamilzemczak.runny.adapter.PostAdapter;
+import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
+import kamilzemczak.runny.helper.RecyclerItemClickListener;
+import kamilzemczak.runny.model.Post;
+
+
+import android.support.v7.widget.RecyclerView;
+
+import android.widget.Button;
+import android.widget.EditText;
+
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     LoginActivity loginActivity;
-    TextView welcome;
+    TextView welcome, info;
     DrawerLayout drawer;
     NavigationView navigationView;
-    Toolbar toolbar = null;
+
+    public static Integer currentPostId;
+
+    private Button postButton;
+
+    private TextView noPosts;
+
+    private ImageView commentButton;
+    private List<Post> list;
+    private RecyclerView postContainer;
+    private PostAdapter postAdapter;
+    private EditText postContent;
+    private Calendar calendar;
+    private PostAdapter adapter;
+    private List<Post> postHistory = new ArrayList<Post>();
+    public static List<String> commentsSize = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +98,147 @@ public class WelcomeActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         welcome = (TextView) findViewById(R.id.tvWelcome);
+        info = (TextView) findViewById(R.id.tvInfo);
+        postButton = (Button) findViewById(R.id.bPost);
+        noPosts = (TextView) findViewById(R.id.tvNoPosts);
+
+
         welcome.setText("Witaj w Ready4RUN" + "\n" + loginActivity.currentName + " " + loginActivity.currentSurname + ".");
+        info.setText("Mozesz Tutaj opublikowac post lub podejrzec posty swoich znajomych, do dziela!");
+        loadHistory();
+
+        calendar = Calendar.getInstance();
+
+        postContainer.addOnItemTouchListener(
+                new RecyclerItemClickListener(WelcomeActivity.this, postContainer ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        currentPostId = postHistory.get(position).getId();
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                    }
+                })
+        );
     }
+
+
+
+    private void openDialog() {
+        LayoutInflater inflater = LayoutInflater.from(WelcomeActivity.this);
+        View subView = inflater.inflate(R.layout.post_dialog_layout, null);
+        postContent = (EditText) subView.findViewById(R.id.dialogEditText);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Opublikuj post juz teraz!");
+        builder.setMessage("Zobacza go wszyscy Twoi znajomi.");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("OPUBLIKUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String postText = postContent.getText().toString();
+                String type = "post_send";
+                PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
+                postBackgroundWorker.execute(type, postText, loginActivity.currentUsername);
+                finish();
+                startActivity(getIntent());
+
+            }
+        });
+
+        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        builder.show();
+    }
+
+
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void openPostDialog(View view) {
+        openDialog();
+    }
+
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+     public void openComments(View view) {
+        startActivity(new Intent(this, CommentActivity.class));
+    }
+
+
+    private void loadHistory() {
+        String type = "posts_find";
+        String result = null;
+        PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
+
+        try {
+            String str_author_username = loginActivity.currentUsername;
+            result = postBackgroundWorker.execute(type, str_author_username).get();
+            ObjectMapper objectMapper = new ObjectMapper();
+            postHistory = objectMapper.readValue(result, new TypeReference<List<Post>>() {
+            });
+        } catch (
+                InterruptedException e) {
+            e.printStackTrace();
+        } catch (
+                ExecutionException e) {
+            e.printStackTrace();
+        } catch (
+                JsonParseException e) {
+            e.printStackTrace();
+        } catch (
+                JsonMappingException e) {
+            e.printStackTrace();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+        loadCommentsSize();
+        Collections.reverse(postHistory);
+        //Set the layout and the RecyclerView
+        postContainer = (RecyclerView) findViewById(R.id.lPost);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        postContainer.setLayoutManager(llm);
+        postAdapter = new PostAdapter(WelcomeActivity.this, postHistory);
+        //Set the adapter for the recyclerlist
+        postContainer.setAdapter(postAdapter);
+
+        if(postHistory.isEmpty()) {
+            noPosts.setText("Brak postow." + "\n" + "Twoj moze byc pierwszy!");
+        }
+    }
+
+    private void loadCommentsSize() {
+        String str_username = loginActivity.currentUsername;
+        String type = "posts_comment_size";
+        PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
+        try {
+            String result = postBackgroundWorker.execute(type, str_username).get();
+            String replace = result.replace("[","");
+            String replace1 = replace.replace("]","");
+            commentsSize = new ArrayList<String>(Arrays.asList(replace1.split(",")));
+            //String test = "test";
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     @Override
     public void onBackPressed() {
