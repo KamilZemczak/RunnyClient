@@ -1,14 +1,11 @@
 package kamilzemczak.runny.activity.activity_user;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -18,7 +15,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -27,10 +23,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
@@ -45,33 +40,32 @@ import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.adapter.CommentAdapter;
-import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
-import kamilzemczak.runny.model.Comment;
-import kamilzemczak.runny.model.Post;
+import kamilzemczak.runny.adapter.TrainingAdapter;
+import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
+import kamilzemczak.runny.helper.RecyclerItemClickListener;
+import kamilzemczak.runny.model.Training;
 
-public class CommentActivity extends AppCompatActivity
+public class ViewFriendsTrainingsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     LoginActivity loginActivity;
-    WelcomeActivity welcomeActivity;
-    DrawerLayout drawer;
-    NavigationView navigationView;
+    private TextView noTrainings;
 
-    private TextView noComments;
-
-    private EditText commentContent;
+    private EditText trainingContent;
     private Calendar calendar;
 
-    private Button postCommentButton;
-    private RecyclerView commentContainer;
-    private CommentAdapter commentAdapter;
-    private List<Comment> commentHistory = new ArrayList<Comment>();
+    private RecyclerView trainingContainer;
+    private TrainingAdapter trainingAdapter;
+    private List<Training> trainingHistory = new ArrayList<Training>();
+
+    public static List<String> trainingsSize = new ArrayList<String>();
+
+    public static Integer currentTrainingId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
+        setContentView(R.layout.activity_view_friends_trainings);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -93,72 +87,32 @@ public class CommentActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        postCommentButton = (Button) findViewById(R.id.bPostComment);
-        noComments = (TextView) findViewById(R.id.tvNoComments);
-        calendar = Calendar.getInstance();
+        noTrainings = (TextView) findViewById(R.id.tvNoTrainingsV);
 
         loadHistory();
 
+        trainingContainer.addOnItemTouchListener(
+                new RecyclerItemClickListener(ViewFriendsTrainingsActivity.this, trainingContainer ,new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override public void onItemClick(View view, int position) {
+                        currentTrainingId = trainingHistory.get(position).getId();
+                    }
+
+                    @Override public void onLongItemClick(View view, int position) {
+                    }
+                })
+        );
     }
-
-    private void openDialog() {
-        LayoutInflater inflater = LayoutInflater.from(CommentActivity.this);
-        View subView = inflater.inflate(R.layout.comment_dialog_layout, null);
-        commentContent = (EditText) subView.findViewById(R.id.dialogEditText);
-
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Opublikuj komentarz juz teraz!");
-        //builder.setMessage("Zobacza go wszyscy Twoi znajomi.");
-        builder.setView(subView);
-
-        AlertDialog alertDialog = builder.create();
-
-        builder.setPositiveButton("OPUBLIKUJ", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                String commentText = commentContent.getText().toString();
-                String type = "comment_send";
-                CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
-                Integer test = welcomeActivity.currentPostId;
-                String test2 = String.valueOf(test);
-                commentBackgroundWorker.execute(type, commentText, loginActivity.currentUsername, test2);
-                finish();
-                startActivity(getIntent());
-
-            }
-        });
-
-        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-            }
-        });
-
-        builder.show();
-    }
-
-    /**
-     * TODO
-     *
-     * @param view TODO
-     */
-    public void openCommentDialog(View view) {
-        openDialog();
-    }
-
 
     private void loadHistory() {
-        String type = "comments_find";
+        String type = "trainings_find";
         String result = null;
-        CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(this);
+        TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
 
         try {
-            Integer test = welcomeActivity.currentPostId;
-            String test2 = String.valueOf(test);
-            result = commentBackgroundWorker.execute(type, test2).get();
+            String str_username = loginActivity.currentUsername;
+            result = trainingBackgroundWorker.execute(type, str_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
-            commentHistory = objectMapper.readValue(result, new TypeReference<List<Comment>>() {
+            trainingHistory = objectMapper.readValue(result, new TypeReference<List<Training>>() {
             });
         } catch (
                 InterruptedException e) {
@@ -176,20 +130,45 @@ public class CommentActivity extends AppCompatActivity
                 IOException e) {
             e.printStackTrace();
         }
-
-        Collections.reverse(commentHistory);
+        loadCommentsSize();
+        Collections.reverse(trainingHistory);
 
         //Set the layout and the RecyclerView
-        commentContainer = (RecyclerView) findViewById(R.id.lComment);
+        trainingContainer = (RecyclerView) findViewById(R.id.lTrainingV);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
-        commentContainer.setLayoutManager(llm);
-        commentAdapter = new CommentAdapter(CommentActivity.this, commentHistory);
+        trainingContainer.setLayoutManager(llm);
+        trainingAdapter = new TrainingAdapter(ViewFriendsTrainingsActivity.this, trainingHistory);
         //Set the adapter for the recyclerlist
-        commentContainer.setAdapter(commentAdapter);
+        trainingContainer.setAdapter(trainingAdapter);
 
-        if(commentHistory.isEmpty()) {
-            noComments.setText("Brak komentarzy." + "\n" +  "Twoj moze byc pierwszy!");
+        if(trainingHistory.isEmpty()) {
+            noTrainings.setText("Brak treningów.");
+        }
+    }
+
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void openCommentsT(View view) {
+        startActivity(new Intent(this, TCommentActivity.class));
+    }
+
+    private void loadCommentsSize() {
+        String str_username = loginActivity.currentUsername;
+        String type = "trainings_comment_size";
+        TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
+        try {
+            String result = trainingBackgroundWorker.execute(type, str_username).get();
+            String replace = result.replace("[","");
+            String replace1 = replace.replace("]","");
+            trainingsSize = new ArrayList<String>(Arrays.asList(replace1.split(",")));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
         }
     }
 
@@ -206,7 +185,7 @@ public class CommentActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.comment, menu);
+        getMenuInflater().inflate(R.menu.view_friends_trainings, menu);
         return true;
     }
 
@@ -247,7 +226,6 @@ public class CommentActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

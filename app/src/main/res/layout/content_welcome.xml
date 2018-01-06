@@ -43,6 +43,20 @@
         app:layout_constraintVertical_bias="0.163" />
 
 
+    <Button
+        android:id="@+id/tvShowFriendsTraining"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:onClick="showFriendsTraining"
+        android:text="PODEJRZYJ TRENINGI SWOICH ZNAJOMYCH"
+        android:textColor="@color/colorProff"
+        android:textSize="14sp" />
+
+
     <View
         android:background="@color/black"
         android:layout_width="match_parent"
@@ -54,7 +68,7 @@
         android:id="@+id/bPost"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvInfo"
+        android:layout_below="@+id/tvShowFriendsTraining"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
         android:background="@color/darkBlue"

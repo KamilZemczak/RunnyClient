@@ -1,0 +1,75 @@
+<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    card_view:cardCornerRadius="4dp"
+    android:layout_margin="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" >
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/profile"
+            app:border_color="#FF000000"
+            app:border_width="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/tvUserShowV"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            tools:layout_constraintBottom_creator="1"
+            tools:layout_constraintLeft_creator="1"
+            tools:layout_constraintRight_creator="1" />
+
+        <TextView
+            android:id="@+id/tvPostNameTC"
+            android:layout_width="wrap_content"
+            android:text="@string/name"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/profile_image"/>
+
+        <TextView
+            android:id="@+id/tvPostSurnameTC"
+            android:layout_width="wrap_content"
+            android:text="@string/sur_name"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginTop="20dp"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/tvPostNameTC"/>
+
+        <TextView
+            android:id="@+id/tvPostDateTC"
+            android:layout_width="wrap_content"
+            android:text="@string/sur_name"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="8sp"
+            android:layout_toRightOf="@+id/profile_image"
+            android:layout_below="@+id/tvPostNameC"/>
+
+        <TextView
+            android:id="@+id/tvPostContentTC"
+            android:layout_marginBottom="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_below="@+id/profile_image"/>
+
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

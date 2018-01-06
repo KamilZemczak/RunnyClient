@@ -27,8 +27,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,12 +44,15 @@ import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 import kamilzemczak.runny.adapter.CommentAdapter;
+import kamilzemczak.runny.adapter.TCommentAdapter;
 import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
-import kamilzemczak.runny.model.Comment;
-import kamilzemczak.runny.model.Post;
+import kamilzemczak.runny.backgroundworker.TCommentBackgroundWorker;
+import kamilzemczak.runny.model.TComment;
 
-public class CommentActivity extends AppCompatActivity
+public class TCommentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ViewFriendsTrainingsActivity viewFriendsTrainingsActivity;
 
     LoginActivity loginActivity;
     WelcomeActivity welcomeActivity;
@@ -65,13 +66,14 @@ public class CommentActivity extends AppCompatActivity
 
     private Button postCommentButton;
     private RecyclerView commentContainer;
-    private CommentAdapter commentAdapter;
-    private List<Comment> commentHistory = new ArrayList<Comment>();
+    private TCommentAdapter tCommentAdapter;
+    private List<TComment> commentHistory = new ArrayList<TComment>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_comment);
+        setContentView(R.layout.activity_tcomment);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -93,18 +95,17 @@ public class CommentActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        postCommentButton = (Button) findViewById(R.id.bPostComment);
-        noComments = (TextView) findViewById(R.id.tvNoComments);
+        postCommentButton = (Button) findViewById(R.id.bPostCommentT);
+        noComments = (TextView) findViewById(R.id.tvNoCommentsT);
         calendar = Calendar.getInstance();
 
         loadHistory();
-
     }
 
     private void openDialog() {
-        LayoutInflater inflater = LayoutInflater.from(CommentActivity.this);
-        View subView = inflater.inflate(R.layout.comment_dialog_layout, null);
-        commentContent = (EditText) subView.findViewById(R.id.dialogEditText);
+        LayoutInflater inflater = LayoutInflater.from(TCommentActivity.this);
+        View subView = inflater.inflate(R.layout.tcomment_dialog_layout, null);
+        commentContent = (EditText) subView.findViewById(R.id.dialogEditTextT);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Opublikuj komentarz juz teraz!");
@@ -117,11 +118,11 @@ public class CommentActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String commentText = commentContent.getText().toString();
-                String type = "comment_send";
-                CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
-                Integer test = welcomeActivity.currentPostId;
+                String type = "tcomment_send";
+                TCommentBackgroundWorker tcommentBackgroundWorker = new TCommentBackgroundWorker(TCommentActivity.this);
+                Integer test = ViewFriendsTrainingsActivity.currentTrainingId;
                 String test2 = String.valueOf(test);
-                commentBackgroundWorker.execute(type, commentText, loginActivity.currentUsername, test2);
+                tcommentBackgroundWorker.execute(type, commentText, loginActivity.currentUsername, test2);
                 finish();
                 startActivity(getIntent());
 
@@ -143,22 +144,31 @@ public class CommentActivity extends AppCompatActivity
      *
      * @param view TODO
      */
-    public void openCommentDialog(View view) {
+    public void openPostDialog(View view) {
+        openDialog();
+    }
+
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void openCommentDialogT(View view) {
         openDialog();
     }
 
 
     private void loadHistory() {
-        String type = "comments_find";
+        String type = "tcomments_find";
         String result = null;
-        CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(this);
+        TCommentBackgroundWorker tcommentBackgroundWorker = new TCommentBackgroundWorker(this);
 
         try {
-            Integer test = welcomeActivity.currentPostId;
+            Integer test = viewFriendsTrainingsActivity.currentTrainingId;
             String test2 = String.valueOf(test);
-            result = commentBackgroundWorker.execute(type, test2).get();
+            result = tcommentBackgroundWorker.execute(type, test2).get();
             ObjectMapper objectMapper = new ObjectMapper();
-            commentHistory = objectMapper.readValue(result, new TypeReference<List<Comment>>() {
+            commentHistory = objectMapper.readValue(result, new TypeReference<List<TComment>>() {
             });
         } catch (
                 InterruptedException e) {
@@ -180,18 +190,19 @@ public class CommentActivity extends AppCompatActivity
         Collections.reverse(commentHistory);
 
         //Set the layout and the RecyclerView
-        commentContainer = (RecyclerView) findViewById(R.id.lComment);
+        commentContainer = (RecyclerView) findViewById(R.id.lCommentT);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         commentContainer.setLayoutManager(llm);
-        commentAdapter = new CommentAdapter(CommentActivity.this, commentHistory);
+        tCommentAdapter = new TCommentAdapter(TCommentActivity.this, commentHistory);
         //Set the adapter for the recyclerlist
-        commentContainer.setAdapter(commentAdapter);
+        commentContainer.setAdapter(tCommentAdapter);
 
         if(commentHistory.isEmpty()) {
             noComments.setText("Brak komentarzy." + "\n" +  "Twoj moze byc pierwszy!");
         }
     }
+
 
     @Override
     public void onBackPressed() {
@@ -206,7 +217,7 @@ public class CommentActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.comment, menu);
+        getMenuInflater().inflate(R.menu.tcomment, menu);
         return true;
     }
 

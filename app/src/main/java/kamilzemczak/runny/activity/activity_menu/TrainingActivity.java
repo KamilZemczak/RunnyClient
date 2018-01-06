@@ -13,11 +13,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
+import kamilzemczak.runny.activity.activity_user.EditProfileActivity;
+import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
+import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
 
 public class TrainingActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView trainingCaloriesInfo;
+    EditText distance, hours, mins, notes;
+    Button addTrainingButton;
+    LoginActivity loginActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +56,65 @@ public class TrainingActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        trainingCaloriesInfo = (TextView) findViewById(R.id.tvAddTreningCaloriesInfo);
+        distance = (EditText) findViewById(R.id.etDistance);
+        hours = (EditText) findViewById(R.id.etHours);
+        mins = (EditText) findViewById(R.id.etMins);
+        notes = (EditText) findViewById(R.id.etNotes);
+        addTrainingButton = (Button) findViewById(R.id.bAddTraning);
+
+        trainingCaloriesInfo.setText("Obliczymy średnią ilość kalorii spalonych przez Twój organizm w podanym przez Ciebie czasie. Pamiętaj, o aktualizowaniu na bieżąco swojej wagi w profilu, o warunkach otoczenia (takich jak wiatr i temperatura) oraz o cechach organizmu które mogą nieco zmienić rzeczywisty wynik.");
+
+
+    }
+
+    /**
+     * Przesyła na serwer dane które użytkownik podał w formularzu rejestracyjnym
+     *
+     * @param view aktualny interfejs
+     */
+    public void addTraining(View view) {
+        /*if(!validate()) {
+            onRegisterFailed();
+            return;
+        }*/
+        String str_username = loginActivity.currentUsername;
+        String str_distance = distance.getText().toString();
+        String str_hours = hours.getText().toString();
+        Integer int_hours = Integer.valueOf(str_hours);
+        String str_mins = mins.getText().toString();
+        Integer int_mins = Integer.valueOf(str_mins);
+        Integer int_duration = null;
+        String str_notes = null;
+        if (int_hours==1) {
+            int_duration = 60 + int_mins;
+        } else if (int_hours==2) {
+            int_duration = 120 + int_mins;
+        } else if (int_hours==3) {
+            int_duration = 180 + int_mins;
+        } else if (int_hours==4) {
+            int_duration = 240 + int_mins;
+        } else if (int_hours==5) {
+            int_duration = 300 + int_mins;
+        } else if (int_hours==6) {
+            int_duration = 360 + int_mins;
+        } else if (int_hours==7) {
+            int_duration = 420 + int_mins;
+        }
+        String str_duration = String.valueOf(int_duration);
+        if(!notes.getText().toString().isEmpty()) {
+            str_notes = notes.getText().toString();
+        } else {
+            str_notes = "Brak notatek nt. treningu.";
+        }
+
+        String type = "training_add";
+        TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
+        trainingBackgroundWorker.execute(type, str_username, str_distance, str_duration, str_notes, str_hours, str_mins);
+        onAddTrainingSuccess();
+        finish();
+        startActivity(getIntent());
     }
 
     @Override
@@ -77,6 +149,18 @@ public class TrainingActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
+    public void showEditProfile(View view) {
+        startActivity(new Intent(this, EditProfileActivity.class));
+    }
+
+    /**
+     * TODO
+     */
+    public void onAddTrainingSuccess() {
+        Toast.makeText(getBaseContext(), "Dodanie treningu udane.", Toast.LENGTH_LONG).show();
+        addTrainingButton.setEnabled(true);
+    }
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -104,4 +188,6 @@ public class TrainingActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

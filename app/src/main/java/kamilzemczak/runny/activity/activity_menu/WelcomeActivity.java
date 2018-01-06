@@ -23,6 +23,7 @@ import android.widget.TextView;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_user.CommentActivity;
+import kamilzemczak.runny.activity.activity_user.ViewFriendsTrainingsActivity;
 import kamilzemczak.runny.adapter.PostAdapter;
 import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
 import kamilzemczak.runny.helper.RecyclerItemClickListener;
@@ -177,6 +178,9 @@ public class WelcomeActivity extends AppCompatActivity
         startActivity(new Intent(this, CommentActivity.class));
     }
 
+    public void showFriendsTraining(View view) {
+        startActivity(new Intent(this, ViewFriendsTrainingsActivity.class));
+    }
 
     private void loadHistory() {
         String type = "posts_find";
@@ -299,4 +303,5 @@ public class WelcomeActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
 }

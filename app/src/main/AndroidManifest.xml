@@ -77,6 +77,14 @@
         <activity
             android:name=".activity.activity_user.CommentActivity"
             android:label="@string/title_activity_comment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.activity_user.ViewFriendsTrainingsActivity"
+            android:label="@string/title_activity_view_friends_trainings"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.activity_user.TCommentActivity"
+            android:label="@string/title_activity_tcomment"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

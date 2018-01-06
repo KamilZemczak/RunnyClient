@@ -12,6 +12,8 @@ package kamilzemczak.runny.activity.activity_menu;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,14 +26,45 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
+import kamilzemczak.runny.adapter.TrainingAdapter;
+import kamilzemczak.runny.adapter.TrainingOAdapter;
+import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
+import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
+import kamilzemczak.runny.model.Training;
 
 /**
  * TODO
  */
 public class HistoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    LoginActivity loginActivity;
+    private TextView noTrainings;
+
+    private EditText trainingContent;
+    private Calendar calendar;
+
+    private RecyclerView trainingContainer;
+    private TrainingOAdapter trainingOAdapter;
+    private List<Training> trainingHistory = new ArrayList<Training>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +90,54 @@ public class HistoryActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        noTrainings = (TextView) findViewById(R.id.tvNoTrainings);
+
+        loadHistory();
+    }
+
+    private void loadHistory() {
+        String type = "trainings_own_find";
+        String result = null;
+        TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
+
+        try {
+            String str_username = loginActivity.currentUsername;
+            result = trainingBackgroundWorker.execute(type, str_username).get();
+            ObjectMapper objectMapper = new ObjectMapper();
+            trainingHistory = objectMapper.readValue(result, new TypeReference<List<Training>>() {
+            });
+        } catch (
+                InterruptedException e) {
+            e.printStackTrace();
+        } catch (
+                ExecutionException e) {
+            e.printStackTrace();
+        } catch (
+                JsonParseException e) {
+            e.printStackTrace();
+        } catch (
+                JsonMappingException e) {
+            e.printStackTrace();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+
+        Collections.reverse(trainingHistory);
+
+        //Set the layout and the RecyclerView
+        trainingContainer = (RecyclerView) findViewById(R.id.lTraining);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        trainingContainer.setLayoutManager(llm);
+        trainingOAdapter = new TrainingOAdapter(HistoryActivity.this, trainingHistory);
+        //Set the adapter for the recyclerlist
+        trainingContainer.setAdapter(trainingOAdapter);
+
+        if(trainingHistory.isEmpty()) {
+            noTrainings.setText("Brak treningów." + "\n" +  "Zacznij od dziś!");
+        }
     }
 
     @Override

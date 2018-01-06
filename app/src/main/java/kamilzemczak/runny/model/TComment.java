@@ -1,9 +1,5 @@
 package kamilzemczak.runny.model;
 
-/**
- * Created by Kamil Zemczak on 03.01.2018.
- */
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,22 +7,26 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.Date;
 
+/**
+ * Created by Kamil Zemczak on 05.01.2018.
+ */
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
         "id",
         "author",
-        "post",
+        "training",
         "contents",
         "time",
 })
 
-public class Comment {
+public class TComment {
     @JsonProperty("id")
     private Integer id;
     @JsonProperty("author")
     private User author;
     @JsonProperty
-    private Post post;
+    private Training training;
     @JsonProperty("contents")
     private String contents;
     @JsonProperty("time")
@@ -34,13 +34,13 @@ public class Comment {
     @JsonIgnore
     private String dateTime;
 
-    public Comment() {
+    public TComment() {
 
     }
 
-    public Comment(User author, Post post, String contents) {
+    public TComment(User author, Training training, String contents) {
         this.author = author;
-        this.post = post;
+        this.training = training;
         this.contents = contents;
         this.time = new Date();
     }
@@ -65,14 +65,14 @@ public class Comment {
         this.author = author;
     }
 
-    @JsonProperty("post")
-    public Post getPost() {
-        return post;
+    @JsonProperty("training")
+    public Training getTraining() {
+        return training;
     }
 
-    @JsonProperty("post")
-    public void setPost(Post post) {
-        this.post = post;
+    @JsonProperty("training")
+    public void setTraining(Training training) {
+        this.training = training;
     }
 
     @JsonProperty("contents")
