@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/profile"
+         />
+
+
+    <TextView
+        android:id="@+id/tvNameF"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dip"
+        android:paddingTop="6dip"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/profile_image"/>
+
+    <TextView
+        android:id="@+id/tvUsernameF"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dip"
+        android:layout_below="@+id/tvNameF"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/profile_image"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/tvLocatonF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5d5d5d"
+        android:layout_below="@+id/tvUsernameF"
+        android:layout_toRightOf="@+id/profile_image"
+        android:drawableLeft="@drawable/ic_location"
+        android:textStyle="bold" />
+</RelativeLayout>

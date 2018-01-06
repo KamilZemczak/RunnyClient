@@ -8,7 +8,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import android.support.design.widget.NavigationView;
@@ -39,6 +38,7 @@ import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
+import kamilzemczak.runny.adapter.SearchFriendsAdapter;
 import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
 import kamilzemczak.runny.model.User;
@@ -54,6 +54,7 @@ public class SearchFriendsActivity extends AppCompatActivity
     ListView allUsers;
     List<User> users = new ArrayList<User>();
     List<ArrayList<String>> usersAfterProcessing = new ArrayList<ArrayList<String>>();
+    public static List<ArrayList<String>> usersAfterProcessingToSend = new ArrayList<ArrayList<String>>();
 
     public static String currentNameP, currentSurnameP, currentUsernameP, currentEmailP, currentGenderP, currentCityP, currentAboutP;
     public static Integer currentIdP, currentAgeP, currentWeightP, currentHeightP;
@@ -97,16 +98,37 @@ public class SearchFriendsActivity extends AppCompatActivity
             });
             for (User user : users) {
                 ArrayList<String> usersToProcessing = new ArrayList<>();
-                usersToProcessing.add(user.getUsername());
                 if (user.getName().isEmpty() && user.getSurname().isEmpty()) {
                     usersToProcessing.add("Imie Nazwisko");
                 } else {
                     usersToProcessing.add(user.getName() + " " + user.getSurname());
                 }
+                usersToProcessing.add(user.getUsername());
+                if(user.getCity()!=null) {
+                    if (user.getCity().isEmpty()) {
+                        usersToProcessing.add("Sosnowiec");
+                    } else {
+                        usersToProcessing.add(user.getCity());
+                    }
+                } else {
+                    usersToProcessing.add("Sosnowiec");
+                }
+
+              //
                 usersAfterProcessing.add(usersToProcessing);
             }
-            ArrayAdapter adapter = new ArrayAdapter<>(SearchFriendsActivity.this, android.R.layout.simple_list_item_1, usersAfterProcessing);
-            this.allUsers.setAdapter(adapter);
+
+            usersAfterProcessingToSend = usersAfterProcessing;
+
+            SearchFriendsAdapter customAdapter = new SearchFriendsAdapter(this, R.layout.friends_item_layout, usersAfterProcessing);
+
+            allUsers.setAdapter(customAdapter);
+
+
+
+
+           // ArrayAdapter adapter = new ArrayAdapter<>(SearchFriendsActivity.this, android.R.layout.simple_list_item_1, usersAfterProcessing);
+            //this.allUsers.setAdapter(adapter);
         } catch (
                 InterruptedException e) {
             e.printStackTrace();

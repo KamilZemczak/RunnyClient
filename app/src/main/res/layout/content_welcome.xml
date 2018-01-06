@@ -45,15 +45,16 @@
 
     <Button
         android:id="@+id/tvShowFriendsTraining"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="300dp"
+        android:layout_height="20dp"
         android:layout_below="@+id/tvInfo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:onClick="showFriendsTraining"
+        android:background="@color/darkBlue"
         android:text="PODEJRZYJ TRENINGI SWOICH ZNAJOMYCH"
-        android:textColor="@color/colorProff"
+        android:textColor="@color/white"
         android:textSize="14sp" />
 
 

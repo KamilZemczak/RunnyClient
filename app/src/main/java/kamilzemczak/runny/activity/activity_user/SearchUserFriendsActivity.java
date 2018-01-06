@@ -36,6 +36,8 @@ import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
+import kamilzemczak.runny.adapter.SearchFriendsAdapter;
+import kamilzemczak.runny.adapter.SearchUserFriendsAdapter;
 import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 import kamilzemczak.runny.model.User;
 
@@ -53,7 +55,7 @@ public class SearchUserFriendsActivity extends AppCompatActivity
     List<User> friends = new ArrayList<User>();
     ArrayList<ArrayList<String>> friendsAfterProcessing = new ArrayList<ArrayList<String>>();
 
-
+    public static List<ArrayList<String>> friendsAfterProcessingToSend = new ArrayList<ArrayList<String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,16 +97,34 @@ public class SearchUserFriendsActivity extends AppCompatActivity
 
             for(User friend : friends) {
                 ArrayList<String> friendsToProcessing = new ArrayList<>();
-                friendsToProcessing.add(friend.getUsername());
                 if (friend.getName().isEmpty() && friend.getSurname().isEmpty()) {
                     friendsToProcessing.add("Imie Nazwisko");
                 } else {
                     friendsToProcessing.add(friend.getName()+" "+friend.getSurname());
                 }
+                friendsToProcessing.add(friend.getUsername());
+                if(friend.getCity()!=null) {
+                    if (friend.getCity().isEmpty()) {
+                        friendsToProcessing.add("Sosnowiec");
+                    } else {
+                        friendsToProcessing.add(friend.getCity());
+                    }
+                } else {
+                    friendsToProcessing.add("Sosnowiec");
+                }
                 friendsAfterProcessing.add(friendsToProcessing);
             }
-            ArrayAdapter adapter = new ArrayAdapter<>(SearchUserFriendsActivity.this, android.R.layout.simple_list_item_1, friendsAfterProcessing);
-            this.allFriends.setAdapter(adapter);
+
+
+            friendsAfterProcessingToSend = friendsAfterProcessing;
+
+            SearchUserFriendsAdapter customAdapter = new SearchUserFriendsAdapter(this, R.layout.friends_item_layout, friendsAfterProcessing);
+
+            allFriends.setAdapter(customAdapter);
+
+
+           // ArrayAdapter adapter = new ArrayAdapter<>(SearchUserFriendsActivity.this, android.R.layout.simple_list_item_1, friendsAfterProcessing);
+            //this.allFriends.setAdapter(adapter);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {

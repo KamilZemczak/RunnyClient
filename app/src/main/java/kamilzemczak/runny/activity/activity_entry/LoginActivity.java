@@ -29,18 +29,18 @@ import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 import kamilzemczak.runny.backgroundworker.LoginBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
 import kamilzemczak.runny.model.User;
-import kamilzemczak.runny.*;
+import kamilzemczak.runny.R;
 
 /**
- * Klasa odpowiedzialna za logowanie użytkownika do serwisu
+ * Klasa odpowiedzialna za logowanie użytkownika do portalu
  */
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username, password;
+
     public static String currentName, currentSurname, currentUsername, currentEmail, currentGender, currentCity, currentAbout;
     public static Integer currentId, currentAge, currentWeight, currentHeight;
-    //private String str_username, str_password;
-
+    
     Button loginButton;
 
     /**
@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
+        //SearchFriendsAdapter adapter = new SearchFriendsAdapter();
         String str_username = username.getText().toString();
         String str_password = password.getText().toString();
         String type = "login";
