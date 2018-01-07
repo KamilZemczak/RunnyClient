@@ -2,22 +2,19 @@ package kamilzemczak.runny.activity.activity_user;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.view.View;
-
-import android.widget.AdapterView;
-import android.widget.ListView;
-
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -34,36 +31,27 @@ import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_menu.FriendsActivity;
 import kamilzemczak.runny.activity.activity_menu.HistoryActivity;
 import kamilzemczak.runny.activity.activity_menu.ObjectivesActivity;
+import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
-import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.adapter.SearchFriendsAdapter;
-import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
-import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
+import kamilzemczak.runny.adapter.ObjectiveAdapter;
+import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
+import kamilzemczak.runny.model.Objective;
 import kamilzemczak.runny.model.User;
 
-/**
- * TODO
- */
-public class SearchFriendsActivity extends AppCompatActivity
+public class ViewUserObjectivesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
     LoginActivity loginActivity;
+    TextView noObjectives;
 
-    ListView allUsers;
-    List<User> users = new ArrayList<User>();
-    List<ArrayList<String>> usersAfterProcessing = new ArrayList<ArrayList<String>>();
-    public static List<ArrayList<String>> usersAfterProcessingToSend = new ArrayList<ArrayList<String>>();
-
-    public static String currentNameP, currentSurnameP, currentUsernameP, currentEmailP, currentGenderP, currentCityP, currentAboutP;
-    public static Integer currentIdP, currentAgeP, currentWeightP, currentHeightP;
-
-
+    ListView allObjectives;
+    List<Objective> objectives = new ArrayList<Objective>();
+   // List<String> objectivesAfterProcessing = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search_user_friends);
+        setContentView(R.layout.activity_view_user_objectives);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -85,18 +73,25 @@ public class SearchFriendsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        allUsers = (ListView) findViewById(R.id.lAllUsers);
+        allObjectives = (ListView) findViewById(R.id.lAllObjectives);
+        noObjectives = (TextView) findViewById(R.id.tvNoObjectives);
 
-        String type = "users_find";
+        loadHistory();
+    }
+
+    private void loadHistory() {
+        String type = "objectives_find";
+        String str_username = loginActivity.currentUsername;
         String result = null;
-        UserBackgroundWorker userBackgroundWorker = new UserBackgroundWorker(this);
+        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
 
         try {
-            result = userBackgroundWorker.execute(type).get();
+            result = objectiveBackgroundWorker.execute(type, str_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
-            users = objectMapper.readValue(result, new TypeReference<List<User>>() {
+            objectives = objectMapper.readValue(result, new TypeReference<List<Objective>>() {
             });
-            for (User user : users) {
+
+           /* for (User user : users) {
                 ArrayList<String> usersToProcessing = new ArrayList<>();
                 if (user.getName().isEmpty() && user.getSurname().isEmpty()) {
                     usersToProcessing.add("Imie Nazwisko");
@@ -114,18 +109,20 @@ public class SearchFriendsActivity extends AppCompatActivity
                     usersToProcessing.add("Sosnowiec");
                 }
 
-              //
+                //
                 usersAfterProcessing.add(usersToProcessing);
             }
 
-            usersAfterProcessingToSend = usersAfterProcessing;
+            usersAfterProcessingToSend = usersAfterProcessing;*/
 
-            SearchFriendsAdapter customAdapter = new SearchFriendsAdapter(this, R.layout.friends_item_layout, usersAfterProcessing);
+            ObjectiveAdapter customAdapter = new ObjectiveAdapter(this, R.layout.friends_item_layout, objectives);
 
-            allUsers.setAdapter(customAdapter);
+            allObjectives.setAdapter(customAdapter);
 
-           // ArrayAdapter adapter = new ArrayAdapter<>(SearchFriendsActivity.this, android.R.layout.simple_list_item_1, usersAfterProcessing);
-            //this.allUsers.setAdapter(adapter);
+            if(objectives.isEmpty()) {
+                noObjectives.setText("Brak celow.");
+            }
+
         } catch (
                 InterruptedException e) {
             e.printStackTrace();
@@ -143,39 +140,7 @@ public class SearchFriendsActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        allUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str_username = loginActivity.currentUsername;
-                currentIdP = users.get(position).getId();
-                currentUsernameP = users.get(position).getUsername();
-                currentNameP = users.get(position).getName();
-                currentSurnameP = users.get(position).getSurname();
-                currentEmailP = users.get(position).getEmail();
-                currentAgeP = users.get(position).getAge();
-                currentGenderP = users.get(position).getGender();
-                if (users.get(position).getWeight() != null) {
-                    currentWeightP = users.get(position).getWeight();
-                }
-                if (users.get(position).getHeight() != null) {
-                    currentHeightP = users.get(position).getHeight();
-                }
-                if (users.get(position).getCity() != null) {
-                    currentCityP = users.get(position).getCity();
-                }
-                if (users.get(position).getAbout() != null) {
-                    currentAboutP = users.get(position).getAbout();
-                }
 
-                if(isFriend(str_username, currentUsernameP)) {
-                    Intent appInfo = new Intent(SearchFriendsActivity.this, ViewFriendProfileActivity.class);
-                    startActivity(appInfo);
-                } else {
-                    Intent appInfo = new Intent(SearchFriendsActivity.this, ViewUserProfileActivity.class);
-                    startActivity(appInfo);
-                }
-            }
-        });
     }
 
     @Override
@@ -191,7 +156,7 @@ public class SearchFriendsActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.friends, menu);
+        getMenuInflater().inflate(R.menu.view_user_objectives, menu);
         return true;
     }
 
@@ -210,30 +175,12 @@ public class SearchFriendsActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * TODO
-     * @param str_username TODO
-     * @return TODO
-     */
-    private boolean isFriend(String str_username, String currentUsernameP) {
-        String type = "is_friend";
-        Boolean result = true;
-        UniqueBackgroundWorker uniqueBackgroundWorker = new UniqueBackgroundWorker(this);
-        try {
-            result = uniqueBackgroundWorker.execute(type, str_username, currentUsernameP).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+
 
         if (id == R.id.nav_home) {
             startActivity(new Intent(this, WelcomeActivity.class));

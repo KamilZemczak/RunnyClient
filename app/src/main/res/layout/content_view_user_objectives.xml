@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="kamilzemczak.runny.activity.activity_user.ViewUserObjectivesActivity"
+    tools:showIn="@layout/app_bar_view_user_objectives">
+
+
+    <ListView
+        android:id="@+id/lAllObjectives"
+        android:layout_width="395dp"
+        android:layout_height="587dp"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp" />
+
+
+    <TextView
+        android:id="@+id/tvNoObjectives"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="310dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="26sp"
+        android:layout_marginLeft="55dp"
+        android:layout_marginRight="20dp"/>
+
+</RelativeLayout>

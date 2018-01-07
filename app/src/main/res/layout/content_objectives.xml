@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,4 +8,87 @@
     tools:context=".activity.activity_menu.ObjectivesActivity"
     tools:showIn="@layout/app_bar_objectives">
 
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tvObjectivesInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center_horizontal"
+        android:text="Zapisz swój cel"
+        android:textSize="26sp" />
+
+    <TextView
+        android:id="@+id/tvObjectiveHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="60dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="10dp"
+        android:onClick="showObjectiveHistory"
+        android:gravity="center_horizontal"
+        android:text="Podejrzyj swoje cele"
+        android:layout_below="@+id/tvObjectivesInfo"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvTypeObjective"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/tvObjectiveHistory"
+        android:text="RODZAJ"
+        android:textSize="16sp"/>
+
+    <Spinner
+        android:id="@+id/static_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/tvTypeObjective"
+        android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/tvObjective"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="15dp"
+        android:layout_below="@+id/static_spinner"
+        android:text="CEL"
+        android:textSize="16sp"/>
+
+    <Spinner
+        android:id="@+id/sObjective"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@+id/tvObjective"
+        android:layout_marginTop="5dp" />
+
+    <Button
+        android:id="@+id/bSaveObjective"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/sObjective"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/sObjective"
+        android:backgroundTint="@color/colorProff"
+        android:onClick="saveObjective"
+        android:text="ZAPISZ ZMIANY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etAboutE" />
+
+</RelativeLayout>

@@ -85,6 +85,10 @@
         <activity
             android:name=".activity.activity_user.TCommentActivity"
             android:label="@string/title_activity_tcomment"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.activity_user.ViewUserObjectivesActivity"
+            android:label="@string/title_activity_view_user_objectives"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

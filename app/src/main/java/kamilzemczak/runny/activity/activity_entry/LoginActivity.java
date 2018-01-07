@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public static String currentName, currentSurname, currentUsername, currentEmail, currentGender, currentCity, currentAbout;
     public static Integer currentId, currentAge, currentWeight, currentHeight;
-    
+
     Button loginButton;
 
     /**

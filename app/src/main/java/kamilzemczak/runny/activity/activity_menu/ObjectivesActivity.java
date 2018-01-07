@@ -15,14 +15,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
+import kamilzemczak.runny.activity.activity_user.ViewUserObjectivesActivity;
+import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
 
 /**
  * TODO
  */
 public class ObjectivesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    LoginActivity loginActivity;
+
+    Spinner typeSpinner, objectiveSpinner;
+    TextView typeSelected;
+    TextView objectiveSelected;
+
+Button saveObjectiveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +65,57 @@ public class ObjectivesActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        typeSpinner = (Spinner) findViewById(R.id.static_spinner);
+        objectiveSpinner = (Spinner) findViewById(R.id.sObjective);
+        saveObjectiveButton = (Button) findViewById(R.id.bSaveObjective);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeso_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(adapter);
+
+
+        ArrayAdapter<CharSequence> objectiveAdapter = ArrayAdapter.createFromResource(this, R.array.objectives_array_distance, android.R.layout.simple_spinner_item);
+        objectiveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        objectiveSpinner.setAdapter( objectiveAdapter );
+
+        typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                typeSelected = (TextView) view;
+               // Toast.makeText(ObjectivesActivity.this, "Wybrałes" + " " + typeSelected.getText(), Toast.LENGTH_SHORT).show();
+                String test = typeSelected.getText().toString();
+                if(typeSelected!=null) {
+                    if(test.equals("Dystans")) {
+                        ArrayAdapter<CharSequence> objectiveAdapter2 = ArrayAdapter.createFromResource(ObjectivesActivity.this, R.array.objectives_array_distance, android.R.layout.simple_spinner_item);
+                        objectiveAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        objectiveSpinner.setAdapter( objectiveAdapter2 );
+                    }else if(test.equals("Kalorie")) {
+                        ArrayAdapter<CharSequence> objectiveAdapter22 = ArrayAdapter.createFromResource(ObjectivesActivity.this, R.array.objectives_array_calories, android.R.layout.simple_spinner_item);
+                        objectiveAdapter22.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        objectiveSpinner.setAdapter( objectiveAdapter22 );
+                    }
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        objectiveSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                objectiveSelected = (TextView) view;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     @Override
@@ -108,5 +176,28 @@ public class ObjectivesActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void saveObjective(View view) {
+        String str_username = loginActivity.currentUsername;
+        String typeo = typeSelected.getText().toString();
+        String objective = objectiveSelected.getText().toString();
+        String type = "objective_add";
+        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
+        objectiveBackgroundWorker.execute(type, str_username, typeo, objective);
+        onSaveSucces();
+    }
+
+    /**
+     * TODO
+     */
+    public void onSaveSucces() {
+        Toast.makeText(getBaseContext(), "Dodanie celu udane.", Toast.LENGTH_LONG).show();
+        saveObjectiveButton.setEnabled(true);
+    }
+
+    public void showObjectiveHistory(View view) {
+        startActivity(new Intent(this, ViewUserObjectivesActivity.class));
+
     }
 }

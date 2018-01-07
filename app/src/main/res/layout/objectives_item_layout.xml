@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_horizontal_margin">
+
+
+    <TextView
+        android:id="@+id/tvTypeO"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dip"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="5dp"
+        android:drawableLeft="@drawable/ic_subject"/>
+
+    <TextView
+        android:id="@+id/tvObjectiveO"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dip"
+        android:layout_below="@+id/tvTypeO"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_fitness"
+        android:textColor="@color/colorAccent" />
+
+    <TextView
+        android:id="@+id/tvDateO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#5d5d5d"
+        android:drawableLeft="@drawable/ic_update"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/tvObjectiveO"
+        android:textStyle="bold" />
+</RelativeLayout>

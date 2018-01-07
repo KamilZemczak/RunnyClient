@@ -7,6 +7,31 @@
         <item>Kobieta</item>
         <item>Mężczyzna</item>
     </string-array>
+
+    <string-array name="typeso_array">
+        <item>Dystans</item>
+        <item>Treningi</item>
+        <item>Kalorie</item>
+    </string-array>
+
+    <string-array name="objectives_array_distance">
+        <item>3km</item>
+        <item>5km</item>
+        <item>10km</item>
+        <item>21km</item>
+        <item>42km</item>
+        <item>60km</item>
+    </string-array>
+
+    <string-array name="objectives_array_calories">
+        <item>100kcal</item>
+        <item>400kcal</item>
+        <item>600kcal</item>
+        <item>800kcal</item>
+        <item>1000kcal</item>
+        <item>1200kcal</item>
+    </string-array>
+
     <string name="title_activity_welcome">welcome</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -47,5 +72,6 @@
     <string name="title_activity_comment">CommentActivity</string>
     <string name="title_activity_view_friends_trainings">ViewFriendsTrainingsActivity</string>
     <string name="title_activity_tcomment">TCommentActivity</string>
+    <string name="title_activity_view_user_objectives">ViewUserObjectives</string>
 
 </resources>
