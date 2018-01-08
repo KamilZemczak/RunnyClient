@@ -146,7 +146,7 @@ public class SearchFriendsActivity extends AppCompatActivity
         allUsers.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String str_username = loginActivity.currentUsername;
+                String str_username = loginActivity.userCurrentUsername;
                 currentIdP = users.get(position).getId();
                 currentUsernameP = users.get(position).getUsername();
                 currentNameP = users.get(position).getName();

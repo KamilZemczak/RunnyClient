@@ -11,54 +11,54 @@
     tools:context=".activity.activity_entry.LoginActivity">
 
     <TextView
-        android:id="@+id/tvRegisterHere"
+        android:id="@+id/loginActivity_tvRegisterInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="openRegister"
-        android:text="Nie masz konta? Zarejestruj się."
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="129dp" />
+        android:layout_marginBottom="129dp"
+        android:onClick="openRegister"
+        android:text="@string/registerHere" />
 
     <EditText
-        android:id="@+id/etName"
+        android:id="@+id/loginActivity_etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Nazwa użytkownika"
-        android:inputType="textPersonName"
-        android:layout_above="@+id/etPassword"
+        android:layout_above="@+id/registerActivity_etPassword"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="18dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:ems="10"
+        android:hint="@string/username"
+        android:inputType="textPersonName" />
 
     <Button
-        android:id="@+id/bLogin"
+        android:id="@+id/loginActivity_bLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="onLogin"
-        android:text="Zaloguj"
-        android:layout_above="@+id/tvRegisterHere"
+        android:layout_above="@+id/loginActivity_tvRegisterInfo"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="13dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:onClick="login"
+        android:text="@string/login" />
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/registerActivity_etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Hasło"
-        android:inputType="textPassword"
-        android:layout_alignBottom="@+id/bLogin"
+        android:layout_alignBottom="@+id/loginActivity_bLogin"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_marginBottom="71dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:ems="10"/>
 
 </RelativeLayout>

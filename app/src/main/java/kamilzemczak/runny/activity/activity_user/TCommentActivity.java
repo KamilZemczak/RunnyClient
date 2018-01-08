@@ -43,9 +43,7 @@ import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.adapter.CommentAdapter;
 import kamilzemczak.runny.adapter.TCommentAdapter;
-import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.TCommentBackgroundWorker;
 import kamilzemczak.runny.model.TComment;
 
@@ -122,7 +120,7 @@ public class TCommentActivity extends AppCompatActivity
                 TCommentBackgroundWorker tcommentBackgroundWorker = new TCommentBackgroundWorker(TCommentActivity.this);
                 Integer test = ViewFriendsTrainingsActivity.currentTrainingId;
                 String test2 = String.valueOf(test);
-                tcommentBackgroundWorker.execute(type, commentText, loginActivity.currentUsername, test2);
+                tcommentBackgroundWorker.execute(type, commentText, loginActivity.userCurrentUsername, test2);
                 finish();
                 startActivity(getIntent());
 

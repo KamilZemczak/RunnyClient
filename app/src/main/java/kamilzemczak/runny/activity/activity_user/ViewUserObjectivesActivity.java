@@ -38,7 +38,6 @@ import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 import kamilzemczak.runny.adapter.ObjectiveAdapter;
 import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
 import kamilzemczak.runny.model.Objective;
-import kamilzemczak.runny.model.User;
 
 public class ViewUserObjectivesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -82,7 +81,7 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
 
     private void loadHistory() {
         String type = "objectives_find";
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String result = null;
         ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
 
@@ -146,7 +145,7 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
     }
 
     public void updateObjectives() {
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String type = "objective_update";
         ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
         objectiveBackgroundWorker.execute(type, str_username);

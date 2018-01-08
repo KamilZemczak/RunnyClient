@@ -104,7 +104,7 @@ public class WelcomeActivity extends AppCompatActivity
         noPosts = (TextView) findViewById(R.id.tvNoPosts);
 
 
-        welcome.setText("Witaj w Ready4RUN" + "\n" + loginActivity.currentName + " " + loginActivity.currentSurname + ".");
+        welcome.setText("Witaj w Ready4RUN" + "\n" + loginActivity.userCurrentName + " " + loginActivity.userCurrentSurname + ".");
         info.setText("Mozesz Tutaj opublikowac post lub podejrzec posty swoich znajomych, do dziela!");
         loadHistory();
 
@@ -142,7 +142,7 @@ public class WelcomeActivity extends AppCompatActivity
                 String postText = postContent.getText().toString();
                 String type = "post_send";
                 PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
-                postBackgroundWorker.execute(type, postText, loginActivity.currentUsername);
+                postBackgroundWorker.execute(type, postText, loginActivity.userCurrentUsername);
                 finish();
                 startActivity(getIntent());
 
@@ -188,7 +188,7 @@ public class WelcomeActivity extends AppCompatActivity
         PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
 
         try {
-            String str_author_username = loginActivity.currentUsername;
+            String str_author_username = loginActivity.userCurrentUsername;
             result = postBackgroundWorker.execute(type, str_author_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             postHistory = objectMapper.readValue(result, new TypeReference<List<Post>>() {
@@ -226,7 +226,7 @@ public class WelcomeActivity extends AppCompatActivity
     }
 
     private void loadCommentsSize() {
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String type = "posts_comment_size";
         PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
         try {

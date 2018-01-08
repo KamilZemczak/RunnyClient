@@ -14,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -36,7 +35,6 @@ import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.adapter.SearchFriendsAdapter;
 import kamilzemczak.runny.adapter.SearchUserFriendsAdapter;
 import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 import kamilzemczak.runny.model.User;
@@ -85,7 +83,7 @@ public class SearchUserFriendsActivity extends AppCompatActivity
         allFriends = (ListView) findViewById(R.id.lAllFriends);
 
         String type = "friends_find";
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String result = null;
         FriendBackgroundWorker friendBackgroundWorker = new FriendBackgroundWorker(this);
 

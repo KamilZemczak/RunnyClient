@@ -21,7 +21,6 @@ import android.widget.Toast;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_user.EditProfileActivity;
-import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
 
 public class TrainingActivity extends AppCompatActivity
@@ -79,7 +78,7 @@ public class TrainingActivity extends AppCompatActivity
             onRegisterFailed();
             return;
         }*/
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String str_distance = distance.getText().toString();
         String str_hours = hours.getText().toString();
         Integer int_hours = Integer.valueOf(str_hours);

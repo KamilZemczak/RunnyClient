@@ -179,7 +179,7 @@ Button saveObjectiveButton;
     }
 
     public void saveObjective(View view) {
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String typeo = typeSelected.getText().toString();
         String objective = objectiveSelected.getText().toString();
         String type = "objective_add";

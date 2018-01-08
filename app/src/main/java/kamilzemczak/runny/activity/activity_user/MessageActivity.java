@@ -17,7 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.text.TextUtils;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -134,7 +133,7 @@ public class MessageActivity extends AppCompatActivity implements NavigationView
         TextView authorUsername = (TextView) findViewById(R.id.tvAuthorUsernameM);
         TextView recipientUsername = (TextView) findViewById(R.id.tvRecipientUsernameM);
         RelativeLayout container = (RelativeLayout) findViewById(R.id.container);
-        authorUsername.setText(loginActivity.currentUsername);
+        authorUsername.setText(loginActivity.userCurrentUsername);
         recipientUsername.setText(searchUserFriendsActivity.currentUsernameF);
 
 
@@ -150,7 +149,7 @@ public class MessageActivity extends AppCompatActivity implements NavigationView
 
                 String type = "message_send";
                 MessageBackgroundWorker messageBackgroundWorker = new MessageBackgroundWorker(MessageActivity.this);
-                messageBackgroundWorker.execute(type, messageText, loginActivity.currentUsername, searchUserFriendsActivity.currentUsernameF);
+                messageBackgroundWorker.execute(type, messageText, loginActivity.userCurrentUsername, searchUserFriendsActivity.currentUsernameF);
 
 
                 Message chatMessage = new Message();
@@ -185,14 +184,14 @@ public class MessageActivity extends AppCompatActivity implements NavigationView
         MessageBackgroundWorker messageBackgroundWorker = new MessageBackgroundWorker(this);
 
         try {
-            String str_author_username = loginActivity.currentUsername;
+            String str_author_username = loginActivity.userCurrentUsername;
             String str_recipient_username = searchUserFriendsActivity.currentUsernameF;
             result = messageBackgroundWorker.execute(type, str_author_username, str_recipient_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             chatHistory = objectMapper.readValue(result, new TypeReference<List<Message>>() {
             });
             for (Message message : chatHistory) {
-                if (message.getAuthor().getId().equals(loginActivity.currentId)) {
+                if (message.getAuthor().getId().equals(loginActivity.userCurrentId)) {
                     message.setMe(true);
                 } else {
                     message.setMe(false);

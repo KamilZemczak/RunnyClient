@@ -27,8 +27,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import org.w3c.dom.Text;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,7 +46,6 @@ import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 import kamilzemczak.runny.adapter.CommentAdapter;
 import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
 import kamilzemczak.runny.model.Comment;
-import kamilzemczak.runny.model.Post;
 
 public class CommentActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -121,7 +118,7 @@ public class CommentActivity extends AppCompatActivity
                 CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
                 Integer test = welcomeActivity.currentPostId;
                 String test2 = String.valueOf(test);
-                commentBackgroundWorker.execute(type, commentText, loginActivity.currentUsername, test2);
+                commentBackgroundWorker.execute(type, commentText, loginActivity.userCurrentUsername, test2);
                 finish();
                 startActivity(getIntent());
 

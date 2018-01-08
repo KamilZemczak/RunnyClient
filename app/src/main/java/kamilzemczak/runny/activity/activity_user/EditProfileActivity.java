@@ -50,11 +50,11 @@ public class EditProfileActivity extends AppCompatActivity
     EditText username, email, age, gender, weight, height, city, about;
     TextView user;
     //String str_username, str_email, str_age, str_gender, str_weight, str_height, str_city, str_about;
-    Integer int_id = loginActivity.currentId;
+    Integer int_id = loginActivity.userCurrentId;
     Button updateButton;
 
-    String currentUsername = loginActivity.currentUsername;
-    String currentEmail = loginActivity.currentEmail;
+    String currentUsername = loginActivity.userCurrentUsername;
+    String currentEmail = loginActivity.userCurrentEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,28 +93,28 @@ public class EditProfileActivity extends AppCompatActivity
 
         updateButton = (Button) findViewById(R.id.bEditProfile);
 
-        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
+        user.setText(loginActivity.userCurrentName + " " + loginActivity.userCurrentSurname);
 
-        username.setText(loginActivity.currentUsername, TextView.BufferType.EDITABLE);
-        email.setText(loginActivity.currentEmail, TextView.BufferType.EDITABLE);
-        age.setText(Integer.toString(loginActivity.currentAge), TextView.BufferType.EDITABLE);
-        if (loginActivity.currentGender != null && loginActivity.currentGender.equals("M")) {
+        username.setText(loginActivity.userCurrentUsername, TextView.BufferType.EDITABLE);
+        email.setText(loginActivity.userCurrentEmail, TextView.BufferType.EDITABLE);
+        age.setText(Integer.toString(loginActivity.userCurrentAge), TextView.BufferType.EDITABLE);
+        if (loginActivity.userCurrentGender != null && loginActivity.userCurrentGender.equals("M")) {
             gender.setText("Mężczyzna", TextView.BufferType.EDITABLE);
         }
-        if (loginActivity.currentGender != null && loginActivity.currentGender.equals("F")) {
+        if (loginActivity.userCurrentGender != null && loginActivity.userCurrentGender.equals("F")) {
             gender.setText("Kobieta", TextView.BufferType.EDITABLE);
         }
-        if ((loginActivity.currentWeight) != null) {
-            weight.setText(Integer.toString(LoginActivity.currentWeight), TextView.BufferType.EDITABLE);
+        if ((loginActivity.userCurrentWeight) != null) {
+            weight.setText(Integer.toString(LoginActivity.userCurrentWeight), TextView.BufferType.EDITABLE);
         }
-        if ((loginActivity.currentHeight) != null) {
-            height.setText(Integer.toString(loginActivity.currentHeight), TextView.BufferType.EDITABLE);
+        if ((loginActivity.userCurrentHeight) != null) {
+            height.setText(Integer.toString(loginActivity.userCurrentHeight), TextView.BufferType.EDITABLE);
         }
-        if (loginActivity.currentCity != null) {
-            city.setText(loginActivity.currentCity, TextView.BufferType.EDITABLE);
+        if (loginActivity.userCurrentCity != null) {
+            city.setText(loginActivity.userCurrentCity, TextView.BufferType.EDITABLE);
         }
-        if (loginActivity.currentAbout != null) {
-            about.setText(loginActivity.currentAbout, TextView.BufferType.EDITABLE);
+        if (loginActivity.userCurrentAbout != null) {
+            about.setText(loginActivity.userCurrentAbout, TextView.BufferType.EDITABLE);
         }
 
         gender.setKeyListener(null);
@@ -437,24 +437,24 @@ public class EditProfileActivity extends AppCompatActivity
             User currentUser;
             String userJson = userBackgroundWorker.execute(type, str_username).get();
             currentUser = mapper.readValue(userJson, User.class);
-            loginActivity.currentId = currentUser.getId();
-            loginActivity.currentName = currentUser.getName();
-            loginActivity.currentSurname = currentUser.getSurname();
-            loginActivity.currentUsername = currentUser.getUsername();
-            loginActivity.currentEmail = currentUser.getEmail();
-            loginActivity.currentAge = currentUser.getAge();
-            loginActivity.currentGender = currentUser.getGender();
+            loginActivity.userCurrentId = currentUser.getId();
+            loginActivity.userCurrentName = currentUser.getName();
+            loginActivity.userCurrentSurname = currentUser.getSurname();
+            loginActivity.userCurrentUsername = currentUser.getUsername();
+            loginActivity.userCurrentEmail = currentUser.getEmail();
+            loginActivity.userCurrentAge = currentUser.getAge();
+            loginActivity.userCurrentGender = currentUser.getGender();
             if (currentUser.getWeight() != null) {
-                loginActivity.currentWeight = currentUser.getWeight();
+                loginActivity.userCurrentWeight = currentUser.getWeight();
             }
             if (currentUser.getHeight() != null) {
-                loginActivity.currentHeight = currentUser.getHeight();
+                loginActivity.userCurrentHeight = currentUser.getHeight();
             }
             if (currentUser.getCity() != null) {
-                loginActivity.currentCity = currentUser.getCity();
+                loginActivity.userCurrentCity = currentUser.getCity();
             }
             if (currentUser.getAbout() != null) {
-                loginActivity.currentAbout = currentUser.getAbout();
+                loginActivity.userCurrentAbout = currentUser.getAbout();
             }
 
         } catch (InterruptedException e) {

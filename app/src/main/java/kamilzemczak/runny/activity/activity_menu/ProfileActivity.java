@@ -61,16 +61,16 @@ public class ProfileActivity extends AppCompatActivity
         profileButton = (Button) findViewById(R.id.bEditProfile);
         about = (TextView) findViewById(R.id.tvAboutInfoV);
 
-        user.setText(loginActivity.currentName + " " + loginActivity.currentSurname);
-        usernameAge.setText(loginActivity.currentUsername + "," + " " + loginActivity.currentAge + " " + "lat.");
-        if (loginActivity.currentCity != null) {
-            location.setText(loginActivity.currentCity);
+        user.setText(loginActivity.userCurrentName + " " + loginActivity.userCurrentSurname);
+        usernameAge.setText(loginActivity.userCurrentUsername + "," + " " + loginActivity.userCurrentAge + " " + "lat.");
+        if (loginActivity.userCurrentCity != null) {
+            location.setText(loginActivity.userCurrentCity);
         } else {
             location.setText("Nie ustawiono lokalizacji.");
         }
 
-        if(loginActivity.currentAbout!=null) {
-            about.setText(loginActivity.currentAbout);
+        if(loginActivity.userCurrentAbout !=null) {
+            about.setText(loginActivity.userCurrentAbout);
         } else {
             about.setText("Nie ustawiono żadnych informacji o sobie.");
         }

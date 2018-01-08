@@ -43,9 +43,7 @@ import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
-import kamilzemczak.runny.adapter.TrainingAdapter;
 import kamilzemczak.runny.adapter.TrainingOAdapter;
-import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
 import kamilzemczak.runny.model.Training;
 
@@ -102,7 +100,7 @@ public class HistoryActivity extends AppCompatActivity
         TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
 
         try {
-            String str_username = loginActivity.currentUsername;
+            String str_username = loginActivity.userCurrentUsername;
             result = trainingBackgroundWorker.execute(type, str_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             trainingHistory = objectMapper.readValue(result, new TypeReference<List<Training>>() {

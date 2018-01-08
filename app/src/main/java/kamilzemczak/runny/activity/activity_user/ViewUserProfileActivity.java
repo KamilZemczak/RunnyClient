@@ -125,7 +125,7 @@ public class ViewUserProfileActivity extends AppCompatActivity
     }
 
     public void addFriend(View view) {
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String str_friend_username = searchFriendsActivity.currentUsernameP;
         String type = "friend_add";
         String result = null;

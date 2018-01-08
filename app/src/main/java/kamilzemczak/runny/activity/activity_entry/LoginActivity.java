@@ -1,7 +1,7 @@
 /**
  * ***********************************************************
  * Autorskie Prawa Majątkowe Kamil Zemczak
- *
+ * <p>
  * Copyright 2017 Kamil Zemczak
  * ************************************************************
  * Utworzono 26-10-2017, Kamil Zemczak
@@ -9,27 +9,26 @@
  */
 package kamilzemczak.runny.activity.activity_entry;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.content.Intent;
+import android.widget.Toast;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.support.v7.app.AppCompatActivity;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
-
-import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.backgroundworker.LoginBackgroundWorker;
-import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
-import kamilzemczak.runny.model.User;
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.model.User;
+import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
+import kamilzemczak.runny.backgroundworker.LoginBackgroundWorker;
+import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 
 /**
  * Klasa odpowiedzialna za logowanie użytkownika do portalu
@@ -37,11 +36,10 @@ import kamilzemczak.runny.R;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username, password;
-
-    public static String currentName, currentSurname, currentUsername, currentEmail, currentGender, currentCity, currentAbout;
-    public static Integer currentId, currentAge, currentWeight, currentHeight;
-
     Button loginButton;
+
+    public static String userCurrentName, userCurrentSurname, userCurrentUsername, userCurrentEmail, userCurrentGender, userCurrentCity, userCurrentAbout;
+    public static Integer userCurrentId, userCurrentAge, userCurrentWeight, userCurrentHeight;
 
     /**
      * TODO
@@ -53,9 +51,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        username = (EditText) findViewById(R.id.etName);
-        password = (EditText) findViewById(R.id.etPassword);
-        loginButton = (Button) findViewById(R.id.bLogin);
+        username = (EditText) findViewById(R.id.registerActivity_etName);
+        password = (EditText) findViewById(R.id.registerActivity_etPassword);
+        loginButton = (Button) findViewById(R.id.loginActivity_bLogin);
     }
 
     /**
@@ -63,19 +61,17 @@ public class LoginActivity extends AppCompatActivity {
      *
      * @param view aktualny interfejs
      */
-    public void onLogin(View view) {
+    public void login(View view) {
         if (!validate()) {
-            onLoginFailed();
+            loginFailed();
             return;
         }
 
-        //SearchFriendsAdapter adapter = new SearchFriendsAdapter();
         String str_username = username.getText().toString();
         String str_password = password.getText().toString();
         String type = "login";
         String result = null;
         LoginBackgroundWorker loginBackgroundWorker = new LoginBackgroundWorker(this);
-
         try {
             result = loginBackgroundWorker.execute(type, str_username, str_password).get();
         } catch (InterruptedException e) {
@@ -84,13 +80,13 @@ public class LoginActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if (result.equals("Wrong.")) {
-            onLoginFailed();
+            loginFailed();
             username.setError("Niewłaściwy login lub hasło.");
             password.setError("Niewłaściwy login lub hasło.");
             return;
         } else if (result.equals("Zalogowanie udane.")) {
             getUserDetails();
-            onLoginSuccess();
+            loginSuccess();
             startActivity(new Intent(this, WelcomeActivity.class));
         }
     }
@@ -108,33 +104,15 @@ public class LoginActivity extends AppCompatActivity {
      * TODO
      */
     public void getUserDetails() {
-        String str_username = username.getText().toString();
+        String username = this.username.getText().toString();
         String type = "user_details";
         UserBackgroundWorker userBackgroundWorker = new UserBackgroundWorker(this);
         try {
             User currentUser;
             ObjectMapper mapper = new ObjectMapper();
-            String userJson = userBackgroundWorker.execute(type, str_username).get();
+            String userJson = userBackgroundWorker.execute(type, username).get();
             currentUser = mapper.readValue(userJson, User.class);
-            currentId = currentUser.getId();
-            currentName = currentUser.getName();
-            currentSurname = currentUser.getSurname();
-            currentUsername = currentUser.getUsername();
-            currentEmail = currentUser.getEmail();
-            currentAge = currentUser.getAge();
-            currentGender = currentUser.getGender();
-            if (currentUser.getWeight() != null) {
-                currentWeight = currentUser.getWeight();
-            }
-            if (currentUser.getHeight() != null) {
-                currentHeight = currentUser.getHeight();
-            }
-            if (currentUser.getCity() != null) {
-                currentCity = currentUser.getCity();
-            }
-            if (currentUser.getAbout() != null) {
-                currentAbout = currentUser.getAbout();
-            }
+            prepareUserData(currentUser);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -150,6 +128,34 @@ public class LoginActivity extends AppCompatActivity {
 
     /**
      * TODO
+     *
+     * @param currentUser
+     */
+    private void prepareUserData(User currentUser) {
+        userCurrentId = currentUser.getId();
+        userCurrentName = currentUser.getName();
+        userCurrentSurname = currentUser.getSurname();
+        userCurrentUsername = currentUser.getUsername();
+        userCurrentEmail = currentUser.getEmail();
+        userCurrentAge = currentUser.getAge();
+        userCurrentGender = currentUser.getGender();
+        if (currentUser.getWeight() != null) {
+            userCurrentWeight = currentUser.getWeight();
+        }
+        if (currentUser.getHeight() != null) {
+            userCurrentHeight = currentUser.getHeight();
+        }
+        if (currentUser.getCity() != null) {
+            userCurrentCity = currentUser.getCity();
+        }
+        if (currentUser.getAbout() != null) {
+            userCurrentAbout = currentUser.getAbout();
+        }
+    }
+
+    /**
+     * TODO
+     *
      * @return
      */
     public boolean validate() {
@@ -178,7 +184,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * TODO
      */
-    public void onLoginFailed() {
+    public void loginFailed() {
         Toast.makeText(getBaseContext(), "Logowanie nieudane.", Toast.LENGTH_LONG).show();
         loginButton.setEnabled(true);
     }
@@ -186,7 +192,7 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * TODO
      */
-    public void onLoginSuccess() {
+    public void loginSuccess() {
         Toast.makeText(getBaseContext(), "Logowanie udane.", Toast.LENGTH_LONG).show();
         loginButton.setEnabled(true);
     }

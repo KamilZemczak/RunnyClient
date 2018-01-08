@@ -11,7 +11,7 @@
     tools:context=".activity.activity_entry.RegisterActivity">
 
     <EditText
-        android:id="@+id/etName"
+        android:id="@+id/registerActivity_etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
@@ -19,156 +19,155 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:ems="10"
-        android:hint="Imię"
-        android:inputType="textCapWords|textPersonName" />
+        android:hint="@string/name"
+        android:inputType="textCapWords|textPersonName"
+        android:ems="10"/>
 
     <EditText
-        android:id="@+id/etSurname"
+        android:id="@+id/registerActivity_etSurname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etName"
+        android:layout_below="@+id/registerActivity_etName"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Nazwisko"
-        android:inputType="textCapWords|textPersonName" />
+        android:hint="@string/surname"
+        android:inputType="textCapWords|textPersonName"
+        android:ems="10"/>
 
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/registerActivity_etUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Nazwa użytkownika"
-        android:inputType="textPersonName"
-        android:layout_below="@+id/etSurname"
+        android:layout_below="@+id/registerActivity_etSurname"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:hint="@string/username"
+        android:inputType="textPersonName"
+        android:ems="10"/>
 
     <Button
-        android:id="@+id/bRegister"
+        android:id="@+id/registerActivity_bRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Zarejestruj"
-        android:onClick="onRegister"
-        android:layout_above="@+id/tvHaveAccount"
+        android:layout_above="@+id/registerActivity_registerInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:text="@string/register"
+        android:onClick="register"/>
 
     <EditText
-        android:id="@+id/etEmail"
+        android:id="@+id/registerActivity_etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Email"
+        android:layout_below="@+id/registerActivity_etUsername"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/etUsername"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:ems="10"/>
 
     <EditText
-        android:id="@+id/etAge"
+        android:id="@+id/registerActivity_etAge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etEmail"
+        android:layout_below="@+id/registerActivity_etEmail"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Wiek"
-        android:inputType="number" />
+        android:hint="@string/age"
+        android:inputType="number"
+        android:ems="10"/>
 
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/registerActivity_etPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etAge"
+        android:layout_below="@+id/registerActivity_etAge"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Hasło"
-        android:inputType="textPassword" />
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:ems="10"/>
 
     <EditText
-        android:id="@+id/etPasswordConfirm"
+        android:id="@+id/registerActivity_etPasswordConfirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etPassword"
+        android:layout_below="@+id/registerActivity_etPassword"
         android:layout_marginTop="10dp"
-        android:ems="10"
-        android:hint="Powtórz hasło"
-        android:inputType="textPassword" />
+        android:hint="@string/passwordConfirm"
+        android:inputType="textPassword"
+        android:ems="10"/>
 
     <TextView
-        android:id="@+id/tvHaveAccount"
+        android:id="@+id/registerActivity_registerInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Masz już konto? Zaloguj się."
-        android:onClick="openLogin"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:text="@string/haveAccount"
+        android:onClick="openLogin"/>
 
     <TextView
-        android:id="@+id/tvGender"
+        android:id="@+id/registerActivity_tvGender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Wybierz płeć  "
-        android:textSize="19sp"
         android:layout_marginTop="28dp"
+        android:layout_below="@+id/registerActivity_etPasswordConfirm"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:layout_below="@+id/etPasswordConfirm"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:textSize="19sp"
+        android:text="@string/chooseGender"/>
 
     <RadioGroup
-        android:id="@+id/rgGender"
+        android:id="@+id/registerActivity_rgGender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/tvGender"
+        android:layout_below="@+id/registerActivity_tvGender"
         android:layout_marginTop="19dp"
-
         android:orientation="horizontal">
 
         <RadioButton
-            android:id="@+id/rbMale"
+            android:id="@+id/registerActivity_rbMale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.14"
-            android:onClick="rbClick"
-            android:text="Mężczyzna" />
+            android:text="@string/male"
+            android:onClick="radioButtonClick"/>
 
         <RadioButton
-            android:id="@+id/rbFemale"
+            android:id="@+id/registerActivity_rbFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.06"
-            android:onClick="rbClick"
-            android:text="Kobieta" />
+            android:text="@string/female"
+            android:onClick="radioButtonClick"/>
     </RadioGroup>
 
 </RelativeLayout>

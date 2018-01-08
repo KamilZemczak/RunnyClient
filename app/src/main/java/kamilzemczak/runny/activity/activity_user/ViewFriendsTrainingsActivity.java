@@ -109,7 +109,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
         TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
 
         try {
-            String str_username = loginActivity.currentUsername;
+            String str_username = loginActivity.userCurrentUsername;
             result = trainingBackgroundWorker.execute(type, str_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             trainingHistory = objectMapper.readValue(result, new TypeReference<List<Training>>() {
@@ -157,7 +157,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
     }
 
     private void loadCommentsSize() {
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String type = "trainings_comment_size";
         TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
         try {

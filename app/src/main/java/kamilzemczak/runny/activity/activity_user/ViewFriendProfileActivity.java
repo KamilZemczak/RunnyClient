@@ -139,7 +139,7 @@ public class ViewFriendProfileActivity extends AppCompatActivity
      * @param view TODO
      */
     public void deleteFriend(View view) {
-        String str_username = loginActivity.currentUsername;
+        String str_username = loginActivity.userCurrentUsername;
         String str_friend_username = searchUserFriendsActivity.currentUsernameF;
         String type = "friend_delete";
         String result = null;
