@@ -28,6 +28,28 @@
         android:drawableLeft="@drawable/ic_fitness"
         android:textColor="@color/colorAccent" />
 
+    <ImageView
+        android:id="@+id/bCheckC"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvObjectiveO"
+        android:layout_alignEnd="@+id/tvGratsO"
+        android:layout_alignRight="@+id/tvGratsO"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:src="@drawable/check" />
+
+    <TextView
+        android:id="@+id/tvGratsO"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bCheckC"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="270dp"
+        android:text="CEL NIEOSIĄGNIETY"
+        android:textSize="10sp"
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/tvDateO"
         android:layout_width="wrap_content"

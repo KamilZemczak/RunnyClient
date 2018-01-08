@@ -17,7 +17,8 @@ import java.util.Date;
         "author",
         "type",
         "objective",
-        "time"
+        "time",
+        "executed"
 })
 
 public class Objective {
@@ -31,6 +32,8 @@ public class Objective {
     private String objective;
     @JsonProperty("time")
     private Date time;
+    @JsonProperty("executed")
+    private String executed;
     @JsonIgnore
     private String dateTime;
 
@@ -38,11 +41,12 @@ public class Objective {
 
     }
 
-    public Objective(User author, String type, String objective) {
+    public Objective(User author, String type, String objective, String executed) {
         this.author = author;
-        this.setType(type);
-        this.setObjective(objective);
+        this.type = type;
+        this.objective = objective;
         this.time = new Date();
+        this.setExecuted(executed);
     }
 
     @JsonProperty("id")
@@ -95,6 +99,15 @@ public class Objective {
         this.time = time;
     }
 
+    @JsonProperty("executed")
+    public String getExecuted() {
+        return executed;
+    }
+
+    @JsonProperty("executed")
+    public void setExecuted(String executed) {
+        this.executed = executed;
+    }
 
     @JsonIgnore
     public String getDateTime() {
@@ -105,4 +118,6 @@ public class Objective {
     public void setDateTime(String dateTime) {
         this.dateTime = dateTime;
     }
+
+
 }

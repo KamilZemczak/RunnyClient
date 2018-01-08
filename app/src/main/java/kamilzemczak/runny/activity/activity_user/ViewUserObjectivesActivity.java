@@ -75,8 +75,9 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
 
         allObjectives = (ListView) findViewById(R.id.lAllObjectives);
         noObjectives = (TextView) findViewById(R.id.tvNoObjectives);
-
+        updateObjectives();
         loadHistory();
+
     }
 
     private void loadHistory() {
@@ -115,6 +116,7 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
 
             usersAfterProcessingToSend = usersAfterProcessing;*/
 
+
             ObjectiveAdapter customAdapter = new ObjectiveAdapter(this, R.layout.friends_item_layout, objectives);
 
             allObjectives.setAdapter(customAdapter);
@@ -141,6 +143,13 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
         }
 
 
+    }
+
+    public void updateObjectives() {
+        String str_username = loginActivity.currentUsername;
+        String type = "objective_update";
+        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
+        objectiveBackgroundWorker.execute(type, str_username);
     }
 
     @Override
