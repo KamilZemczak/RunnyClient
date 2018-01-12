@@ -19,9 +19,11 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/name"
-        android:inputType="textCapWords|textPersonName"
-        android:ems="10"/>
+        android:inputType="textCapWords|textPersonName" />
 
     <EditText
         android:id="@+id/registerActivity_etSurname"
@@ -33,49 +35,55 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/registerActivity_etName"
         android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/surname"
-        android:inputType="textCapWords|textPersonName"
-        android:ems="10"/>
+        android:inputType="textCapWords|textPersonName" />
 
     <EditText
         android:id="@+id/registerActivity_etUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/registerActivity_etSurname"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/registerActivity_etSurname"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/username"
-        android:inputType="textPersonName"
-        android:ems="10"/>
+        android:inputType="textPersonName" />
 
     <Button
         android:id="@+id/registerActivity_bRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/registerActivity_registerInfo"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:text="@string/register"
-        android:onClick="register"/>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:onClick="register"
+        android:text="@string/register" />
 
     <EditText
         android:id="@+id/registerActivity_etEmail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/registerActivity_etUsername"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/registerActivity_etUsername"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_email"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/email"
-        android:inputType="textEmailAddress"
-        android:ems="10"/>
+        android:inputType="textEmailAddress" />
 
     <EditText
         android:id="@+id/registerActivity_etAge"
@@ -87,9 +95,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/registerActivity_etEmail"
         android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_today"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/age"
-        android:inputType="number"
-        android:ems="10"/>
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/registerActivity_etPassword"
@@ -101,9 +111,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/registerActivity_etAge"
         android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/password"
-        android:inputType="textPassword"
-        android:ems="10"/>
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/registerActivity_etPasswordConfirm"
@@ -115,9 +127,11 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/registerActivity_etPassword"
         android:layout_marginTop="10dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawablePadding="5dp"
+        android:ems="10"
         android:hint="@string/passwordConfirm"
-        android:inputType="textPassword"
-        android:ems="10"/>
+        android:inputType="textPassword" />
 
     <TextView
         android:id="@+id/registerActivity_registerInfo"
@@ -125,21 +139,21 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@string/haveAccount"
-        android:onClick="openLogin"/>
+        android:onClick="openLogin"
+        android:text="@string/haveAccount" />
 
     <TextView
         android:id="@+id/registerActivity_tvGender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:layout_below="@+id/registerActivity_etPasswordConfirm"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/registerActivity_etPasswordConfirm"
+        android:layout_marginTop="28dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:textSize="19sp"
-        android:text="@string/chooseGender"/>
+        android:text="@string/chooseGender"
+        android:textSize="19sp" />
 
     <RadioGroup
         android:id="@+id/registerActivity_rgGender"
@@ -151,6 +165,8 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/registerActivity_tvGender"
         android:layout_marginTop="19dp"
+        android:drawableLeft="@drawable/ic_wc"
+        android:drawablePadding="5dp"
         android:orientation="horizontal">
 
         <RadioButton
@@ -158,16 +174,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.14"
-            android:text="@string/male"
-            android:onClick="radioButtonClick"/>
+            android:onClick="radioButtonClick"
+            android:text="@string/male" />
 
         <RadioButton
             android:id="@+id/registerActivity_rbFemale"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.06"
-            android:text="@string/female"
-            android:onClick="radioButtonClick"/>
+            android:onClick="radioButtonClick"
+            android:text="@string/female" />
     </RadioGroup>
 
 </RelativeLayout>

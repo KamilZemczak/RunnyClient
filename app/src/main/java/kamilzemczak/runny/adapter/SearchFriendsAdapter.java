@@ -1,9 +1,9 @@
 package kamilzemczak.runny.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
@@ -13,17 +13,9 @@ import java.util.List;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_user.SearchFriendsActivity;
 
-/**
- * Created by Kamil Zemczak on 06.01.2018.
- */
-
 public class SearchFriendsAdapter extends ArrayAdapter<ArrayList<String>> {
 
-    SearchFriendsActivity searchFriendsActivity;
-
-    public SearchFriendsAdapter(Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
+    private SearchFriendsActivity searchFriendsActivity;
 
     public SearchFriendsAdapter(Context context, int resource, List<ArrayList<String>> usersList) {
         super(context, resource, usersList);
@@ -32,36 +24,34 @@ public class SearchFriendsAdapter extends ArrayAdapter<ArrayList<String>> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
+        View view = convertView;
 
-        if (v == null) {
+        if (view == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.friends_item_layout, null);
+            view = vi.inflate(R.layout.form_friends, null);
         }
-
 
         List<String> usersList = searchFriendsActivity.usersAfterProcessingToSend.get(position);
 
         if (usersList != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.tvNameF);
-            TextView tt2 = (TextView) v.findViewById(R.id.tvUsernameF);
-            TextView tt3 = (TextView) v.findViewById(R.id.tvLocatonF);
+            TextView name = (TextView) view.findViewById(R.id.friendsLayout_tvName);
+            TextView username = (TextView) view.findViewById(R.id.friendLayout_tvUsername);
+            TextView location = (TextView) view.findViewById(R.id.friendsLayout_tvLocaton);
 
-            if (tt1 != null) {
-                tt1.setText(usersList.get(0));
+            if (name != null) {
+                name.setText(usersList.get(0));
             }
 
-            if (tt2 != null) {
-                tt2.setText(usersList.get(1));
+            if (username != null) {
+                username.setText(usersList.get(1));
             }
 
-            if (tt3 != null) {
-                tt3.setText(usersList.get(2));
+            if (location != null) {
+                location.setText(usersList.get(2));
             }
         }
-
-        return v;
+        return view;
     }
 
 }

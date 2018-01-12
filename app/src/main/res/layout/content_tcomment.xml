@@ -5,47 +5,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="kamilzemczak.runny.activity.activity_user.TCommentActivity"
+    tools:context="kamilzemczak.runny.activity.activity_social.TCommentActivity"
     tools:showIn="@layout/app_bar_tcomment">
 
-
     <View
-        android:background="@color/black"
+        android:id="@+id/tCommentActivity_view"
         android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tCommentActivity_bPostComment"
         android:layout_marginTop="4dp"
-        android:layout_below="@+id/bPostCommentT"
-        android:layout_height="1dp"></View>
+        android:background="@color/black" />
 
     <Button
-        android:id="@+id/bPostCommentT"
+        android:id="@+id/tCommentActivity_bPostComment"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvInfo"
+        android:layout_below="@+id/welcomeActivity_tvInfo"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
         android:background="@color/darkBlue"
         android:onClick="openCommentDialogT"
-        android:text="OPUBLIKUJ KOMENTARZ"
+        android:text="@string/postComment"
         android:textColor="@color/white" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/lCommentT"
-        android:layout_marginTop="10dp"
+        android:id="@+id/tCommentActivity_rvComments"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/bPostCommentT" />
+        android:layout_below="@+id/tCommentActivity_bPostComment"
+        android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/tvNoCommentsT"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="250dp"
-        android:layout_marginBottom="10dp"
+        android:id="@+id/tCommentActivity_tvNoCommentsFind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="26sp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="55dp"
-        android:layout_marginRight="20dp"/>
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="250dp"
+        android:gravity="center_horizontal"
+        android:textSize="26sp" />
 
 </RelativeLayout>

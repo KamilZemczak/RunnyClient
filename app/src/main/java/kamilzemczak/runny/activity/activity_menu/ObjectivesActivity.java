@@ -1,31 +1,29 @@
 package kamilzemczak.runny.activity.activity_menu;
 
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.content.Intent;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_user.ViewUserObjectivesActivity;
-import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
 
 /**
  * TODO
@@ -33,13 +31,11 @@ import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
 public class ObjectivesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    LoginActivity loginActivity;
+    private LoginActivity loginActivity;
 
-    Spinner typeSpinner, objectiveSpinner;
-    TextView typeSelected;
-    TextView objectiveSelected;
-
-Button saveObjectiveButton;
+    private Spinner typeSpinner, objectiveSpinner;
+    private TextView typeSelected, objectiveSelected;
+    private Button saveObjectiveButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +62,9 @@ Button saveObjectiveButton;
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        typeSpinner = (Spinner) findViewById(R.id.static_spinner);
-        objectiveSpinner = (Spinner) findViewById(R.id.sObjective);
-        saveObjectiveButton = (Button) findViewById(R.id.bSaveObjective);
+        typeSpinner = (Spinner) findViewById(R.id.objectivesActivity_spinner);
+        objectiveSpinner = (Spinner) findViewById(R.id.objectivesActivity_oSpinner);
+        saveObjectiveButton = (Button) findViewById(R.id.objectivesActivity_addObjective);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeso_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,25 +73,24 @@ Button saveObjectiveButton;
 
         ArrayAdapter<CharSequence> objectiveAdapter = ArrayAdapter.createFromResource(this, R.array.objectives_array_distance, android.R.layout.simple_spinner_item);
         objectiveAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        objectiveSpinner.setAdapter( objectiveAdapter );
+        objectiveSpinner.setAdapter(objectiveAdapter);
 
         typeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 typeSelected = (TextView) view;
-               // Toast.makeText(ObjectivesActivity.this, "Wybrałes" + " " + typeSelected.getText(), Toast.LENGTH_SHORT).show();
+                // Toast.makeText(ObjectivesActivity.this, "Wybrałes" + " " + typeSelected.getText(), Toast.LENGTH_SHORT).show();
                 String test = typeSelected.getText().toString();
-                if(typeSelected!=null) {
-                    if(test.equals("Dystans")) {
+                if (typeSelected != null) {
+                    if (test.equals("Dystans")) {
                         ArrayAdapter<CharSequence> objectiveAdapter2 = ArrayAdapter.createFromResource(ObjectivesActivity.this, R.array.objectives_array_distance, android.R.layout.simple_spinner_item);
                         objectiveAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        objectiveSpinner.setAdapter( objectiveAdapter2 );
-                    }else if(test.equals("Kalorie")) {
+                        objectiveSpinner.setAdapter(objectiveAdapter2);
+                    } else if (test.equals("Kalorie")) {
                         ArrayAdapter<CharSequence> objectiveAdapter22 = ArrayAdapter.createFromResource(ObjectivesActivity.this, R.array.objectives_array_calories, android.R.layout.simple_spinner_item);
                         objectiveAdapter22.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        objectiveSpinner.setAdapter( objectiveAdapter22 );
+                        objectiveSpinner.setAdapter(objectiveAdapter22);
                     }
-
                 }
             }
 
@@ -116,6 +111,28 @@ Button saveObjectiveButton;
                 // TODO Auto-generated method stub
             }
         });
+    }
+
+    public void saveObjective(View view) {
+        String username = loginActivity.userCurrentUsername;
+        String typeo = typeSelected.getText().toString();
+        String objective = objectiveSelected.getText().toString();
+        String type = "objective_add";
+        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
+        objectiveBackgroundWorker.execute(type, username, typeo, objective);
+        addObjectiveSucces();
+    }
+
+    /**
+     * TODO
+     */
+    public void addObjectiveSucces() {
+        Toast.makeText(getBaseContext(), "Dodanie celu udane.", Toast.LENGTH_LONG).show();
+        saveObjectiveButton.setEnabled(true);
+    }
+
+    public void showObjectiveHistory(View view) {
+        startActivity(new Intent(this, ViewUserObjectivesActivity.class));
     }
 
     @Override
@@ -146,7 +163,6 @@ Button saveObjectiveButton;
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -169,35 +185,10 @@ Button saveObjectiveButton;
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {
             startActivity(new Intent(this, ObjectivesActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void saveObjective(View view) {
-        String str_username = loginActivity.userCurrentUsername;
-        String typeo = typeSelected.getText().toString();
-        String objective = objectiveSelected.getText().toString();
-        String type = "objective_add";
-        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
-        objectiveBackgroundWorker.execute(type, str_username, typeo, objective);
-        onSaveSucces();
-    }
-
-    /**
-     * TODO
-     */
-    public void onSaveSucces() {
-        Toast.makeText(getBaseContext(), "Dodanie celu udane.", Toast.LENGTH_LONG).show();
-        saveObjectiveButton.setEnabled(true);
-    }
-
-    public void showObjectiveHistory(View view) {
-        startActivity(new Intent(this, ViewUserObjectivesActivity.class));
-
     }
 }

@@ -5,11 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="kamilzemczak.runny.activity.activity_user.SearchFriendsActivity"
+    tools:context="kamilzemczak.runny.activity.activity_user.SearchUserFriendsActivity"
     tools:showIn="@layout/app_bar_search_user_friends">
 
     <ListView
-        android:id="@+id/lAllUsers"
+        android:id="@+id/searchUserFriendsActivity_lAllFriends"
         android:layout_width="395dp"
         android:layout_height="587dp"
         tools:layout_editor_absoluteX="8dp"

@@ -10,39 +10,38 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/profile"
-         />
-
+        android:src="@drawable/profile" />
 
     <TextView
-        android:id="@+id/tvNameF"
+        android:id="@+id/friendsLayout_tvName"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@+id/profile_image"
         android:paddingBottom="2dip"
         android:paddingTop="6dip"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="5dp"
-        android:layout_toRightOf="@+id/profile_image"/>
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/tvUsernameF"
+        android:id="@+id/friendLayout_tvUsername"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="2dip"
-        android:layout_below="@+id/tvNameF"
+        android:layout_below="@+id/friendsLayout_tvName"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/profile_image"
+        android:paddingBottom="2dip"
         android:textColor="@color/colorAccent" />
 
     <TextView
-        android:id="@+id/tvLocatonF"
+        android:id="@+id/friendsLayout_tvLocaton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#5d5d5d"
-        android:layout_below="@+id/tvUsernameF"
+        android:layout_below="@+id/friendLayout_tvUsername"
         android:layout_toRightOf="@+id/profile_image"
         android:drawableLeft="@drawable/ic_location"
+        android:textColor="#5d5d5d"
         android:textStyle="bold" />
+
 </RelativeLayout>

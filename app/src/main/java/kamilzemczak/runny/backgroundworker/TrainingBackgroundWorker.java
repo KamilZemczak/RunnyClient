@@ -60,8 +60,8 @@ public class TrainingBackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username, "UTF-8")+"&"
-                        + URLEncoder.encode("sdistance", "UTF-8")+"="+URLEncoder.encode(distance, "UTF-8")+"&"
-                        + URLEncoder.encode("sduration", "UTF-8")+"="+URLEncoder.encode(duration, "UTF-8")+"&"
+                        + URLEncoder.encode("sDistance", "UTF-8")+"="+URLEncoder.encode(distance, "UTF-8")+"&"
+                        + URLEncoder.encode("sDuration", "UTF-8")+"="+URLEncoder.encode(duration, "UTF-8")+"&"
                         + URLEncoder.encode("notes", "UTF-8")+"="+URLEncoder.encode(notes, "UTF-8")+"&"
                         + URLEncoder.encode("hours", "UTF-8")+"="+URLEncoder.encode(hours, "UTF-8")+"&"
                         + URLEncoder.encode("mins", "UTF-8")+"="+URLEncoder.encode(mins, "UTF-8");

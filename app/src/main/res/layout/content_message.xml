@@ -8,46 +8,45 @@
     android:orientation="vertical"
     android:padding="20dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="kamilzemczak.runny.activity.activity_user.MessageActivity"
+    tools:context="kamilzemczak.runny.activity.activity_social.MessageActivity"
     tools:showIn="@layout/app_bar_message">
 
-
     <RelativeLayout
-        android:id="@+id/container"
+        android:id="@+id/messageActivity_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="20dp">
 
         <EditText
-            android:id="@+id/etMessageM"
+            android:id="@+id/messageActivity_etMessage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_toLeftOf="@+id/bSendMessageM"
+            android:layout_toLeftOf="@+id/messageActivity_bSendMessage"
             android:layout_weight="0.8"
-            android:hint="Napisz wiadomosc..." />
+            android:hint="@string/sendMessageHint" />
 
         <ImageButton
-            android:id="@+id/bSendMessageM"
+            android:id="@+id/messageActivity_bSendMessage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:clickable="true"
             android:layout_marginLeft="5dp"
-            android:src="@drawable/ic_menu_send"
+            android:layout_weight="0.2"
             android:background="@android:color/transparent"
-            android:layout_weight="0.2"/>
+            android:clickable="true"
+            android:src="@drawable/ic_menu_send" />
 
         <ListView
-            android:id="@+id/messagesContainer"
+            android:id="@+id/messageActivity_lAllMessages"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/etMessageM"
+            android:layout_above="@+id/messageActivity_etMessage"
             android:layout_alignParentLeft="false"
             android:layout_alignParentTop="false"
-            android:layout_below="@+id/tvAuthorUsernameM"
+            android:layout_below="@+id/messageActivity_tvAuthorUsername"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="10dp"
             android:divider="@null"
@@ -55,21 +54,21 @@
             android:transcriptMode="alwaysScroll" />
 
         <TextView
-            android:id="@+id/tvAuthorUsernameM"
+            android:id="@+id/messageActivity_tvAuthorUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left|center_vertical"
+            android:onClick="showAuthorProfile"
             android:singleLine="false"
-            android:textSize="20dp"
-            android:onClick="showAuthorProfile"/>
+            android:textSize="20dp" />
 
         <TextView
-            android:id="@+id/tvRecipientUsernameM"
+            android:id="@+id/messageActivity_tvRecipientUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="20dp"
-            android:onClick="showRecipientProfile"/>
+            android:onClick="showRecipientProfile"
+            android:textSize="20dp" />
 
     </RelativeLayout>
 

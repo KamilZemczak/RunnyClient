@@ -47,10 +47,6 @@
             android:label="@string/title_activity_decision"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.activity_menu.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name=".activity.activity_menu.ProfileActivity"
             android:label="@string/title_activity_view_profile"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -71,11 +67,11 @@
             android:label="@string/title_activity_view_friend_profile"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.activity_user.MessageActivity"
+            android:name=".activity.activity_social.MessageActivity"
             android:label="@string/title_activity_message"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.activity_user.CommentActivity"
+            android:name=".activity.activity_social.CommentActivity"
             android:label="@string/title_activity_comment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -83,7 +79,7 @@
             android:label="@string/title_activity_view_friends_trainings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".activity.activity_user.TCommentActivity"
+            android:name=".activity.activity_social.TCommentActivity"
             android:label="@string/title_activity_tcomment"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

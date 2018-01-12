@@ -1,10 +1,9 @@
 package kamilzemczak.runny.adapter;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,15 +13,7 @@ import java.util.List;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.model.Objective;
 
-/**
- * Created by Kamil Zemczak on 07.01.2018.
- */
-
 public class ObjectiveAdapter extends ArrayAdapter<Objective> {
-
-    public ObjectiveAdapter (Context context, int textViewResourceId) {
-        super(context, textViewResourceId);
-    }
 
     public ObjectiveAdapter (Context context, int resource, List<Objective> objectiveList) {
         super(context, resource, objectiveList);
@@ -31,49 +22,44 @@ public class ObjectiveAdapter extends ArrayAdapter<Objective> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View v = convertView;
+        View view = convertView;
 
-        if (v == null) {
+        if (view == null) {
             LayoutInflater vi;
             vi = LayoutInflater.from(getContext());
-            v = vi.inflate(R.layout.objectives_check_item_layout, null);
+            view = vi.inflate(R.layout.form_objectives, null);
         }
-
 
         Objective objective = getItem(position);
 
         if (objective != null) {
-            TextView tt1 = (TextView) v.findViewById(R.id.tvTypeO);
-            TextView tt2 = (TextView) v.findViewById(R.id.tvObjectiveO);
-            TextView tt3 = (TextView) v.findViewById(R.id.tvDateO);
-            ImageView im4 = (ImageView) v.findViewById(R.id.bCheckC);
-            TextView tt4 = (TextView) v.findViewById(R.id.tvGratsO);
+            TextView type = (TextView) view.findViewById(R.id.objectivesLayout_tvType);
+            TextView objectiveo = (TextView) view.findViewById(R.id.objectivesLayout_tvObjective);
+            TextView date = (TextView) view.findViewById(R.id.objectivesLayout_tvDate);
+            ImageView image = (ImageView) view.findViewById(R.id.objectivesLayout_image);
+            TextView info = (TextView) view.findViewById(R.id.objectivesLayout_tvInfo);
 
-            if (tt1 != null) {
-                tt1.setText("Rodzaj:" + " " + objective.getType());
+            if (type != null) {
+                type.setText("Rodzaj:" + " " + objective.getType());
             }
 
-            if (tt2 != null) {
-                tt2.setText("Cel:" + " " + objective.getObjective());
+            if (objectiveo != null) {
+                objectiveo.setText("Cel:" + " " + objective.getObjective());
             }
 
-            if (tt3 != null) {
-                tt3.setText("Data dodania celu: 07/01/2018");
+            if (date != null) {
+                date.setText("Data dodania celu: 07/01/2018");
             }
 
             if(objective.getExecuted().equals("Y")) {
-                im4.setImageResource(R.drawable.check);
-                tt4.setText("CEL OSIAGNIETY :)");
+                image.setImageResource(R.drawable.check);
+                info.setText("CEL OSIAGNIETY :)");
             } else {
-                im4.setImageResource(R.drawable.cross3);
+                image.setImageResource(R.drawable.cross);
 
             }
-
-
-
         }
-
-        return v;
+        return view;
     }
 
 

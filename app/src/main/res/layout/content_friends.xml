@@ -12,29 +12,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <Button
-            android:id="@+id/bFriendList"
+            android:id="@+id/friendsActivity_bFriendList"
             android:layout_width="197dp"
             android:layout_height="118dp"
             android:layout_marginLeft="3dp"
-            android:text="MOI ZNAJOMI"
+            android:text="@string/myFriends"
             android:onClick="openFriendsList"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintHorizontal_bias="0.032"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="@+id/bSearchFriends"
+            app:layout_constraintRight_toRightOf="@+id/friendsActivity_bSearchFriends"
             tools:layout_constraintBottom_creator="1"
             tools:layout_constraintLeft_creator="1"
             tools:layout_constraintRight_creator="1" />
 
         <Button
-            android:id="@+id/bSearchFriends"
+            android:id="@+id/friendsActivity_bSearchFriends"
             android:layout_width="197dp"
             android:layout_height="118dp"
             android:layout_marginTop="220dp"
             android:layout_marginRight="5dp"
-            android:text="SZUKAJ ZNAJOMYCH"
+            android:text="@string/searchFriends"
             android:onClick="openSearchFriends"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.985"

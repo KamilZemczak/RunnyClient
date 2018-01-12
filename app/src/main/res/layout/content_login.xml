@@ -10,55 +10,70 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activity.activity_entry.LoginActivity">
 
-    <TextView
-        android:id="@+id/loginActivity_tvRegisterInfo"
+    <ImageView
+        android:id="@+id/loginActivity_logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="129dp"
-        android:onClick="openRegister"
-        android:text="@string/registerHere" />
+        android:layout_marginBottom="2dp"
+        android:src="@drawable/logo" />
 
     <EditText
         android:id="@+id/loginActivity_etName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/registerActivity_etPassword"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
+        android:layout_below="@+id/loginActivity_logo"
         android:layout_marginBottom="18dp"
+        android:layout_marginTop="40dp"
+        android:drawableLeft="@drawable/ic_person"
+        android:drawablePadding="5dp"
         android:ems="10"
         android:hint="@string/username"
         android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/loginActivity_etPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/loginActivity_etName"
+        android:layout_marginBottom="20dp"
+        android:drawableLeft="@drawable/ic_lock"
+        android:drawablePadding="5dp"
+        android:ems="10"
+        android:hint="@string/password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/loginActivity_bLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/loginActivity_tvRegisterInfo"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_marginBottom="13dp"
+        android:layout_below="@+id/loginActivity_etPassword"
+        android:backgroundTint="@color/colorProff"
         android:onClick="login"
         android:text="@string/login" />
 
-    <EditText
-        android:id="@+id/registerActivity_etPassword"
+    <TextView
+        android:id="@+id/loginActivity_tvRegisterInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/loginActivity_bLogin"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="71dp"
-        android:hint="@string/password"
-        android:inputType="textPassword"
-        android:ems="10"/>
+        android:layout_below="@+id/loginActivity_bLogin"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="110dp"
+        android:onClick="openRegister"
+        android:text="@string/registerHere" />
+
 
 </RelativeLayout>

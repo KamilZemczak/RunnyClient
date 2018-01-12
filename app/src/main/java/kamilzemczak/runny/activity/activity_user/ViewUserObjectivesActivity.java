@@ -1,20 +1,20 @@
 package kamilzemczak.runny.activity.activity_user;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.support.design.widget.NavigationView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.content.Intent;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,26 +27,27 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.model.Objective;
+import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
+import kamilzemczak.runny.adapter.ObjectiveAdapter;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_menu.FriendsActivity;
 import kamilzemczak.runny.activity.activity_menu.HistoryActivity;
 import kamilzemczak.runny.activity.activity_menu.ObjectivesActivity;
 import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
-import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.adapter.ObjectiveAdapter;
-import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
-import kamilzemczak.runny.model.Objective;
 
 public class ViewUserObjectivesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    LoginActivity loginActivity;
-    TextView noObjectives;
 
-    ListView allObjectives;
-    List<Objective> objectives = new ArrayList<Objective>();
-   // List<String> objectivesAfterProcessing = new ArrayList<String>();
+    private LoginActivity loginActivity;
+
+    private TextView noObjectivesFind;
+    private ListView allObjectives;
+
+    private List<Objective> objectives = new ArrayList<Objective>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,58 +73,38 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        allObjectives = (ListView) findViewById(R.id.lAllObjectives);
-        noObjectives = (TextView) findViewById(R.id.tvNoObjectives);
+        allObjectives = (ListView) findViewById(R.id.viewUserObjectivesActivity_lAllObjectives);
+        noObjectivesFind = (TextView) findViewById(R.id.viewUserObjectivesActivity_tvNoObjectivesFind);
         updateObjectives();
         loadHistory();
 
     }
 
+    public void updateObjectives() {
+        String username = loginActivity.userCurrentUsername;
+        String type = "objective_update";
+        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
+        objectiveBackgroundWorker.execute(type, username);
+    }
+
     private void loadHistory() {
         String type = "objectives_find";
-        String str_username = loginActivity.userCurrentUsername;
+        String username = loginActivity.userCurrentUsername;
         String result = null;
         ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
 
         try {
-            result = objectiveBackgroundWorker.execute(type, str_username).get();
+            result = objectiveBackgroundWorker.execute(type, username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             objectives = objectMapper.readValue(result, new TypeReference<List<Objective>>() {
             });
 
-           /* for (User user : users) {
-                ArrayList<String> usersToProcessing = new ArrayList<>();
-                if (user.getName().isEmpty() && user.getSurname().isEmpty()) {
-                    usersToProcessing.add("Imie Nazwisko");
-                } else {
-                    usersToProcessing.add(user.getName() + " " + user.getSurname());
-                }
-                usersToProcessing.add(user.getUsername());
-                if(user.getCity()!=null) {
-                    if (user.getCity().isEmpty()) {
-                        usersToProcessing.add("Sosnowiec");
-                    } else {
-                        usersToProcessing.add(user.getCity());
-                    }
-                } else {
-                    usersToProcessing.add("Sosnowiec");
-                }
-
-                //
-                usersAfterProcessing.add(usersToProcessing);
-            }
-
-            usersAfterProcessingToSend = usersAfterProcessing;*/
-
-
-            ObjectiveAdapter customAdapter = new ObjectiveAdapter(this, R.layout.friends_item_layout, objectives);
-
+            ObjectiveAdapter customAdapter = new ObjectiveAdapter(this, R.layout.form_friends, objectives);
             allObjectives.setAdapter(customAdapter);
 
-            if(objectives.isEmpty()) {
-                noObjectives.setText("Brak celow.");
+            if (objectives.isEmpty()) {
+                noObjectivesFind.setText("Brak celow.");
             }
-
         } catch (
                 InterruptedException e) {
             e.printStackTrace();
@@ -140,15 +121,6 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
                 IOException e) {
             e.printStackTrace();
         }
-
-
-    }
-
-    public void updateObjectives() {
-        String str_username = loginActivity.userCurrentUsername;
-        String type = "objective_update";
-        ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(this);
-        objectiveBackgroundWorker.execute(type, str_username);
     }
 
     @Override
@@ -203,8 +175,6 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {
             startActivity(new Intent(this, ObjectivesActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -8,87 +8,84 @@
     tools:context=".activity.activity_menu.ObjectivesActivity"
     tools:showIn="@layout/app_bar_objectives">
 
-
     <TextView
-        android:id="@+id/tvObjectivesInfo"
+        android:id="@+id/objectviesActivity_tvInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
         android:layout_marginLeft="110dp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="Zapisz swój cel"
+        android:text="@string/saveObjective"
         android:textSize="26sp" />
 
     <TextView
-        android:id="@+id/tvObjectiveHistory"
+        android:id="@+id/objectivesActivity_tvObjectivesHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="60dp"
+        android:layout_below="@+id/objectviesActivity_tvInfo"
         android:layout_marginLeft="110dp"
+        android:layout_marginRight="60dp"
         android:layout_marginTop="10dp"
-        android:onClick="showObjectiveHistory"
         android:gravity="center_horizontal"
-        android:text="Podejrzyj swoje cele"
-        android:layout_below="@+id/tvObjectivesInfo"
+        android:onClick="showObjectiveHistory"
+        android:text="@string/showObjectives"
         android:textSize="16sp" />
 
     <TextView
-        android:id="@+id/tvTypeObjective"
+        android:id="@+id/objectivesActivity_tvObjectiveType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/objectivesActivity_tvObjectivesHistory"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/tvObjectiveHistory"
-        android:text="RODZAJ"
-        android:textSize="16sp"/>
+        android:text="@string/type"
+        android:textSize="16sp" />
 
     <Spinner
-        android:id="@+id/static_spinner"
+        android:id="@+id/objectivesActivity_spinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/objectivesActivity_tvObjectiveType"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/tvTypeObjective"
         android:layout_marginTop="5dp" />
 
     <TextView
-        android:id="@+id/tvObjective"
+        android:id="@+id/objectievsActivity_tvObjective"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/objectivesActivity_spinner"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/static_spinner"
-        android:text="CEL"
-        android:textSize="16sp"/>
+        android:text="@string/objective"
+        android:textSize="16sp" />
 
     <Spinner
-        android:id="@+id/sObjective"
+        android:id="@+id/objectivesActivity_oSpinner"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/objectievsActivity_tvObjective"
+        android:layout_marginBottom="20dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="20dp"
-        android:layout_below="@+id/tvObjective"
         android:layout_marginTop="5dp" />
 
     <Button
-        android:id="@+id/bSaveObjective"
+        android:id="@+id/objectivesActivity_addObjective"
         android:layout_width="395dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/sObjective"
+        android:layout_alignEnd="@+id/objectivesActivity_oSpinner"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/sObjective"
+        android:layout_alignRight="@+id/objectivesActivity_oSpinner"
         android:backgroundTint="@color/colorProff"
         android:onClick="saveObjective"
-        android:text="ZAPISZ ZMIANY"
+        android:text="@string/saveObjective"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etAboutE" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </RelativeLayout>

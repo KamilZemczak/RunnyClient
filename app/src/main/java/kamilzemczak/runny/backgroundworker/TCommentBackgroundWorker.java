@@ -56,7 +56,7 @@ public class TCommentBackgroundWorker extends AsyncTask<String, Void, String> {
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("contents", "UTF-8") + "=" + URLEncoder.encode(contents, "UTF-8") + "&"
                         + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(username, "UTF-8") + "&"
-                        + URLEncoder.encode("trainingId", "UTF-8") + "=" + URLEncoder.encode(postId, "UTF-8");
+                        + URLEncoder.encode("sTrainingId", "UTF-8") + "=" + URLEncoder.encode(postId, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();
@@ -88,7 +88,7 @@ public class TCommentBackgroundWorker extends AsyncTask<String, Void, String> {
                 httpURLConnection.setDoInput(true);
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
-                String post_data = URLEncoder.encode("trainingId", "UTF-8") + "=" + URLEncoder.encode(postId, "UTF-8");
+                String post_data = URLEncoder.encode("sTrainingId", "UTF-8") + "=" + URLEncoder.encode(postId, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

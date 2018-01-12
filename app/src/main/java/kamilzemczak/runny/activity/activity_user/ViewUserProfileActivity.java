@@ -1,34 +1,33 @@
 package kamilzemczak.runny.activity.activity_user;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.support.design.widget.NavigationView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.content.Intent;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_menu.FriendsActivity;
 import kamilzemczak.runny.activity.activity_menu.HistoryActivity;
 import kamilzemczak.runny.activity.activity_menu.ObjectivesActivity;
-import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 
 /**
  * TODO
@@ -36,13 +35,11 @@ import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 public class ViewUserProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    SearchFriendsActivity searchFriendsActivity;
-    LoginActivity loginActivity;
-    TextView user, usernameAge, location, about;
-    //String str_username, str_friend_username;
+    private SearchFriendsActivity searchFriendsActivity;
+    private LoginActivity loginActivity;
 
-    Button addFriendButton;
-
+    private TextView user, usernameAge, location, about;
+    private Button addFriendButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,27 +66,54 @@ public class ViewUserProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        user = (TextView) findViewById(R.id.tvUserShowVU);
-        usernameAge = (TextView) findViewById(R.id.tvUsernameAgeShowVU);
-        location = (TextView) findViewById(R.id.tvLocationVU);
-        about = (TextView) findViewById(R.id.tvAboutInfoVU);
-        addFriendButton = (Button) findViewById(R.id.bAddFriend);
+        user = (TextView) findViewById(R.id.viewUserProfileActivity_tvUser);
+        usernameAge = (TextView) findViewById(R.id.viewUserProfileActivity_tvAge);
+        location = (TextView) findViewById(R.id.viewUserProfileActivity_tvLocation);
+        about = (TextView) findViewById(R.id.viewUserProfileActivity_tvAboutInfo);
+        addFriendButton = (Button) findViewById(R.id.viewUserProfileActivity_bAddFriend);
 
-        user.setText(searchFriendsActivity.currentNameP + " " + searchFriendsActivity.currentSurnameP);
-        usernameAge.setText(searchFriendsActivity.currentUsernameP + "," + " " + searchFriendsActivity.currentAgeP + " " + "lat.");
-        if (searchFriendsActivity.currentCityP != null) {
-            location.setText(searchFriendsActivity.currentCityP);
+        setCurrentUserInfo();
+    }
+
+    private void setCurrentUserInfo() {
+        user.setText(searchFriendsActivity.userCurrentWatchedName + " " + searchFriendsActivity.userCurrentWatchedSurname);
+        usernameAge.setText(searchFriendsActivity.userCurrentWatchedUsername + "," + " " + searchFriendsActivity.userCurrentWatchedAge + " " + "lat.");
+        if (searchFriendsActivity.userCurrentWatchedCity != null) {
+            location.setText(searchFriendsActivity.userCurrentWatchedCity);
         } else {
             location.setText("Nie ustawiono lokalizacji.");
         }
 
-        if(searchFriendsActivity.currentAboutP!=null) {
-            about.setText(searchFriendsActivity.currentAboutP);
+        if(searchFriendsActivity.userCurrentWatchedAbout !=null) {
+            about.setText(searchFriendsActivity.userCurrentWatchedAbout);
         } else {
             about.setText("Nie ustawiono żadnych informacji o sobie.");
         }
+    }
 
+    public void addFriend(View view) {
+        String username = loginActivity.userCurrentUsername;
+        String userToAddUsername = searchFriendsActivity.userCurrentWatchedUsername;
+        String type = "friend_add";
+        String result = null;
+        FriendBackgroundWorker friendBackgroundWorker = new FriendBackgroundWorker(this);
+        try {
+            result = friendBackgroundWorker.execute(type, username, userToAddUsername).get();
+            addFriendSuccess();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
+    /**
+     * TODO
+     */
+    public void addFriendSuccess() {
+        Toast.makeText(getBaseContext(), "Dodano użytkownika do znajomych.", Toast.LENGTH_LONG).show();
+        addFriendButton.setEnabled(false);
+        addFriendButton.setText("UŻYTKOWNIK ZOSTAŁ DODANY DO ZNAJOMYCH.");
     }
 
     @Override
@@ -124,31 +148,6 @@ public class ViewUserProfileActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    public void addFriend(View view) {
-        String str_username = loginActivity.userCurrentUsername;
-        String str_friend_username = searchFriendsActivity.currentUsernameP;
-        String type = "friend_add";
-        String result = null;
-        FriendBackgroundWorker friendBackgroundWorker = new FriendBackgroundWorker(this);
-        try {
-            result = friendBackgroundWorker.execute(type, str_username, str_friend_username).get();
-            addSuccess();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * TODO
-     */
-    public void addSuccess() {
-        Toast.makeText(getBaseContext(), "Dodano uzytkownika do znajomych.", Toast.LENGTH_LONG).show();
-        addFriendButton.setEnabled(false);
-        addFriendButton.setText("UZYTKOWNIK ZOSTAL DODANY DO ZNAJOMYCH.");
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -168,8 +167,6 @@ public class ViewUserProfileActivity extends AppCompatActivity
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {
             startActivity(new Intent(this, ObjectivesActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

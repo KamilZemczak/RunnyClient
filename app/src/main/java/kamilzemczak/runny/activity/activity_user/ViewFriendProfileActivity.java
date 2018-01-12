@@ -1,42 +1,44 @@
 package kamilzemczak.runny.activity.activity_user;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.view.View;
-import android.support.design.widget.NavigationView;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.content.Intent;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.design.widget.NavigationView;
 
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_social.MessageActivity;
+import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_menu.FriendsActivity;
 import kamilzemczak.runny.activity.activity_menu.HistoryActivity;
 import kamilzemczak.runny.activity.activity_menu.ObjectivesActivity;
-import kamilzemczak.runny.activity.activity_menu.SettingsActivity;
 import kamilzemczak.runny.activity.activity_menu.TrainingActivity;
 import kamilzemczak.runny.activity.activity_menu.ProfileActivity;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
-import kamilzemczak.runny.backgroundworker.FriendBackgroundWorker;
 
 public class ViewFriendProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    LoginActivity loginActivity;
-    SearchUserFriendsActivity searchUserFriendsActivity;
-    SearchFriendsActivity searchFriendsActivity;
-    TextView user, usernameAge, location, about;
-    Button deleteFriendButton, sendMessageButton;
+
+    private LoginActivity loginActivity;
+    private SearchUserFriendsActivity searchUserFriendsActivity;
+    private SearchFriendsActivity searchFriendsActivity;
+
+    private TextView user, usernameAge, location, about;
+    private Button deleteFriendButton, sendMessageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,42 +65,92 @@ public class ViewFriendProfileActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        user = (TextView) findViewById(R.id.tvUserShowVF);
-        usernameAge = (TextView) findViewById(R.id.tvUsernameAgeShowVF);
-        location = (TextView) findViewById(R.id.tvLocationVF);
-        about = (TextView) findViewById(R.id.tvAboutInfoVF);
-        sendMessageButton = (Button) findViewById(R.id.bSendMessage);
-        deleteFriendButton = (Button) findViewById(R.id.bDeleteFriend);
+        user = (TextView) findViewById(R.id.viewFriendProfileActivity_tvUser);
+        usernameAge = (TextView) findViewById(R.id.viewFriendProfileActivity_tvAge);
+        location = (TextView) findViewById(R.id.viewFriendProfileActivity_tvLocation);
+        about = (TextView) findViewById(R.id.viewFriendProfileActivity_tvAboutInfo);
+        sendMessageButton = (Button) findViewById(R.id.viewFriendProfileActivity_bSendMessage);
+        deleteFriendButton = (Button) findViewById(R.id.viewFriendProfileActivity_bDeleteFriend);
 
-        if ((searchUserFriendsActivity.currentUsernameF != null && !(searchUserFriendsActivity.currentUsernameF != searchFriendsActivity.currentUsernameP)) || searchFriendsActivity.currentUsernameP == null) {
-            user.setText(searchUserFriendsActivity.currentNameF + " " + searchUserFriendsActivity.currentSurnameF);
-            usernameAge.setText(searchUserFriendsActivity.currentUsernameF + "," + " " + searchUserFriendsActivity.currentAgeF + " " + "lat.");
-            if (searchUserFriendsActivity.currentCityF != null) {
-                location.setText(searchUserFriendsActivity.currentCityF);
+        setCurrentUserInfo();
+    }
+
+    private void setCurrentUserInfo() {
+        if ((searchUserFriendsActivity.friendCurrentUsername != null && !(searchUserFriendsActivity.friendCurrentUsername != searchFriendsActivity.userCurrentWatchedUsername)) || searchFriendsActivity.userCurrentWatchedUsername == null) {
+            user.setText(searchUserFriendsActivity.friendCurrentName + " " + searchUserFriendsActivity.friendCurrentSurname);
+            usernameAge.setText(searchUserFriendsActivity.friendCurrentUsername + "," + " " + searchUserFriendsActivity.friendCurrentAge + " " + "lat.");
+            if (searchUserFriendsActivity.friendCurrentCity != null) {
+                location.setText(searchUserFriendsActivity.friendCurrentCity);
             } else {
                 location.setText("Nie ustawiono lokalizacji.");
             }
 
-            if (searchUserFriendsActivity.currentAboutF != null) {
-                about.setText(searchUserFriendsActivity.currentAboutF);
+            if (searchUserFriendsActivity.friendCurrentAbout != null) {
+                about.setText(searchUserFriendsActivity.friendCurrentAbout);
             } else {
                 about.setText("Nie ustawiono żadnych informacji o sobie.");
             }
         } else {
-            user.setText(searchFriendsActivity.currentNameP + " " + searchFriendsActivity.currentSurnameP);
-            usernameAge.setText(searchFriendsActivity.currentUsernameP + "," + " " + searchFriendsActivity.currentAgeP + " " + "lat.");
-            if (searchFriendsActivity.currentCityP != null) {
-                location.setText(searchFriendsActivity.currentCityP);
+            user.setText(searchFriendsActivity.userCurrentWatchedName + " " + searchFriendsActivity.userCurrentWatchedSurname);
+            usernameAge.setText(searchFriendsActivity.userCurrentWatchedUsername + "," + " " + searchFriendsActivity.userCurrentWatchedAge + " " + "lat.");
+            if (searchFriendsActivity.userCurrentWatchedCity != null) {
+                location.setText(searchFriendsActivity.userCurrentWatchedCity);
             } else {
                 location.setText("Nie ustawiono lokalizacji.");
             }
 
-            if (searchFriendsActivity.currentAboutP != null) {
-                about.setText(searchFriendsActivity.currentAboutP);
+            if (searchFriendsActivity.userCurrentWatchedAbout != null) {
+                about.setText(searchFriendsActivity.userCurrentWatchedAbout);
             } else {
                 about.setText("Nie ustawiono żadnych informacji o sobie.");
             }
         }
+    }
+
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void deleteFriend(View view) {
+        String username = loginActivity.userCurrentUsername;
+        String friendUsername = searchUserFriendsActivity.friendCurrentUsername;
+        String type = "friend_delete";
+        String result = null;
+        FriendBackgroundWorker friendBackgroundWorker = new FriendBackgroundWorker(this);
+        try {
+            result = friendBackgroundWorker.execute(type, username, friendUsername).get();
+            addDeleteSuccess();
+            openFriendMenu(view);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * TODO
+     */
+    public void addDeleteSuccess() {
+        Toast.makeText(getBaseContext(), "Usunięto użytkownika ze znajomych.", Toast.LENGTH_LONG).show();
+        deleteFriendButton.setEnabled(false);
+        sendMessageButton.setEnabled(false);
+        deleteFriendButton.setText("UŻYTKOWNIK ZOSTAŁ USUNIĘTY ZE ZNAJOMYCH.");
+    }
+
+    /**
+     * TODO
+     */
+    public void openFriendMenu(View view) {
+        startActivity(new Intent(this, SearchUserFriendsActivity.class));
+    }
+
+    /**
+     * TODO
+     */
+    public void openMessageView(View view) {
+        startActivity(new Intent(this, MessageActivity.class));
     }
 
     @Override
@@ -133,52 +185,6 @@ public class ViewFriendProfileActivity extends AppCompatActivity
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * TODO
-     *
-     * @param view TODO
-     */
-    public void deleteFriend(View view) {
-        String str_username = loginActivity.userCurrentUsername;
-        String str_friend_username = searchUserFriendsActivity.currentUsernameF;
-        String type = "friend_delete";
-        String result = null;
-        FriendBackgroundWorker friendBackgroundWorker = new FriendBackgroundWorker(this);
-        try {
-            result = friendBackgroundWorker.execute(type, str_username, str_friend_username).get();
-            addSuccess();
-            openFriendMenu(view);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * TODO
-     */
-    public void openFriendMenu(View view) {
-        startActivity(new Intent(this, SearchUserFriendsActivity.class));
-    }
-
-    /**
-     * TODO
-     */
-    public void openMessageView(View view) {
-        startActivity(new Intent(this, MessageActivity.class));
-    }
-
-    /**
-     * TODO
-     */
-    public void addSuccess() {
-        Toast.makeText(getBaseContext(), "Usunieto uzytkownika ze znajomych.", Toast.LENGTH_LONG).show();
-        deleteFriendButton.setEnabled(false);
-        sendMessageButton.setEnabled(false);
-        deleteFriendButton.setText("UZYTKOWNIK ZOSTAL USUNIETY ZE ZNAJOMYCH.");
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -198,8 +204,6 @@ public class ViewFriendProfileActivity extends AppCompatActivity
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {
             startActivity(new Intent(this, ObjectivesActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

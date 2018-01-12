@@ -1,7 +1,7 @@
 /**
  * ***********************************************************
  * Autorskie Prawa Majątkowe Kamil Zemczak
- *
+ * <p>
  * Copyright 2017 Kamil Zemczak
  * ************************************************************
  * Utworzono 26-10-2017, Kamil Zemczak
@@ -9,25 +9,23 @@
  */
 package kamilzemczak.runny.activity.activity_menu;
 
-import android.content.Intent;
 import android.os.Bundle;
-
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import android.support.design.widget.NavigationView;
+import android.content.Intent;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.support.design.widget.NavigationView;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -42,10 +40,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
-import kamilzemczak.runny.activity.activity_entry.LoginActivity;
-import kamilzemczak.runny.adapter.TrainingOAdapter;
-import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
 import kamilzemczak.runny.model.Training;
+import kamilzemczak.runny.backgroundworker.TrainingBackgroundWorker;
+import kamilzemczak.runny.adapter.TrainingOAdapter;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 
 /**
  * TODO
@@ -53,16 +51,14 @@ import kamilzemczak.runny.model.Training;
 public class HistoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    LoginActivity loginActivity;
-    private TextView noTrainings;
-
+    private LoginActivity loginActivity;
+    private TextView noTrainingsFind;
     private EditText trainingContent;
     private Calendar calendar;
-
     private RecyclerView trainingContainer;
     private TrainingOAdapter trainingOAdapter;
-    private List<Training> trainingHistory = new ArrayList<Training>();
 
+    private List<Training> trainingHistory = new ArrayList<Training>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +85,7 @@ public class HistoryActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        noTrainings = (TextView) findViewById(R.id.tvNoTrainings);
+        noTrainingsFind = (TextView) findViewById(R.id.historyActivity_tvNoTrainingsFind);
 
         loadHistory();
     }
@@ -100,8 +96,8 @@ public class HistoryActivity extends AppCompatActivity
         TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
 
         try {
-            String str_username = loginActivity.userCurrentUsername;
-            result = trainingBackgroundWorker.execute(type, str_username).get();
+            String username = loginActivity.userCurrentUsername;
+            result = trainingBackgroundWorker.execute(type, username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             trainingHistory = objectMapper.readValue(result, new TypeReference<List<Training>>() {
             });
@@ -122,20 +118,21 @@ public class HistoryActivity extends AppCompatActivity
             e.printStackTrace();
         }
 
-        Collections.reverse(trainingHistory);
+        setTrainingHistoryToAdapter();
 
-        //Set the layout and the RecyclerView
-        trainingContainer = (RecyclerView) findViewById(R.id.lTraining);
+        if (trainingHistory.isEmpty()) {
+            noTrainingsFind.setText("Brak treningów." + "\n" + "Zacznij od dziś!");
+        }
+    }
+
+    private void setTrainingHistoryToAdapter() {
+        Collections.reverse(trainingHistory);
+        trainingContainer = (RecyclerView) findViewById(R.id.historyActivity_rvTrainings);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         trainingContainer.setLayoutManager(llm);
         trainingOAdapter = new TrainingOAdapter(HistoryActivity.this, trainingHistory);
-        //Set the adapter for the recyclerlist
         trainingContainer.setAdapter(trainingOAdapter);
-
-        if(trainingHistory.isEmpty()) {
-            noTrainings.setText("Brak treningów." + "\n" +  "Zacznij od dziś!");
-        }
     }
 
     @Override
@@ -189,8 +186,6 @@ public class HistoryActivity extends AppCompatActivity
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {
             startActivity(new Intent(this, ObjectivesActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

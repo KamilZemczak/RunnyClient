@@ -1,40 +1,26 @@
 package kamilzemczak.runny.activity.activity_menu;
 
+import android.os.Bundle;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import kamilzemczak.runny.R;
-import kamilzemczak.runny.activity.activity_entry.LoginActivity;
-import kamilzemczak.runny.activity.activity_user.CommentActivity;
-import kamilzemczak.runny.activity.activity_user.ViewFriendsTrainingsActivity;
-import kamilzemczak.runny.adapter.PostAdapter;
-import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
-import kamilzemczak.runny.helper.RecyclerItemClickListener;
-import kamilzemczak.runny.model.Post;
-
-
 import android.support.v7.widget.RecyclerView;
-
-import android.widget.Button;
-import android.widget.EditText;
-
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -50,28 +36,33 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 
+import kamilzemczak.runny.R;
+import kamilzemczak.runny.model.Post;
+import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
+import kamilzemczak.runny.adapter.PostAdapter;
+import kamilzemczak.runny.helper.RecyclerItemClickListener;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
+import kamilzemczak.runny.activity.activity_social.CommentActivity;
+import kamilzemczak.runny.activity.activity_user.ViewFriendsTrainingsActivity;
+
 public class WelcomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-    LoginActivity loginActivity;
-    TextView welcome, info;
-    DrawerLayout drawer;
-    NavigationView navigationView;
 
-    public static Integer currentPostId;
+    private LoginActivity loginActivity;
 
+    private TextView welcome, info, noPosts;
+    private EditText postContent;
     private Button postButton;
-
-    private TextView noPosts;
-
-    private ImageView commentButton;
-    private List<Post> list;
     private RecyclerView postContainer;
     private PostAdapter postAdapter;
-    private EditText postContent;
+    private DrawerLayout drawer;
+    private NavigationView navigationView;
     private Calendar calendar;
-    private PostAdapter adapter;
+
     private List<Post> postHistory = new ArrayList<Post>();
     public static List<String> commentsSize = new ArrayList<String>();
+
+    public static Integer postCurrentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,40 +89,36 @@ public class WelcomeActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        welcome = (TextView) findViewById(R.id.tvWelcome);
-        info = (TextView) findViewById(R.id.tvInfo);
-        postButton = (Button) findViewById(R.id.bPost);
-        noPosts = (TextView) findViewById(R.id.tvNoPosts);
-
+        welcome = (TextView) findViewById(R.id.welcomeActivity_tvWelcomeInfo);
+        info = (TextView) findViewById(R.id.welcomeActivity_tvInfo);
+        noPosts = (TextView) findViewById(R.id.welcomeActivity_tvNoPostsFind);
+        postButton = (Button) findViewById(R.id.welcomeActivity_bAddPost);
+        calendar = Calendar.getInstance();
 
         welcome.setText("Witaj w Ready4RUN" + "\n" + loginActivity.userCurrentName + " " + loginActivity.userCurrentSurname + ".");
-        info.setText("Mozesz Tutaj opublikowac post lub podejrzec posty swoich znajomych, do dziela!");
-        loadHistory();
+        info.setText("W tym miejscu możesz opublikować post lub po prostu przeglądać posty swoich znajomych. Do dzieła!");
 
-        calendar = Calendar.getInstance();
+        loadHistory();
 
         postContainer.addOnItemTouchListener(
                 new RecyclerItemClickListener(WelcomeActivity.this, postContainer ,new RecyclerItemClickListener.OnItemClickListener() {
                     @Override public void onItemClick(View view, int position) {
-                        currentPostId = postHistory.get(position).getId();
+                        postCurrentId = postHistory.get(position).getId();
                     }
-
                     @Override public void onLongItemClick(View view, int position) {
                     }
                 })
         );
     }
 
-
-
     private void openDialog() {
         LayoutInflater inflater = LayoutInflater.from(WelcomeActivity.this);
-        View subView = inflater.inflate(R.layout.post_dialog_layout, null);
+        View subView = inflater.inflate(R.layout.form_post_dialog, null);
         postContent = (EditText) subView.findViewById(R.id.dialogEditText);
 
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Opublikuj post juz teraz!");
-        builder.setMessage("Zobacza go wszyscy Twoi znajomi.");
+        builder.setTitle("Opublikuj post już teraz!");
+        builder.setMessage("Zobaczą go wszyscy Twoi znajomi.");
         builder.setView(subView);
 
         AlertDialog alertDialog = builder.create();
@@ -145,7 +132,6 @@ public class WelcomeActivity extends AppCompatActivity
                 postBackgroundWorker.execute(type, postText, loginActivity.userCurrentUsername);
                 finish();
                 startActivity(getIntent());
-
             }
         });
 
@@ -155,31 +141,7 @@ public class WelcomeActivity extends AppCompatActivity
 
             }
         });
-
         builder.show();
-    }
-
-
-    /**
-     * TODO
-     *
-     * @param view TODO
-     */
-    public void openPostDialog(View view) {
-        openDialog();
-    }
-
-    /**
-     * TODO
-     *
-     * @param view TODO
-     */
-     public void openComments(View view) {
-        startActivity(new Intent(this, CommentActivity.class));
-    }
-
-    public void showFriendsTraining(View view) {
-        startActivity(new Intent(this, ViewFriendsTrainingsActivity.class));
     }
 
     private void loadHistory() {
@@ -188,8 +150,8 @@ public class WelcomeActivity extends AppCompatActivity
         PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
 
         try {
-            String str_author_username = loginActivity.userCurrentUsername;
-            result = postBackgroundWorker.execute(type, str_author_username).get();
+            String author_username = loginActivity.userCurrentUsername;
+            result = postBackgroundWorker.execute(type, author_username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             postHistory = objectMapper.readValue(result, new TypeReference<List<Post>>() {
             });
@@ -209,32 +171,34 @@ public class WelcomeActivity extends AppCompatActivity
                 IOException e) {
             e.printStackTrace();
         }
+
         loadCommentsSize();
+        setPostHistoryToAdapter();
+
+        if(postHistory.isEmpty()) {
+            noPosts.setText("Brak postów." + "\n" + "Twój może być pierwszy!");
+        }
+    }
+
+    private void setPostHistoryToAdapter() {
         Collections.reverse(postHistory);
-        //Set the layout and the RecyclerView
-        postContainer = (RecyclerView) findViewById(R.id.lPost);
+        postContainer = (RecyclerView) findViewById(R.id.welcomeActivity_rvPosts);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         postContainer.setLayoutManager(llm);
         postAdapter = new PostAdapter(WelcomeActivity.this, postHistory);
-        //Set the adapter for the recyclerlist
         postContainer.setAdapter(postAdapter);
-
-        if(postHistory.isEmpty()) {
-            noPosts.setText("Brak postow." + "\n" + "Twoj moze byc pierwszy!");
-        }
     }
 
     private void loadCommentsSize() {
-        String str_username = loginActivity.userCurrentUsername;
+        String username = loginActivity.userCurrentUsername;
         String type = "posts_comment_size";
         PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
         try {
-            String result = postBackgroundWorker.execute(type, str_username).get();
-            String replace = result.replace("[","");
-            String replace1 = replace.replace("]","");
-            commentsSize = new ArrayList<String>(Arrays.asList(replace1.split(",")));
-            //String test = "test";
+            String result = postBackgroundWorker.execute(type, username).get();
+            String resultToReplace = result.replace("[","");
+            String finalResult = resultToReplace.replace("]","");
+            commentsSize = new ArrayList<String>(Arrays.asList(finalResult.split(",")));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -242,7 +206,27 @@ public class WelcomeActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void openPostDialog(View view) {
+        openDialog();
+    }
 
+    /**
+     * TODO
+     *
+     * @param view TODO
+     */
+    public void openComments(View view) {
+        startActivity(new Intent(this, CommentActivity.class));
+    }
+
+    public void showFriendsTraining(View view) {
+        startActivity(new Intent(this, ViewFriendsTrainingsActivity.class));
+    }
 
     @Override
     public void onBackPressed() {
@@ -295,13 +279,10 @@ public class WelcomeActivity extends AppCompatActivity
             startActivity(new Intent(this, HistoryActivity.class));
         } else if (id == R.id.nav_decision) {
             startActivity(new Intent(this, ObjectivesActivity.class));
-        } else if (id == R.id.nav_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 }

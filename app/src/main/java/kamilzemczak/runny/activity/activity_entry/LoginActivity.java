@@ -36,7 +36,7 @@ import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText username, password;
-    Button loginButton;
+    private Button loginButton;
 
     public static String userCurrentName, userCurrentSurname, userCurrentUsername, userCurrentEmail, userCurrentGender, userCurrentCity, userCurrentAbout;
     public static Integer userCurrentId, userCurrentAge, userCurrentWeight, userCurrentHeight;
@@ -49,10 +49,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.content_login);
 
-        username = (EditText) findViewById(R.id.registerActivity_etName);
-        password = (EditText) findViewById(R.id.registerActivity_etPassword);
+        username = (EditText) findViewById(R.id.loginActivity_etName);
+        password = (EditText) findViewById(R.id.loginActivity_etPassword);
         loginButton = (Button) findViewById(R.id.loginActivity_bLogin);
     }
 
@@ -67,13 +67,13 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        String str_username = username.getText().toString();
-        String str_password = password.getText().toString();
         String type = "login";
+        String username = this.username.getText().toString();
+        String password = this.password.getText().toString();
         String result = null;
         LoginBackgroundWorker loginBackgroundWorker = new LoginBackgroundWorker(this);
         try {
-            result = loginBackgroundWorker.execute(type, str_username, str_password).get();
+            result = loginBackgroundWorker.execute(type, username, password).get();
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -81,23 +81,14 @@ public class LoginActivity extends AppCompatActivity {
         }
         if (result.equals("Wrong.")) {
             loginFailed();
-            username.setError("Niewłaściwy login lub hasło.");
-            password.setError("Niewłaściwy login lub hasło.");
+            this.username.setError("Niewłaściwy login lub hasło.");
+            this.password.setError("Niewłaściwy login lub hasło.");
             return;
         } else if (result.equals("Zalogowanie udane.")) {
             getUserDetails();
             loginSuccess();
             startActivity(new Intent(this, WelcomeActivity.class));
         }
-    }
-
-    /**
-     * Otwiera aktywność rejestracja
-     *
-     * @param view aktualny interfejs
-     */
-    public void openRegister(View view) {
-        startActivity(new Intent(this, RegisterActivity.class));
     }
 
     /**
@@ -196,6 +187,16 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getBaseContext(), "Logowanie udane.", Toast.LENGTH_LONG).show();
         loginButton.setEnabled(true);
     }
+
+    /**
+     * Otwiera aktywność rejestracja
+     *
+     * @param view aktualny interfejs
+     */
+    public void openRegister(View view) {
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
 }
 
 /*

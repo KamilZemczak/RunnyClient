@@ -23,46 +23,44 @@
             android:src="@drawable/profile"
             app:border_color="#FF000000"
             app:border_width="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/tvUserShowV"
+            app:layout_constraintBottom_toTopOf="@+id/profileActivity_tvUser"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintBottom_creator="1"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1" />
+            tools:layout_constraintRight_creator="1"/>
+            //card_view:layout_constraintBottom_toTopOf="@+id/profileActivity_tvUser" />
 
         <TextView
-            android:id="@+id/tvTrainingName"
+            android:id="@+id/trainingPublicLayout_tvName"
             android:layout_width="wrap_content"
-            android:text="@string/name2"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
-            android:textSize="16sp"
-            android:layout_toRightOf="@+id/profile_image"/>
+            android:layout_toRightOf="@+id/profile_image"
+            android:textSize="16sp"/>
 
         <TextView
-            android:id="@+id/tvTrainingSurname"
+            android:id="@+id/trainingPublicLayout_tvSurname"
             android:layout_width="wrap_content"
-            android:text="@string/sur_name"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginTop="20dp"
-            android:textSize="16sp"
-            android:layout_toRightOf="@+id/tvTrainingName"/>
+            android:layout_toRightOf="@+id/trainingPublicLayout_tvName"
+            android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/tvTrainingDate"
+            android:id="@+id/trainingPublicLayout_tvDate"
             android:layout_width="wrap_content"
-            android:text="@string/sur_name"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:textSize="8sp"
             android:layout_toRightOf="@+id/profile_image"
-            android:layout_below="@+id/tvTrainingName"/>
+            android:layout_below="@+id/trainingPublicLayout_tvName"
+            android:textSize="8sp"/>
 
         <TextView
-            android:id="@+id/tvTrainingContent"
+            android:id="@+id/trainingPublicLayout_tvTrainingContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
@@ -70,20 +68,20 @@
             android:layout_below="@+id/profile_image"/>
 
         <View
-            android:id="@+id/viewBottom1"
+            android:id="@+id/trainingPublicLayout_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/tvTrainingContent"
+            android:layout_below="@+id/trainingPublicLayout_tvTrainingContent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="20dp"
             android:background="@color/gray" />
 
         <ImageView
-            android:id="@+id/bDistance"
+            android:id="@+id/trainingPublicLayout_bDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom1"
+            android:layout_below="@+id/trainingPublicLayout_view"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="6dp"
@@ -91,128 +89,126 @@
             android:src="@drawable/ic_timeline" />
 
         <TextView
-            android:id="@+id/tvDistance"
+            android:id="@+id/trainingPublicLayout_tvDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom1"
+            android:layout_below="@+id/trainingPublicLayout_view"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/bDistance"
-            android:text="" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bDistance" />
 
         <ImageView
-            android:id="@+id/bDuration"
-            android:onClick="openComments"
+            android:id="@+id/trainingPublicLayout_bDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom1"
+            android:layout_below="@+id/trainingPublicLayout_view"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="55dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/tvDistance"
-            android:src="@drawable/ic_timer_black" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_tvDistance"
+            android:src="@drawable/ic_timer_black"
+            android:onClick="openComments"/>
 
         <TextView
-            android:id="@+id/tvDuration"
-            android:onClick="openComments"
+            android:id="@+id/trainingPublicLayout_tvDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom1"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/bDuration" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bDuration"
+            android:layout_below="@+id/trainingPublicLayout_view"
+            android:onClick="openComments"/>
 
         <ImageView
-            android:id="@+id/bCalories"
+            android:id="@+id/trainingPublicLayout_bCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom1"
+            android:layout_below="@+id/trainingPublicLayout_view"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="55dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/tvDuration"
+            android:layout_toRightOf="@+id/trainingPublicLayout_tvDuration"
             android:src="@drawable/ic_whatshot2" />
 
         <TextView
-            android:id="@+id/tvCalories"
+            android:id="@+id/trainingPublicLayout_tvCalories"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom1"
+            android:layout_below="@+id/trainingPublicLayout_view"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/bCalories"
-            android:text="" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bCalories" />
 
         <View
-            android:id="@+id/viewBottom"
+            android:id="@+id/trainingPublicLayout_viewSecond"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/tvCalories"
+            android:layout_below="@+id/trainingPublicLayout_tvCalories"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:background="@color/gray" />
 
         <ImageView
-            android:id="@+id/bLikeT"
+            android:id="@+id/trainingPublicLayout_bLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="10dp"
-            android:src="@drawable/facebooklike_smaller" />
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
+            android:src="@drawable/like" />
 
         <TextView
-            android:id="@+id/tvNoteO"
+            android:id="@+id/trainingPublicLayout_tvNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/bLikeT"
-            android:text="Lubię to!" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bLike"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
+            android:text="@string/likeThis" />
 
         <ImageView
-            android:id="@+id/commentButtonT"
+            android:id="@+id/trainingPublicLayout_bComment"
             android:onClick="openCommentsT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/tvNoteO"
-            android:src="@drawable/commentfb" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_tvNote"
+            android:src="@drawable/comment" />
 
         <TextView
-            android:id="@+id/tvCommentT"
+            android:id="@+id/trainingPublicLayout_tvComment"
             android:onClick="openCommentsT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/commentButtonT" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bComment" />
 
         <ImageView
-            android:id="@+id/bShareT"
+            android:id="@+id/trainingPublicLayout_bShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/tvCommentT"
-            android:src="@drawable/sharesmaller" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_tvComment"
+            android:src="@drawable/share" />
 
         <TextView
-            android:id="@+id/tvShareT"
+            android:id="@+id/trainingPublicLayout_tvShare"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/viewBottom"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/bShareT"
-            android:text="Udostępnij" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bShare"
+            android:text="@string/shareThis" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

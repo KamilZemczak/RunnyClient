@@ -1,21 +1,17 @@
 package kamilzemczak.runny.adapter;
 
 import android.app.Activity;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.support.v7.widget.RecyclerView;
 
 import java.util.Calendar;
 import java.util.List;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.model.Comment;
-
-/**
- * Created by Kamil Zemczak on 03.01.2018.
- */
 
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ContactViewHolder> {
     private List<Comment> commentList;
@@ -32,35 +28,33 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ContactV
     @Override
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
         Calendar calendar = Calendar.getInstance();
-        Comment ci = commentList.get(i);
-        //Set the text of the feed with your data
-        contactViewHolder.feedText2.setText(ci.getContents());
-        contactViewHolder.surNameText2.setText(ci.getAuthor().getSurname());
-        contactViewHolder.nameText2.setText(ci.getAuthor().getName());
-        contactViewHolder.feedDate2.setText(calendar.getTime().toString());
+        Comment comment = commentList.get(i);
+        contactViewHolder.commentContent.setText(comment.getContents());
+        contactViewHolder.surname.setText(comment.getAuthor().getSurname());
+        contactViewHolder.name.setText(comment.getAuthor().getName());
+        contactViewHolder.date.setText(calendar.getTime().toString());
     }
 
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View itemView = LayoutInflater.
                 from(viewGroup.getContext()).
-                inflate(R.layout.comment_layout, viewGroup, false);
-
+                inflate(R.layout.form_comment, viewGroup, false);
         return new ContactViewHolder(itemView);
     }
 
     public static class ContactViewHolder extends RecyclerView.ViewHolder {
-        protected TextView feedText2;
-        protected TextView nameText2;
-        protected TextView surNameText2;
-        protected TextView feedDate2;
+        protected TextView commentContent;
+        protected TextView name;
+        protected TextView surname;
+        protected TextView date;
 
         public ContactViewHolder(View v) {
             super(v);
-            feedText2 = (TextView) v.findViewById(R.id.tvPostContentC);
-            surNameText2 = (TextView) v.findViewById(R.id.tvPostSurnameC);
-            nameText2 = (TextView) v.findViewById(R.id.tvPostNameC);
-            feedDate2 = (TextView) v.findViewById(R.id.tvPostDateC);
+            commentContent = (TextView) v.findViewById(R.id.commentLayout_tvContent);
+            surname = (TextView) v.findViewById(R.id.commentLayout_tvSurname);
+            name = (TextView) v.findViewById(R.id.commentLayout_tvName);
+            date = (TextView) v.findViewById(R.id.commentLayout_tvDate);
         }
     }
 }
