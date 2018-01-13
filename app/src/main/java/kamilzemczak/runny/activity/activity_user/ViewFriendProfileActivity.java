@@ -76,7 +76,7 @@ public class ViewFriendProfileActivity extends AppCompatActivity
     }
 
     private void setCurrentUserInfo() {
-        if ((searchUserFriendsActivity.friendCurrentUsername != null && !(searchUserFriendsActivity.friendCurrentUsername != searchFriendsActivity.userCurrentWatchedUsername)) || searchFriendsActivity.userCurrentWatchedUsername == null) {
+        if ((searchUserFriendsActivity.friendCurrentUsername != null && (searchUserFriendsActivity.friendCurrentUsername != searchFriendsActivity.userCurrentWatchedUsername))) {
             user.setText(searchUserFriendsActivity.friendCurrentName + " " + searchUserFriendsActivity.friendCurrentSurname);
             usernameAge.setText(searchUserFriendsActivity.friendCurrentUsername + "," + " " + searchUserFriendsActivity.friendCurrentAge + " " + "lat.");
             if (searchUserFriendsActivity.friendCurrentCity != null) {

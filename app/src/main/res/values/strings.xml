@@ -7,7 +7,6 @@
 
     <string-array name="typeso_array">
         <item>Dystans</item>
-        <item>Treningi</item>
         <item>Kalorie</item>
     </string-array>
 
@@ -27,6 +26,13 @@
         <item>800kcal</item>
         <item>1000kcal</item>
         <item>1200kcal</item>
+        <item>1500kcal</item>
+        <item>2000kcal</item>
+        <item>2500kcal</item>
+        <item>3000kcal</item>
+        <item>3500kcal</item>
+        <item>4000kcal</item>
+        <item>4500kcal</item>
     </string-array>
 
     <string name="app_name">Runny</string>
@@ -64,7 +70,7 @@
     <string name="aboutMe">O MNIE</string>
     <string name="editProfile">EDYTUJ PROFIL</string>
 
-    <string name="saveObjective">Zapisz swój cel</string>
+    <string name="saveObjective">WYBIERZ SWÓJ CEL</string>
     <string name="showObjectives">Podejrzyj swoje cele</string>
     <string name="type">RODZAJ</string>
     <string name="objective">CEL</string>
@@ -77,7 +83,7 @@
 
     <string name="addFriend">DODAJ DO ZNAJOMYCH</string>
 
-    <string name="friendsTrainingHistory">HISTORIA TRENINGÓW TWOICH ZNAJOMYCH</string>
+    <string name="friendsTrainingHistory">HISTORIA TWOICH TRENINGÓW ORAZ ZNAJOMYCH</string>
 
     <string name="sendMessage">WYŚLIJ WIADOMOŚĆ</string>
     <string name="deleteFriend">USUŃ ZE ZNAJOMYCH</string>
@@ -104,6 +110,9 @@
 
     <string name="likeThis">Lubię to!</string>
     <string name="shareThis">Udostępnij</string>
+
+    <string name="showPosts">Wróć do przeglądania postów.</string>
+    <string name="showTrainings">Wróć do przeglądania treningów.</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>

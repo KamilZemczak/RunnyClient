@@ -24,6 +24,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginTop="10dp"
         android:drawableLeft="@drawable/ic_fitness"
+        android:drawablePadding="5dp"
         android:paddingBottom="2dip"
         android:textColor="@color/colorAccent" />
 
@@ -54,9 +55,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/objectivesLayout_tvObjective"
-        android:layout_marginLeft="5dp"
+        android:layout_marginLeft="2dp"
         android:layout_marginTop="10dp"
         android:drawableLeft="@drawable/ic_update"
+        android:drawablePadding="2dp"
         android:textColor="#5d5d5d"
         android:textStyle="bold" />
 

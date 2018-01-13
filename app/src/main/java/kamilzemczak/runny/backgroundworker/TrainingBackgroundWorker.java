@@ -44,6 +44,8 @@ public class TrainingBackgroundWorker extends AsyncTask<String, Void, String> {
         String trainings_find_url = "http://10.0.2.2:8080/trainings_find";
         String trainings_own_find_url = "http://10.0.2.2:8080/trainings_own_find";
         String trainings_comment_size_url = "http://10.0.2.2:8080/trainings_comment_size";
+        String training_update_url = "http://10.0.2.2:8080/training_update";
+        String training_delete_url = "http://10.0.2.2:8080/training_delete";
         if (type.equals("training_add")) {
             try {
                 String username = params[1];
@@ -161,6 +163,80 @@ public class TrainingBackgroundWorker extends AsyncTask<String, Void, String> {
                 OutputStream outputStream = httpURLConnection.getOutputStream();
                 BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
                 String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }  if (type.equals("training_update")) {
+            try {
+                String username = params[1];
+                String trainingId = params[2];
+                String distance = params[3];
+                String duration = params[4];
+                String notes = params[5];
+                String hours = params[6];
+                String mins = params[7];
+                URL url = new URL(training_update_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("username", "UTF-8")+"="+URLEncoder.encode(username, "UTF-8")+"&"
+                        + URLEncoder.encode("sTrainingId", "UTF-8")+"="+URLEncoder.encode(trainingId, "UTF-8")+"&"
+                        + URLEncoder.encode("sDistance", "UTF-8")+"="+URLEncoder.encode(distance, "UTF-8")+"&"
+                        + URLEncoder.encode("sDuration", "UTF-8")+"="+URLEncoder.encode(duration, "UTF-8")+"&"
+                        + URLEncoder.encode("notes", "UTF-8")+"="+URLEncoder.encode(notes, "UTF-8")+"&"
+                        + URLEncoder.encode("hours", "UTF-8")+"="+URLEncoder.encode(hours, "UTF-8")+"&"
+                        + URLEncoder.encode("mins", "UTF-8")+"="+URLEncoder.encode(mins, "UTF-8");
+                bufferedWriter.write(post_data);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                InputStream inputStream = httpURLConnection.getInputStream();
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, "iso-8859-1"));
+                String result = "";
+                String line = "";
+                while ((line = bufferedReader.readLine()) != null) {
+                    result += line;
+                }
+                bufferedReader.close();
+                inputStream.close();
+                httpURLConnection.disconnect();
+                return result;
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }  if (type.equals("training_delete")) {
+            try {
+                String trainingId = params[1];
+                URL url = new URL(training_delete_url);
+                HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+                httpURLConnection.setRequestMethod("POST");
+                httpURLConnection.setDoOutput(true);
+                httpURLConnection.setDoInput(true);
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                String post_data = URLEncoder.encode("sTrainingId", "UTF-8")+"="+URLEncoder.encode(trainingId, "UTF-8");
                 bufferedWriter.write(post_data);
                 bufferedWriter.flush();
                 bufferedWriter.close();

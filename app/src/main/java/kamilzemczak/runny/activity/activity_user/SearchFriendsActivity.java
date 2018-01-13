@@ -127,11 +127,12 @@ public class SearchFriendsActivity extends AppCompatActivity
 
     private void loadHistory() {
         String type = "users_find";
+        String username = loginActivity.userCurrentUsername;
         String result = null;
         UserBackgroundWorker userBackgroundWorker = new UserBackgroundWorker(this);
 
         try {
-            result = userBackgroundWorker.execute(type).get();
+            result = userBackgroundWorker.execute(type, username).get();
             ObjectMapper objectMapper = new ObjectMapper();
             users = objectMapper.readValue(result, new TypeReference<List<User>>() {
             });

@@ -34,7 +34,7 @@ public class ObjectivesActivity extends AppCompatActivity
     private LoginActivity loginActivity;
 
     private Spinner typeSpinner, objectiveSpinner;
-    private TextView typeSelected, objectiveSelected;
+    private TextView typeSelected, objectiveSelected, caloriesInfo;
     private Button saveObjectiveButton;
 
     @Override
@@ -65,6 +65,9 @@ public class ObjectivesActivity extends AppCompatActivity
         typeSpinner = (Spinner) findViewById(R.id.objectivesActivity_spinner);
         objectiveSpinner = (Spinner) findViewById(R.id.objectivesActivity_oSpinner);
         saveObjectiveButton = (Button) findViewById(R.id.objectivesActivity_addObjective);
+        caloriesInfo = (TextView) findViewById(R.id.objectivesActivity_tvCaloriesInfo);
+
+        caloriesInfo.setText("W przypadku wybrania typu celu kalorie - nie chodzi o łączną sumę kalorii z wszystkich treningów a pojedynczego biegu.");
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.typeso_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

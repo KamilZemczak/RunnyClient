@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
@@ -12,11 +13,13 @@ import java.util.Collections;
 import java.util.List;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_user.ViewFriendsTrainingsActivity;
 import kamilzemczak.runny.model.Training;
 
 public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.ContactViewHolder> {
     private ViewFriendsTrainingsActivity viewFriendsTrainingsActivity;
+    private LoginActivity loginActivity;
 
     private List<Training> trainingList;
 
@@ -49,6 +52,11 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.Contac
         } else {
             contactViewHolder.commentSize.setText("Komentarze" + " " + "(" + commentsSize2.get(i) + ")");
         }
+
+        if (loginActivity.userCurrentId.equals(training.getAuthor().getId())) {
+            contactViewHolder.updateButton.setVisibility(View.VISIBLE);
+            contactViewHolder.deleteButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -68,6 +76,8 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.Contac
         protected TextView duration;
         protected TextView calories;
         protected TextView commentSize;
+        protected ImageView updateButton;
+        protected ImageView deleteButton;
 
         public ContactViewHolder(View v) {
             super(v);
@@ -79,6 +89,8 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.Contac
             duration = (TextView) v.findViewById(R.id.trainingPublicLayout_tvDuration);
             calories = (TextView) v.findViewById(R.id.trainingPublicLayout_tvCalories);
             commentSize = (TextView) v.findViewById(R.id.trainingPublicLayout_tvComment);
+            updateButton = (ImageView) v.findViewById(R.id.trainingPublicLayout_bUpdate);
+            deleteButton = (ImageView) v.findViewById(R.id.trainingPublicLayout_bDelete);
         }
     }
 }

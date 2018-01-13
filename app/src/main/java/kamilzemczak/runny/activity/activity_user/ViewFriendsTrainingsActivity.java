@@ -1,10 +1,14 @@
 package kamilzemczak.runny.activity.activity_user;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,6 +20,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -48,6 +53,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
 
     private LoginActivity loginActivity;
 
+    private EditText distance, hours, mins, notes;
     private TextView noTrainings;
     private RecyclerView trainingContainer;
     private TrainingAdapter trainingAdapter;
@@ -55,7 +61,12 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
     private List<Training> trainingHistory = new ArrayList<Training>();
 
     public static List<String> trainingsSize = new ArrayList<String>();
-    public static Integer currentTrainingId;
+
+    public String sTrainingCurrentId = String.valueOf(trainingCurrentId);
+
+
+    public static Integer trainingCurrentId, trainingCurrentDistance, trainingCurrentDuration;
+    public static String trainingCurrentNotes;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +101,10 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
                 new RecyclerItemClickListener(ViewFriendsTrainingsActivity.this, trainingContainer, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
-                        currentTrainingId = trainingHistory.get(position).getId();
+                        trainingCurrentId = trainingHistory.get(position).getId();
+                        trainingCurrentDistance = trainingHistory.get(position).getDistance();
+                        trainingCurrentDuration = trainingHistory.get(position).getDuration();
+                        trainingCurrentNotes = trainingHistory.get(position).getNotes();
                     }
 
                     @Override
@@ -161,6 +175,207 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    private void openUpdateDialog() {
+        int iHours = trainingCurrentDuration / 60;
+        int iMinutes = trainingCurrentDuration % 60;
+        LayoutInflater inflater = LayoutInflater.from(ViewFriendsTrainingsActivity.this);
+        View subView = inflater.inflate(R.layout.form_training_update_dialog, null);
+        distance = (EditText) subView.findViewById(R.id.formTrainingUpdate_etDistance);
+        hours = (EditText) subView.findViewById(R.id.formTrainingUpdate_etHours);
+        mins = (EditText) subView.findViewById(R.id.formTrainingUpdate_etMins);
+        notes = (EditText) subView.findViewById(R.id.formTrainingUpdate_etNotes);
+
+        distance.setText(String.valueOf(trainingCurrentDistance));
+        hours.setText(String.valueOf(iHours));
+        mins.setText(String.valueOf(iMinutes));
+        notes.setText(String.valueOf(trainingCurrentNotes));
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edytuj trening już teraz!");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("ZATWIERDŹ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "training_update";
+                String distanceToSend = distance.getText().toString();
+                String sHours = hours.getText().toString();
+                String sMins = mins.getText().toString();
+                Integer iHours = null;
+                if (!sHours.isEmpty()) {
+                    iHours = Integer.valueOf(sHours);
+                } else {
+                    iHours = 0;
+                }
+                Integer iMins = null;
+                if (!sMins.isEmpty()) {
+                    iMins = Integer.valueOf(sMins);
+                } else {
+                    iMins = 0;
+                }
+                Integer duration = null;
+                String notesToSend = null;
+
+                duration = getDuration(iHours, iMins, duration);
+                String duratioin = null;
+                if (duration == null) {
+                    duratioin = sMins;
+                } else {
+                    duratioin = String.valueOf(duration);
+                }
+
+                if (!notes.getText().toString().isEmpty()) {
+                    notesToSend = notes.getText().toString();
+                } else {
+                    notesToSend = "Brak notatek nt. treningu.";
+                }
+
+                if (!validate(distanceToSend, iHours, iMins)) {
+                    openUpdateDialog();
+                    Toast.makeText(getBaseContext(), "Edycja treningu nieudane.", Toast.LENGTH_LONG).show();
+                    setErrors(distanceToSend, iHours, iMins);
+                } else {
+                    TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(ViewFriendsTrainingsActivity.this);
+                    trainingBackgroundWorker.execute(type, loginActivity.userCurrentUsername, sTrainingCurrentId, distanceToSend, duratioin, notesToSend, sHours, sMins);
+                    finish();
+                    startActivity(getIntent());
+                    Toast.makeText(getBaseContext(), "Edycja treningu udana!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            private void setErrors(String distanceToSend, Integer iHours, Integer iMins) {
+                if (distanceToSend.length() <= 0) {
+                    distance.setError("Minimalny dystans to 1km.");
+                }
+                if (iHours > 10) {
+                    hours.setError("Maksymalny czas biegu to 10h");
+                }
+                if (iMins > 60) {
+                    mins.setError("Minut maksymalnie 60!");
+                }
+                if (iMins == 0 && iHours == 0) {
+                    hours.setError("Nie wpisałeś czasu.");
+                }
+                mins.setError("Nie wpisałeś czasu.");
+                hours.setError("Nie wpisałeś czasu.");
+            }
+        });
+
+        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void openDeleteDialog() {
+        LayoutInflater inflater = LayoutInflater.from(ViewFriendsTrainingsActivity.this);
+        View subView = inflater.inflate(R.layout.form_training_delete_dialog, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Usuń swój już teraz!");
+        builder.setMessage("Czy jesteś pewien? Zmiany są nieodwracalne.");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "training_delete";
+                TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(ViewFriendsTrainingsActivity.this);
+                trainingBackgroundWorker.execute(type, sTrainingCurrentId);
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getBaseContext(), "Trening został usunięty.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.setNegativeButton("COFNIJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private Integer getDuration(Integer iHours, Integer iMins, Integer duration) {
+        if (iHours == 1) {
+            duration = 60 + iMins;
+        } else if (iHours == 2) {
+            duration = 120 + iMins;
+        } else if (iHours == 3) {
+            duration = 180 + iMins;
+        } else if (iHours == 4) {
+            duration = 240 + iMins;
+        } else if (iHours == 5) {
+            duration = 300 + iMins;
+        } else if (iHours == 6) {
+            duration = 360 + iMins;
+        } else if (iHours == 7) {
+            duration = 420 + iMins;
+        } else if (iHours == 8) {
+            duration = 480 + iMins;
+        } else if (iHours == 9) {
+            duration = 540 + iMins;
+        } else if (iHours == 10) {
+            duration = 600 + iMins;
+        }
+        return duration;
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean validate(String distanceToSend, Integer iHours, Integer iMins) {
+        boolean valid = true;
+        if (distanceToSend.isEmpty() || distanceToSend.length() < 1) {
+            valid = false;
+        } else {
+            distance.setError(null);
+        }
+
+        if (iHours <= 0 || iHours > 10) {
+            valid = false;
+        } else {
+            hours.setError(null);
+        }
+
+        if (iMins > 60) {
+            valid = false;
+        } else {
+            mins.setError(null);
+        }
+
+        if (iMins == 0 && iHours == 0) {
+            valid = false;
+        } else {
+            hours.setError(null);
+            mins.setError(null);
+        }
+        return valid;
+    }
+
+    public void inProgress(View view) {
+        Toast.makeText(getBaseContext(), "Funkcjonalność w budowie!", Toast.LENGTH_LONG).show();
+    }
+
+
+    public void updateTraining(View view) {
+        openUpdateDialog();
+    }
+
+    public void deleteTraining(View view) {
+        openDeleteDialog();
     }
 
     /**

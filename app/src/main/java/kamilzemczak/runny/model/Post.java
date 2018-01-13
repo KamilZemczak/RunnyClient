@@ -9,10 +9,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by Kamil Zemczak on 02.01.2018.
- */
-
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
@@ -118,5 +114,6 @@ public class Post {
     public void setSize(String size) {
         this.size = size;
     }
+
 }
 

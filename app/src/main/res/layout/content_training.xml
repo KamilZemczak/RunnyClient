@@ -86,8 +86,8 @@
         android:drawablePadding="10dp"
         android:drawableRight="@drawable/ic_edit"
         android:ems="10"
-        android:inputType="number"
-        android:hint="@string/mins"/>
+        android:hint="@string/mins"
+        android:inputType="number" />
 
     <EditText
         android:id="@+id/trainingActivity_etNotes"
@@ -98,11 +98,11 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="26dp"
         android:drawableLeft="@drawable/ic_books"
-        android:drawableRight="@drawable/ic_edit"
         android:drawablePadding="10dp"
-        android:inputType="textCapSentences"
+        android:drawableRight="@drawable/ic_edit"
+        android:ems="10"
         android:hint="@string/personalNotes"
-        android:ems="10"/>
+        android:inputType="textCapSentences" />
 
     <TextView
         android:id="@+id/trainingActivity_tvNotesInfo"
@@ -112,7 +112,6 @@
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="1dp"
-        android:inputType="textCapSentences"
         android:textSize="10sp" />
 
     <Button
@@ -126,7 +125,7 @@
         android:layout_alignStart="@+id/trainingActivity_tvNotesInfo"
         android:layout_marginBottom="11dp"
         android:backgroundTint="@color/colorProff"
-        android:text="@string/saveTraining"
-        android:onClick="addTraining"/>
+        android:onClick="addTraining"
+        android:text="@string/saveTraining" />
 
 </RelativeLayout>

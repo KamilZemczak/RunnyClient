@@ -50,6 +50,7 @@ public class UniqueBackgroundWorker extends AsyncTask<String, Void, Boolean> {
         String unique_user_url = "http://10.0.2.2:8080/unique_user";
         String unique_email_url = "http://10.0.2.2:8080/unique_email";
         String is_friend_url = "http://10.0.2.2:8080/is_friend";
+        String is_own_post_url = "http://10.0.2.2:8080/is_own_post";
         if (type.equals("unique_user")) {
             try {
                 String username = params[1];

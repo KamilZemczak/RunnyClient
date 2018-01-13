@@ -1,17 +1,17 @@
-<android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    card_view:cardCornerRadius="4dp"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    card_view:cardCornerRadius="4dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent" >
+        android:background="@android:color/transparent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
@@ -29,8 +29,8 @@
             app:layout_constraintRight_toRightOf="parent"
             tools:layout_constraintBottom_creator="1"
             tools:layout_constraintLeft_creator="1"
-            tools:layout_constraintRight_creator="1"/>
-            //card_view:layout_constraintBottom_toTopOf="@+id/profileActivity_tvUser" />
+            tools:layout_constraintRight_creator="1" />
+        //card_view:layout_constraintBottom_toTopOf="@+id/profileActivity_tvUser" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvName"
@@ -39,7 +39,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="20dp"
             android:layout_toRightOf="@+id/profile_image"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvSurname"
@@ -54,18 +54,18 @@
             android:id="@+id/trainingPublicLayout_tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/trainingPublicLayout_tvName"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/profile_image"
-            android:layout_below="@+id/trainingPublicLayout_tvName"
-            android:textSize="8sp"/>
+            android:textSize="8sp" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvTrainingContent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/profile_image"
             android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_below="@+id/profile_image"/>
+            android:layout_marginRight="20dp" />
 
         <View
             android:id="@+id/trainingPublicLayout_view"
@@ -106,17 +106,17 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_tvDistance"
-            android:src="@drawable/ic_timer_black"
-            android:onClick="openComments"/>
+            android:onClick="openComments"
+            android:src="@drawable/ic_timer_black" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvDuration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/trainingPublicLayout_view"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_bDuration"
-            android:layout_below="@+id/trainingPublicLayout_view"
-            android:onClick="openComments"/>
+            android:onClick="openComments" />
 
         <ImageView
             android:id="@+id/trainingPublicLayout_bCalories"
@@ -152,25 +152,24 @@
             android:id="@+id/trainingPublicLayout_bLike"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="18dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:src="@drawable/like" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_bLike"
-            android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:text="@string/likeThis" />
 
         <ImageView
             android:id="@+id/trainingPublicLayout_bComment"
-            android:onClick="openCommentsT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/trainingPublicLayout_viewSecond"
@@ -179,16 +178,17 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_tvNote"
+            android:onClick="openCommentsT"
             android:src="@drawable/comment" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvComment"
-            android:onClick="openCommentsT"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginTop="15dp"
-            android:layout_toRightOf="@+id/trainingPublicLayout_bComment" />
+            android:layout_toRightOf="@+id/trainingPublicLayout_bComment"
+            android:onClick="openCommentsT" />
 
         <ImageView
             android:id="@+id/trainingPublicLayout_bShare"
@@ -200,6 +200,7 @@
             android:layout_marginRight="5dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_tvComment"
+            android:onClick="inProgress"
             android:src="@drawable/share" />
 
         <TextView
@@ -209,6 +210,31 @@
             android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_bShare"
+            android:onClick="inProgress"
             android:text="@string/shareThis" />
+
+        <ImageView
+            android:id="@+id/trainingPublicLayout_bUpdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="300dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:onClick="updateTraining"
+            android:src="@drawable/ic_edito"
+            android:visibility="invisible" />
+
+        <ImageView
+            android:id="@+id/trainingPublicLayout_bDelete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="350dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginTop="10dp"
+            android:onClick="deleteTraining"
+            android:src="@drawable/ic_deleto"
+            android:visibility="invisible" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

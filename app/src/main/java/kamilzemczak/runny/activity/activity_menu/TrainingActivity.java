@@ -66,7 +66,7 @@ public class TrainingActivity extends AppCompatActivity
         addTrainingButton = (Button) findViewById(R.id.trainingActivity_bAddTraning);
 
         trainingCaloriesInfo.setText("Obliczymy średnią ilość kalorii spalonych przez Twój organizm w podanym przez Ciebie czasie. Pamiętaj, o aktualizowaniu na bieżąco swojej wagi w profilu, o warunkach otoczenia (takich jak wiatr i temperatura) oraz o cechach organizmu które mogą nieco zmienić rzeczywisty wynik.");
-        trainingNotesInfo.setText("*to pole nie jest wymagane. Możesz dodać osobiste notatki z treningu, które pomoga Ci osiągać swoje cele. Notatki nie będą widoczne dla innych użytkowników.");
+        trainingNotesInfo.setText("*to pole nie jest wymagane. Możesz dodać osobiste notatki z treningu, które pomogą \n Ci osiągać swoje cele. Notatki nie będą widoczne dla innych użytkowników.");
     }
 
     /**
@@ -75,59 +75,115 @@ public class TrainingActivity extends AppCompatActivity
      * @param view aktualny interfejs
      */
     public void addTraining(View view) {
-        /*if(!validate()) {
-            onRegisterFailed();
-            return;
-        }*/
         String username = loginActivity.userCurrentUsername;
         String distance = this.distance.getText().toString();
         String sHours = hours.getText().toString();
-        Integer iHours = Integer.valueOf(sHours);
         String sMins = this.mins.getText().toString();
-        Integer iMins = Integer.valueOf(sMins);
+        Integer iHours = null;
+        if (!sHours.isEmpty()) {
+            iHours = Integer.valueOf(sHours);
+        } else {
+            iHours = 0;
+        }
+
+        Integer iMins = null;
+        if (!sMins.isEmpty()) {
+            iMins = Integer.valueOf(sMins);
+        } else {
+            iMins = 0;
+        }
         Integer duration = null;
         String notes = null;
 
         duration = getDuration(iHours, iMins, duration);
 
-        String duratioin = String.valueOf(duration);
-        if(!this.notes.getText().toString().isEmpty()) {
+        String duratioin = null;
+        if (duration == null) {
+            duratioin = sMins;
+        } else {
+            duratioin = String.valueOf(duration);
+        }
+
+        if (!this.notes.getText().toString().isEmpty()) {
             notes = this.notes.getText().toString();
         } else {
             notes = "Brak notatek nt. treningu.";
         }
-
+        if (!validate(distance, iHours, iMins)) {
+            Toast.makeText(getBaseContext(), "Dodanie treningu nieudane.", Toast.LENGTH_LONG).show();
+            return;
+        }
         String type = "training_add";
         TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(this);
         trainingBackgroundWorker.execute(type, username, distance, duratioin, notes, sHours, sMins);
         addTrainingSuccess();
         finish();
         startActivity(getIntent());
+        Toast.makeText(getBaseContext(), "Dodanie treningu udane!", Toast.LENGTH_LONG).show();
     }
 
     private Integer getDuration(Integer iHours, Integer iMins, Integer duration) {
-        if (iHours==1) {
+        if (iHours == 1) {
             duration = 60 + iMins;
-        } else if (iHours==2) {
+        } else if (iHours == 2) {
             duration = 120 + iMins;
-        } else if (iHours==3) {
+        } else if (iHours == 3) {
             duration = 180 + iMins;
-        } else if (iHours==4) {
+        } else if (iHours == 4) {
             duration = 240 + iMins;
-        } else if (iHours==5) {
+        } else if (iHours == 5) {
             duration = 300 + iMins;
-        } else if (iHours==6) {
+        } else if (iHours == 6) {
             duration = 360 + iMins;
-        } else if (iHours==7) {
+        } else if (iHours == 7) {
             duration = 420 + iMins;
-        } else if (iHours==8) {
+        } else if (iHours == 8) {
             duration = 480 + iMins;
-        } else if (iHours==9) {
+        } else if (iHours == 9) {
             duration = 540 + iMins;
-        } else if (iHours==10) {
+        } else if (iHours == 10) {
             duration = 600 + iMins;
         }
         return duration;
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean validate(String distanceToSend, Integer iHours, Integer iMins) {
+        boolean valid = true;
+        if (distanceToSend.isEmpty() || distanceToSend.length() < 1) {
+            distance.setError("Minimalny dystans to 1km.");
+            valid = false;
+        } else {
+            distance.setError(null);
+        }
+
+        if (iHours <= 0 || iHours > 10) {
+            hours.setError("Maksymalny czas biegu to 10h");
+            valid = false;
+        } else {
+            hours.setError(null);
+        }
+
+        if (iMins > 60) {
+            mins.setError("Minut maksymalnie 60!");
+            valid = false;
+        } else {
+            mins.setError(null);
+        }
+
+        if (iMins == 0 && iHours == 0) {
+            hours.setError("Nie wpisałeś czasu.");
+            mins.setError("Nie wpisałeś czasu.");
+            valid = false;
+        } else {
+            hours.setError(null);
+            mins.setError(null);
+        }
+        return valid;
     }
 
     @Override

@@ -12,8 +12,9 @@
         android:id="@+id/commentActivity_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/commentActivity_bPostComment"
-        android:layout_marginTop="4dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/commentActivity_rvComments"
         android:background="@color/black" />
 
     <Button
@@ -22,10 +23,20 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="9dp"
-        android:background="@color/darkBlue"
+        android:background="@drawable/roundedbutton"
         android:onClick="openCommentDialog"
         android:text="@string/postComment"
         android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/commentActivity_tvGoToPosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/commentActivity_bPostComment"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:onClick="showPosts"
+        android:text="@string/showPosts" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/commentActivity_rvComments"
@@ -33,7 +44,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/commentActivity_bPostComment"
+        android:layout_below="@+id/commentActivity_tvGoToPosts"
         android:layout_marginTop="10dp" />
 
     <TextView

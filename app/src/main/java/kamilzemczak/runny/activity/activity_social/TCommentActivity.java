@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -36,6 +37,7 @@ import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_user.ViewFriendsTrainingsActivity;
+import kamilzemczak.runny.helper.RecyclerItemClickListener;
 import kamilzemczak.runny.model.TComment;
 import kamilzemczak.runny.adapter.TCommentAdapter;
 import kamilzemczak.runny.backgroundworker.TCommentBackgroundWorker;
@@ -62,6 +64,11 @@ public class TCommentActivity extends AppCompatActivity
     private TCommentAdapter tCommentAdapter;
 
     private List<TComment> commentHistory = new ArrayList<TComment>();
+
+    public String sTCommentCurrentId = String.valueOf(tCommentCurrentId);
+
+    public static String tCommentCurrentContent;
+    public static Integer tCommentCurrentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +100,20 @@ public class TCommentActivity extends AppCompatActivity
         calendar = Calendar.getInstance();
 
         loadHistory();
+
+        commentContainer.addOnItemTouchListener(
+                new RecyclerItemClickListener(TCommentActivity.this, commentContainer, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        tCommentCurrentId = commentHistory.get(position).getId();
+                        tCommentCurrentContent = commentHistory.get(position).getContents();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                    }
+                })
+        );
     }
 
     private void openDialog() {
@@ -112,7 +133,7 @@ public class TCommentActivity extends AppCompatActivity
                 String commentText = commentContent.getText().toString();
                 String type = "tcomment_send";
                 TCommentBackgroundWorker tcommentBackgroundWorker = new TCommentBackgroundWorker(TCommentActivity.this);
-                Integer test = ViewFriendsTrainingsActivity.currentTrainingId;
+                Integer test = ViewFriendsTrainingsActivity.trainingCurrentId;
                 String test2 = String.valueOf(test);
                 tcommentBackgroundWorker.execute(type, commentText, loginActivity.userCurrentUsername, test2);
                 finish();
@@ -130,13 +151,86 @@ public class TCommentActivity extends AppCompatActivity
         builder.show();
     }
 
+    private void openUpdateDialog() {
+        LayoutInflater inflater = LayoutInflater.from(TCommentActivity.this);
+        View subView = inflater.inflate(R.layout.form_tcomment_update_dialog, null);
+        commentContent = (EditText) subView.findViewById(R.id.dialogEditText);
+        commentContent.setText(tCommentCurrentContent);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edytuj komentarz już teraz!");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("ZATWIERDŹ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "tcomment_update";
+                String commentText = commentContent.getText().toString();
+                if (!validate(commentText)) {
+                    openUpdateDialog();
+                    Toast.makeText(getBaseContext(), "Edycja komentarzu nieudana.", Toast.LENGTH_LONG).show();
+                    commentContent.setError("Komentarz musi zawierać minimum dwa znaki.");
+                    commentContent.setText(commentText);
+                } else {
+                    TCommentBackgroundWorker tCommentBackgroundWorker = new TCommentBackgroundWorker(TCommentActivity.this);
+                    tCommentBackgroundWorker.execute(type, sTCommentCurrentId, commentText);
+                    finish();
+                    startActivity(getIntent());
+                    Toast.makeText(getBaseContext(), "Edycja komentarza udana!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void openDeleteDialog() {
+        LayoutInflater inflater = LayoutInflater.from(TCommentActivity.this);
+        View subView = inflater.inflate(R.layout.form_tcomment_delete_dialog, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Usuń komentarz już teraz!");
+        builder.setMessage("Czy jesteś pewien?");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "tcomment_delete";
+                TCommentBackgroundWorker tCommentBackgroundWorker = new TCommentBackgroundWorker(TCommentActivity.this);
+                tCommentBackgroundWorker.execute(type, sTCommentCurrentId);
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getBaseContext(), "Komentarz został usunięty.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.setNegativeButton("COFNIJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
     private void loadHistory() {
         String type = "tcomments_find";
         String result = null;
         TCommentBackgroundWorker tCommentBackgroundWorker = new TCommentBackgroundWorker(this);
 
         try {
-            Integer iCurrentTrainingId = viewFriendsTrainingsActivity.currentTrainingId;
+            Integer iCurrentTrainingId = viewFriendsTrainingsActivity.trainingCurrentId;
             String sCurrentTrainingId = String.valueOf(iCurrentTrainingId);
             result = tCommentBackgroundWorker.execute(type, sCurrentTrainingId).get();
             ObjectMapper objectMapper = new ObjectMapper();
@@ -164,7 +258,7 @@ public class TCommentActivity extends AppCompatActivity
         setCommentHistoryToAdapter();
 
         if (commentHistory.isEmpty()) {
-            noCommentsFind.setText("Brak komentarzy." + "\n" + "Twoj moze byc pierwszy!");
+            noCommentsFind.setText("Brak komentarzy." + "\n" + "Twój może byc pierwszy!");
         }
     }
 
@@ -175,6 +269,21 @@ public class TCommentActivity extends AppCompatActivity
         commentContainer.setLayoutManager(llm);
         tCommentAdapter = new TCommentAdapter(TCommentActivity.this, commentHistory);
         commentContainer.setAdapter(tCommentAdapter);
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean validate(String commentText) {
+        boolean valid = true;
+        if (commentText.isEmpty() || commentText.length() < 2) {
+            valid = false;
+        } else {
+            commentContent.setError(null);
+        }
+        return valid;
     }
 
     /**
@@ -193,6 +302,18 @@ public class TCommentActivity extends AppCompatActivity
      */
     public void openCommentDialogT(View view) {
         openDialog();
+    }
+
+    public void updateTComment(View view) {
+        openUpdateDialog();
+    }
+
+    public void deleteTComment(View view) {
+        openDeleteDialog();
+    }
+
+    public void showTrainings(View view) {
+        startActivity(new Intent(this, ViewFriendsTrainingsActivity.class));
     }
 
     @Override
@@ -251,4 +372,6 @@ public class TCommentActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+
 }

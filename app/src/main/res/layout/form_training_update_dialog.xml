@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/formTrainingUpdate_tvEditInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="23dp"
+        android:text="Edycja treningu." />
+
+    <TextView
+        android:id="@+id/formTrainingUpdate_tvDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_tvEditInfo"
+        android:layout_marginLeft="15dp"
+        android:text="Dystans (km)" />
+
+    <EditText
+        android:id="@+id/formTrainingUpdate_etDistance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_tvDistance"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:drawableLeft="@drawable/ic_timeline"
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/ic_edit"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/formTrainingUpdate_tvHours"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_etDistance"
+        android:layout_marginLeft="15dp"
+        android:text="Godziny (h)" />
+
+    <EditText
+        android:id="@+id/formTrainingUpdate_etHours"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_tvHours"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="4dp"
+        android:drawableLeft="@drawable/ic_timer_black"
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/ic_edit"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/formTrainingUpdate_tvMins"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_etDistance"
+        android:layout_marginLeft="150dp"
+        android:layout_toRightOf="@+id/formTrainingUpdate_tvHours"
+        android:text="Minuty (mm)" />
+
+    <EditText
+        android:id="@+id/formTrainingUpdate_etMins"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/formTrainingUpdate_tvMins"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:drawableLeft="@drawable/ic_timer_black"
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/ic_edit"
+        android:inputType="number" />
+
+    <TextView
+        android:id="@+id/formTrainingUpdate_tvNotes"
+        android:layout_width="500dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_etHours"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="15dp"
+        android:text="Osobiste notatki (niewymagane)" />
+
+    <EditText
+        android:id="@+id/formTrainingUpdate_etNotes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/formTrainingUpdate_tvNotes"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:drawableLeft="@drawable/ic_books"
+        android:drawablePadding="10dp"
+        android:drawableRight="@drawable/ic_edit"
+        android:inputType="textCapSentences" />
+
+</RelativeLayout>

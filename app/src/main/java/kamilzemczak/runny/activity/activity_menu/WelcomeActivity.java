@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,6 +22,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.LinearLayoutManager;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -37,6 +39,7 @@ import java.util.concurrent.ExecutionException;
 
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.backgroundworker.RegisterBackgroundWorker;
 import kamilzemczak.runny.model.Post;
 import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
 import kamilzemczak.runny.adapter.PostAdapter;
@@ -53,6 +56,7 @@ public class WelcomeActivity extends AppCompatActivity
     private TextView welcome, info, noPosts;
     private EditText postContent;
     private Button postButton;
+    private ImageView editImage;
     private RecyclerView postContainer;
     private PostAdapter postAdapter;
     private DrawerLayout drawer;
@@ -62,7 +66,11 @@ public class WelcomeActivity extends AppCompatActivity
     private List<Post> postHistory = new ArrayList<Post>();
     public static List<String> commentsSize = new ArrayList<String>();
 
+    public String sPostCurrentId = String.valueOf(postCurrentId);
+
+    public static String postCurrentContent;
     public static Integer postCurrentId;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,11 +109,15 @@ public class WelcomeActivity extends AppCompatActivity
         loadHistory();
 
         postContainer.addOnItemTouchListener(
-                new RecyclerItemClickListener(WelcomeActivity.this, postContainer ,new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override public void onItemClick(View view, int position) {
+                new RecyclerItemClickListener(WelcomeActivity.this, postContainer, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
                         postCurrentId = postHistory.get(position).getId();
+                        postCurrentContent = postHistory.get(position).getContents();
                     }
-                    @Override public void onLongItemClick(View view, int position) {
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
                     }
                 })
         );
@@ -126,12 +138,21 @@ public class WelcomeActivity extends AppCompatActivity
         builder.setPositiveButton("OPUBLIKUJ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                String postText = postContent.getText().toString();
                 String type = "post_send";
-                PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
-                postBackgroundWorker.execute(type, postText, loginActivity.userCurrentUsername);
-                finish();
-                startActivity(getIntent());
+                String postText = postContent.getText().toString();
+                if (!validate(postText)) {
+                    openDialog();
+                    Toast.makeText(getBaseContext(), "Dodawanie postu nieudane.", Toast.LENGTH_LONG).show();
+                    postContent.setError("Post musi zawierać minimum trzy znaki.");
+                    postContent.setText(postText);
+                } else {
+                    PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
+                    postBackgroundWorker.execute(type, postText, loginActivity.userCurrentUsername);
+                    finish();
+                    startActivity(getIntent());
+                    Toast.makeText(getBaseContext(), "Dodanie postu udane!.", Toast.LENGTH_LONG).show();
+                }
+
             }
         });
 
@@ -144,14 +165,86 @@ public class WelcomeActivity extends AppCompatActivity
         builder.show();
     }
 
+    private void openUpdateDialog() {
+        LayoutInflater inflater = LayoutInflater.from(WelcomeActivity.this);
+        View subView = inflater.inflate(R.layout.form_post_update_dialog, null);
+        postContent = (EditText) subView.findViewById(R.id.dialogEditText);
+        postContent.setText(postCurrentContent);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edytuj post już teraz!");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("ZATWIERDŹ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "post_update";
+                String postText = postContent.getText().toString();
+                if (!validate(postText)) {
+                    openUpdateDialog();
+                    Toast.makeText(getBaseContext(), "Edycja postu nieudana.", Toast.LENGTH_LONG).show();
+                    postContent.setError("Post musi zawierać minimum trzy znaki.");
+                    postContent.setText(postText);
+                } else {
+                    PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
+                    postBackgroundWorker.execute(type, sPostCurrentId, postText);
+                    finish();
+                    startActivity(getIntent());
+                    Toast.makeText(getBaseContext(), "Edycja postu udana!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void openDeleteDialog() {
+        LayoutInflater inflater = LayoutInflater.from(WelcomeActivity.this);
+        View subView = inflater.inflate(R.layout.form_post_delete_dialog, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Usuń post już teraz!");
+        builder.setMessage("Czy jesteś pewien?");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "post_delete";
+                PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
+                postBackgroundWorker.execute(type, sPostCurrentId);
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getBaseContext(), "Post został usunięty.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.setNegativeButton("COFNIJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
     private void loadHistory() {
         String type = "posts_find";
         String result = null;
         PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
-
         try {
-            String author_username = loginActivity.userCurrentUsername;
-            result = postBackgroundWorker.execute(type, author_username).get();
+            String authorUsername = loginActivity.userCurrentUsername;
+            result = postBackgroundWorker.execute(type, authorUsername).get();
             ObjectMapper objectMapper = new ObjectMapper();
             postHistory = objectMapper.readValue(result, new TypeReference<List<Post>>() {
             });
@@ -175,7 +268,7 @@ public class WelcomeActivity extends AppCompatActivity
         loadCommentsSize();
         setPostHistoryToAdapter();
 
-        if(postHistory.isEmpty()) {
+        if (postHistory.isEmpty()) {
             noPosts.setText("Brak postów." + "\n" + "Twój może być pierwszy!");
         }
     }
@@ -196,14 +289,29 @@ public class WelcomeActivity extends AppCompatActivity
         PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
         try {
             String result = postBackgroundWorker.execute(type, username).get();
-            String resultToReplace = result.replace("[","");
-            String finalResult = resultToReplace.replace("]","");
+            String resultToReplace = result.replace("[", "");
+            String finalResult = resultToReplace.replace("]", "");
             commentsSize = new ArrayList<String>(Arrays.asList(finalResult.split(",")));
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean validate(String postText) {
+        boolean valid = true;
+        if (postText.isEmpty() || postText.length() < 3) {
+            valid = false;
+        } else {
+            postContent.setError(null);
+        }
+        return valid;
     }
 
     /**
@@ -226,6 +334,25 @@ public class WelcomeActivity extends AppCompatActivity
 
     public void showFriendsTraining(View view) {
         startActivity(new Intent(this, ViewFriendsTrainingsActivity.class));
+    }
+
+    public void inProgress(View view) {
+        Toast.makeText(getBaseContext(), "Funkcjonalność w budowie!", Toast.LENGTH_LONG).show();
+    }
+
+    public void updatePost(View view) {
+        openUpdateDialog();
+    }
+
+    public void deletePost(View view) {
+        openDeleteDialog();
+    }
+
+    public void postLike(View view) {
+        String type = "post_like";
+        String sPostCurrentId = String.valueOf(postCurrentId);
+        PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
+        postBackgroundWorker.execute(type, loginActivity.userCurrentUsername, sPostCurrentId);
     }
 
     @Override

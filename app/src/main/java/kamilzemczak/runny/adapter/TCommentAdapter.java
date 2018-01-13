@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
@@ -13,8 +14,11 @@ import java.util.List;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.model.TComment;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 
 public class TCommentAdapter extends RecyclerView.Adapter<TCommentAdapter.ContactViewHolder> {
+    private LoginActivity loginActivity;
+
     private List<TComment> tCommentList;
 
     public TCommentAdapter(Activity context, List<TComment> tCommentList) {
@@ -34,6 +38,11 @@ public class TCommentAdapter extends RecyclerView.Adapter<TCommentAdapter.Contac
         contactViewHolder.surname.setText(tComment.getAuthor().getSurname());
         contactViewHolder.name.setText(tComment.getAuthor().getName());
         contactViewHolder.date.setText(calendar.getTime().toString());
+
+        if(loginActivity.userCurrentId.equals(tComment.getAuthor().getId())) {
+            contactViewHolder.updateButton.setVisibility(View.VISIBLE);
+            contactViewHolder.deleteButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -50,6 +59,8 @@ public class TCommentAdapter extends RecyclerView.Adapter<TCommentAdapter.Contac
         protected TextView name;
         protected TextView surname;
         protected TextView date;
+        protected ImageView updateButton;
+        protected ImageView deleteButton;
 
         public ContactViewHolder(View v) {
             super(v);
@@ -57,6 +68,8 @@ public class TCommentAdapter extends RecyclerView.Adapter<TCommentAdapter.Contac
             surname = (TextView) v.findViewById(R.id.tCommentLayout_tvSurname);
             name = (TextView) v.findViewById(R.id.tCommentLayout_tvName);
             date = (TextView) v.findViewById(R.id.tCommentLayout_tvDate);
+            updateButton = (ImageView) v.findViewById(R.id.tCommentLayout_bUpdate);
+            deleteButton = (ImageView) v.findViewById(R.id.tCommentLayout_bDelete);
         }
     }
 }

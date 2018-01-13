@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
@@ -12,11 +13,13 @@ import java.util.Collections;
 import java.util.List;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.model.Post;
 import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ContactViewHolder> {
     private WelcomeActivity welcomeActivity;
+    private LoginActivity loginActivity;
     private List<Post> contactList;
 
     public PostAdapter(Activity context, List<Post> contactList) {
@@ -43,6 +46,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ContactViewHol
         } else {
             contactViewHolder.commentSize.setText("Komentarze" + " " + "(" + commentsSize.get(i) + ")");
         }
+
+        if(loginActivity.userCurrentId.equals(post.getAuthor().getId())) {
+            contactViewHolder.updateButton.setVisibility(View.VISIBLE);
+            contactViewHolder.deleteButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -59,6 +67,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ContactViewHol
         protected TextView surname;
         protected TextView date;
         protected TextView commentSize;
+        protected ImageView updateButton;
+        protected ImageView deleteButton;
 
         public ContactViewHolder(View v) {
             super(v);
@@ -67,6 +77,8 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ContactViewHol
             name = (TextView) v.findViewById(R.id.postLayout_tvName);
             date = (TextView) v.findViewById(R.id.postLayout_tvDate);
             commentSize = (TextView) v.findViewById(R.id.postLayout_tvComment);
+            updateButton = (ImageView) v.findViewById(R.id.postLayout_bUpdate);
+            deleteButton = (ImageView) v.findViewById(R.id.postLayout_bDelete);
         }
     }
 }

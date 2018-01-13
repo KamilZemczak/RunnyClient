@@ -152,21 +152,21 @@ public class LoginActivity extends AppCompatActivity {
     public boolean validate() {
         boolean valid = true;
 
-        String str_username = username.getText().toString();
-        String str_password = password.getText().toString();
+        String username = this.username.getText().toString();
+        String password = this.password.getText().toString();
 
-        if (str_username.isEmpty()) {
-            username.setError("Nie wpisano nazwy użytkownika.");
+        if (username.isEmpty()) {
+            this.username.setError("Nie wpisano nazwy użytkownika.");
             valid = false;
         } else {
-            username.setError(null);
+            this.username.setError(null);
         }
 
-        if (str_password.isEmpty()) {
-            password.setError("Nie wpisano hasła.");
+        if (password.isEmpty()) {
+            this.password.setError("Nie wpisano hasła.");
             valid = false;
         } else {
-            password.setError(null);
+            this.password.setError(null);
         }
 
         return valid;

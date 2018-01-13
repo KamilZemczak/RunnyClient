@@ -12,30 +12,31 @@
         android:id="@+id/objectviesActivity_tvInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="110dp"
+        android:layout_marginLeft="95dp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:text="@string/saveObjective"
         android:textSize="26sp" />
 
-    <TextView
-        android:id="@+id/objectivesActivity_tvObjectivesHistory"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <Button
+        android:id="@+id/objectviesActivity_bOjbectivesHistory"
+        android:layout_width="320dp"
+        android:layout_height="45dp"
         android:layout_below="@+id/objectviesActivity_tvInfo"
-        android:layout_marginLeft="110dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginTop="10dp"
-        android:gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/roundedbutton"
         android:onClick="showObjectiveHistory"
         android:text="@string/showObjectives"
-        android:textSize="16sp" />
+        android:textColor="@color/white"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/objectivesActivity_tvObjectiveType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/objectivesActivity_tvObjectivesHistory"
+        android:layout_below="@+id/objectviesActivity_bOjbectivesHistory"
         android:layout_marginLeft="13dp"
         android:layout_marginRight="13dp"
         android:layout_marginTop="15dp"
@@ -72,6 +73,16 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="5dp" />
+
+    <TextView
+        android:id="@+id/objectivesActivity_tvCaloriesInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/objectivesActivity_oSpinner"
+        android:layout_marginLeft="13dp"
+        android:layout_marginRight="13dp"
+        android:layout_marginTop="1dp"
+        android:textSize="10sp" />
 
     <Button
         android:id="@+id/objectivesActivity_addObjective"

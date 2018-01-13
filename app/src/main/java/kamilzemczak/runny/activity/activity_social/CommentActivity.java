@@ -21,6 +21,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -35,6 +36,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.helper.RecyclerItemClickListener;
 import kamilzemczak.runny.model.Comment;
 import kamilzemczak.runny.adapter.CommentAdapter;
 import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
@@ -60,6 +62,11 @@ public class CommentActivity extends AppCompatActivity
     private Calendar calendar;
 
     private List<Comment> commentHistory = new ArrayList<Comment>();
+
+    public String sCommentCurrentId = String.valueOf(commentCurrentId);
+
+    public static String commentCurrentContent;
+    public static Integer commentCurrentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +98,20 @@ public class CommentActivity extends AppCompatActivity
         calendar = Calendar.getInstance();
 
         loadHistory();
+
+        commentContainer.addOnItemTouchListener(
+                new RecyclerItemClickListener(CommentActivity.this, commentContainer, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        commentCurrentId = commentHistory.get(position).getId();
+                        commentCurrentContent = commentHistory.get(position).getContents();
+                    }
+
+                    @Override
+                    public void onLongItemClick(View view, int position) {
+                    }
+                })
+        );
     }
 
     private void openDialog() {
@@ -109,16 +130,95 @@ public class CommentActivity extends AppCompatActivity
             public void onClick(DialogInterface dialog, int which) {
                 String type = "comment_send";
                 String commentText = commentContent.getText().toString();
-                CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
-                Integer iPostCurrentId = welcomeActivity.postCurrentId;
-                String sPostCurrentId = String.valueOf(iPostCurrentId);
-                commentBackgroundWorker.execute(type, commentText, loginActivity.userCurrentUsername, sPostCurrentId);
-                finish();
-                startActivity(getIntent());
+                if (!validate(commentText)) {
+                    openDialog();
+                    commentContent.setError("Post musi zawierać minimum dwa znaki.");
+                    commentContent.setText(commentText);
+                } else {
+                    CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
+                    Integer iPostCurrentId = welcomeActivity.postCurrentId;
+                    String sPostCurrentId = String.valueOf(iPostCurrentId);
+                    commentBackgroundWorker.execute(type, commentText, loginActivity.userCurrentUsername, sPostCurrentId);
+                    finish();
+                    startActivity(getIntent());
+                }
             }
         });
 
         builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void openUpdateDialog() {
+        LayoutInflater inflater = LayoutInflater.from(CommentActivity.this);
+        View subView = inflater.inflate(R.layout.form_comment_update_dialog, null);
+        commentContent = (EditText) subView.findViewById(R.id.dialogEditText);
+        commentContent.setText(commentCurrentContent);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edytuj komentarz już teraz!");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("ZATWIERDŹ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "comment_update";
+                String commentText = commentContent.getText().toString();
+                if (!validate(commentText)) {
+                    openUpdateDialog();
+                    Toast.makeText(getBaseContext(), "Edycja komentarzu nieudana.", Toast.LENGTH_LONG).show();
+                    commentContent.setError("Komentarz musi zawierać minimum dwa znaki.");
+                    commentContent.setText(commentText);
+                } else {
+                    CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
+                    commentBackgroundWorker.execute(type, sCommentCurrentId, commentText);
+                    finish();
+                    startActivity(getIntent());
+                    Toast.makeText(getBaseContext(), "Edycja komentarza udana!", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    private void openDeleteDialog() {
+        LayoutInflater inflater = LayoutInflater.from(CommentActivity.this);
+        View subView = inflater.inflate(R.layout.form_comment_delete_dialog, null);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Usuń komentarz już teraz!");
+        builder.setMessage("Czy jesteś pewien?");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "comment_delete";
+                CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
+                commentBackgroundWorker.execute(type, sCommentCurrentId);
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getBaseContext(), "Komentarz został usunięty.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.setNegativeButton("COFNIJ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
 
@@ -171,7 +271,7 @@ public class CommentActivity extends AppCompatActivity
         setCommentHistoryToAdapter();
 
         if (commentHistory.isEmpty()) {
-            noCommentsFind.setText("Brak komentarzy." + "\n" + "Twoj moze byc pierwszy!");
+            noCommentsFind.setText("Brak komentarzy." + "\n" + "Twój może byc pierwszy!");
         }
     }
 
@@ -182,6 +282,33 @@ public class CommentActivity extends AppCompatActivity
         commentContainer.setLayoutManager(llm);
         commentAdapter = new CommentAdapter(CommentActivity.this, commentHistory);
         commentContainer.setAdapter(commentAdapter);
+    }
+
+    /**
+     * TODO
+     *
+     * @return
+     */
+    public boolean validate(String commentText) {
+        boolean valid = true;
+        if (commentText.isEmpty() || commentText.length() < 2) {
+            valid = false;
+        } else {
+            commentContent.setError(null);
+        }
+        return valid;
+    }
+
+    public void showPosts(View view) {
+        startActivity(new Intent(this, WelcomeActivity.class));
+    }
+
+    public void updateComment(View view) {
+        openUpdateDialog();
+    }
+
+    public void deleteComment(View view) {
+        openDeleteDialog();
     }
 
     @Override
