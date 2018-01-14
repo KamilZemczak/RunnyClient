@@ -144,15 +144,8 @@ public class RegisterActivity extends AppCompatActivity {
         return valid;
     }
 
-    /**
-     * TODO
-     *
-     * @param valid
-     * @return
-     */
     private boolean validGender(boolean valid) {
         if (genderRadioGroup.getCheckedRadioButtonId() <= 0) {
-            //chooseGender.requestFocus(); //TODO: rozwiązać problem prioretyetów i znikania ostrzeżenia.
             chooseGender.setError("Wybierz płeć.");
             valid = false;
         } else {
