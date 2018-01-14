@@ -19,11 +19,22 @@
         android:text="@string/friendsTrainingHistory"
         android:textSize="26sp" />
 
+    <TextView
+        android:id="@+id/viewFriendsTrainingsActivity_tvGoToPosts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewFriendsTrainingsActivity_tvTrainingInfo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:onClick="showPosts"
+        android:text="Wróć do przeglądania postów." />
+
     <View
         android:id="@+id/viewFriendsTrainingsActivity_view"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/viewFriendsTrainingsActivity_tvTrainingInfo"
+        android:layout_below="@+id/viewFriendsTrainingsActivity_tvGoToPosts"
         android:layout_marginTop="4dp"
         android:background="@color/black" />
 
@@ -37,11 +48,11 @@
         android:layout_marginTop="10dp" />
 
     <TextView
-        android:id="@+id/tvNoTrainingsV"
+        android:id="@+id/viewFriendsTrainingsActivity_tvNoTrainingsFind"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="55dp"
+        android:layout_marginLeft="110dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="310dp"
         android:gravity="center_horizontal"

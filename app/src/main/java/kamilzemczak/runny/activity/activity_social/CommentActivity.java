@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -35,6 +36,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.helper.RecyclerItemClickListener;
 import kamilzemczak.runny.model.Comment;
@@ -62,8 +64,6 @@ public class CommentActivity extends AppCompatActivity
     private Calendar calendar;
 
     private List<Comment> commentHistory = new ArrayList<Comment>();
-
-    public String sCommentCurrentId = String.valueOf(commentCurrentId);
 
     public static String commentCurrentContent;
     public static Integer commentCurrentId;
@@ -95,6 +95,7 @@ public class CommentActivity extends AppCompatActivity
 
         postCommentButton = (Button) findViewById(R.id.commentActivity_bPostComment);
         noCommentsFind = (TextView) findViewById(R.id.commentActivity_tvNoCommentsFind);
+
         calendar = Calendar.getInstance();
 
         loadHistory();
@@ -170,6 +171,7 @@ public class CommentActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "comment_update";
+                String sCommentCurrentId = String.valueOf(commentCurrentId);
                 String commentText = commentContent.getText().toString();
                 if (!validate(commentText)) {
                     openUpdateDialog();
@@ -210,6 +212,7 @@ public class CommentActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "comment_delete";
+                String sCommentCurrentId = String.valueOf(commentCurrentId);
                 CommentBackgroundWorker commentBackgroundWorker = new CommentBackgroundWorker(CommentActivity.this);
                 commentBackgroundWorker.execute(type, sCommentCurrentId);
                 finish();
@@ -309,6 +312,15 @@ public class CommentActivity extends AppCompatActivity
 
     public void deleteComment(View view) {
         openDeleteDialog();
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

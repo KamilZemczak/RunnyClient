@@ -148,7 +148,7 @@ public class HistoryActivity extends AppCompatActivity
         setTrainingHistoryToAdapter();
 
         if (trainingHistory.isEmpty()) {
-            noTrainingsFind.setText("Brak treningów." + "\n" + "Zacznij od dziś!");
+            noTrainingsFind.setText("Brak treningów. Zacznij działać od dziś i potem dodaj swój trening!");
         }
     }
 
@@ -356,6 +356,19 @@ public class HistoryActivity extends AppCompatActivity
 
     public void deleteOwnTraining(View view) {
         openDeleteDialog();
+    }
+
+    public void goToAddTraining(View view) {
+        startActivity(new Intent(this, TrainingActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

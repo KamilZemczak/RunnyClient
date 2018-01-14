@@ -35,7 +35,7 @@
         <item>4500kcal</item>
     </string-array>
 
-    <string name="app_name">Runny</string>
+    <string name="app_name">Ready4RUN</string>
 
     <string name="gender_prompt">Wybierz płeć</string>
 
@@ -70,7 +70,8 @@
     <string name="aboutMe">O MNIE</string>
     <string name="editProfile">EDYTUJ PROFIL</string>
 
-    <string name="saveObjective">WYBIERZ SWÓJ CEL</string>
+    <string name="chooseObjective">WYBIERZ SWÓJ CEL</string>
+    <string name="saveObjective">ZAPISZ SWÓJ CEL</string>
     <string name="showObjectives">Podejrzyj swoje cele</string>
     <string name="type">RODZAJ</string>
     <string name="objective">CEL</string>
@@ -106,8 +107,6 @@
     <string name="kg">kg</string>
     <string name="cm">cm</string>
 
-    <string name="objectiveFail">CEL NIEOSIĄGNIETY</string>
-
     <string name="likeThis">Lubię to!</string>
     <string name="shareThis">Udostępnij</string>
 
@@ -117,7 +116,7 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Wyloguj</string>
     <string name="title_activity_profile">Profile</string>
     <string name="title_activity_training">TrainingActivity</string>
     <string name="title_activity_friend">FriendActivity</string>

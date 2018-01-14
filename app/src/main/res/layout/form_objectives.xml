@@ -32,23 +32,41 @@
         android:id="@+id/objectivesLayout_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/objectivesLayout_tvObjective"
-        android:layout_alignEnd="@+id/objectivesLayout_tvInfo"
-        android:layout_alignRight="@+id/objectivesLayout_tvInfo"
-        android:layout_marginEnd="12dp"
+        android:layout_marginLeft="293dp"
         android:layout_marginRight="12dp"
-        android:src="@drawable/check" />
+        android:src="@drawable/cross" />
+
+    <ImageView
+        android:id="@+id/objectivesLayout_bDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginRight="6dp"
+        android:onClick="deleteObjective"
+        android:src="@drawable/ic_deleto" />
 
     <TextView
-        android:id="@+id/objectivesLayout_tvInfo"
+        android:id="@+id/objectivesLayout_tvFailInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/objectivesLayout_image"
         android:layout_marginLeft="270dp"
         android:layout_marginTop="8dp"
-        android:text="@string/objectiveFail"
+        android:text="CEL NIEOSIĄGNIĘTY"
         android:textSize="10sp"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/objectivesLayout_tvGoodInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/objectivesLayout_image"
+        android:layout_marginLeft="278dp"
+        android:layout_marginTop="8dp"
+        android:textSize="10sp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
     <TextView
         android:id="@+id/objectivesLayout_tvDate"
@@ -61,5 +79,12 @@
         android:drawablePadding="2dp"
         android:textColor="#5d5d5d"
         android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/objectivesLayout_tvId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
 </RelativeLayout>

@@ -7,8 +7,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.model.Training;
@@ -30,10 +33,12 @@ public class TrainingOAdapter extends RecyclerView.Adapter<TrainingOAdapter.Cont
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
         Calendar calendar = Calendar.getInstance();
         Training training = trainingList.get(i);
+        DateFormat dateFormat = new SimpleDateFormat("E, HH:mm (dd/MM/yyyy)", new Locale("pl", "pl_PL"));
+        String finalDate = dateFormat.format(training.getTime());
         contactViewHolder.trainingContent.setText(training.getContents());
         contactViewHolder.surname.setText(training.getAuthor().getSurname());
         contactViewHolder.text.setText(training.getAuthor().getName());
-        contactViewHolder.date.setText(calendar.getTime().toString());
+        contactViewHolder.date.setText(finalDate);
         contactViewHolder.distance.setText(training.getDistance().toString() + " " + "KM");
         contactViewHolder.duration.setText("1G:20M");
         contactViewHolder.calories.setText(training.getCalories().toString() + " " + "KCAL");

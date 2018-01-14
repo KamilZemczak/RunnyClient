@@ -12,10 +12,10 @@
         android:id="@+id/objectviesActivity_tvInfo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="95dp"
+        android:layout_marginLeft="85dp"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
-        android:text="@string/saveObjective"
+        android:text="@string/chooseObjective"
         android:textSize="26sp" />
 
     <Button

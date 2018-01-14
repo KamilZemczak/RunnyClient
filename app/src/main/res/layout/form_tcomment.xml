@@ -54,10 +54,10 @@
             android:id="@+id/tCommentLayout_tvDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/commentLayout_tvName"
-            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/tCommentLayout_tvName"
+            android:layout_marginLeft="11dp"
             android:layout_toRightOf="@+id/profile_image"
-            android:textSize="8sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/tCommentLayout_tvCommentContent"

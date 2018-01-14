@@ -55,9 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/trainingPublicLayout_tvName"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="11dp"
             android:layout_toRightOf="@+id/profile_image"
-            android:textSize="8sp" />
+            android:textSize="10sp" />
 
         <TextView
             android:id="@+id/trainingPublicLayout_tvTrainingContent"
@@ -157,6 +157,7 @@
             android:layout_marginLeft="18dp"
             android:layout_marginRight="6dp"
             android:layout_marginTop="10dp"
+            android:onClick="inProgress"
             android:src="@drawable/like" />
 
         <TextView
@@ -166,6 +167,7 @@
             android:layout_below="@+id/trainingPublicLayout_viewSecond"
             android:layout_marginTop="15dp"
             android:layout_toRightOf="@+id/trainingPublicLayout_bLike"
+            android:onClick="inProgress"
             android:text="@string/likeThis" />
 
         <ImageView

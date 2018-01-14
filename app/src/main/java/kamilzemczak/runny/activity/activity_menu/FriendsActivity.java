@@ -23,8 +23,10 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.widget.Toast;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_entry.LoginActivity;
 import kamilzemczak.runny.activity.activity_user.SearchFriendsActivity;
 import kamilzemczak.runny.activity.activity_user.SearchUserFriendsActivity;
 
@@ -60,6 +62,29 @@ public class FriendsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    /**
+     * TODO
+     */
+    public void openFriendsList(View view) {
+        startActivity(new Intent(this, SearchUserFriendsActivity.class));
+    }
+
+    /**
+     * TODO
+     */
+    public void openSearchFriends(View view) {
+        startActivity(new Intent(this, SearchFriendsActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -90,20 +115,6 @@ public class FriendsActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * TODO
-     */
-    public void openFriendsList(View view) {
-        startActivity(new Intent(this, SearchUserFriendsActivity.class));
-    }
-
-    /**
-     * TODO
-     */
-    public void openSearchFriends(View view) {
-        startActivity(new Intent(this, SearchFriendsActivity.class));
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

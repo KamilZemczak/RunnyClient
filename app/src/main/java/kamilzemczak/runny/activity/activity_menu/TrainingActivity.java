@@ -154,36 +154,48 @@ public class TrainingActivity extends AppCompatActivity
      */
     public boolean validate(String distanceToSend, Integer iHours, Integer iMins) {
         boolean valid = true;
-        if (distanceToSend.isEmpty() || distanceToSend.length() < 1) {
+        if (distanceToSend.isEmpty() || Integer.parseInt(distanceToSend) == 0 || Integer.parseInt(distanceToSend) < 0) {
             distance.setError("Minimalny dystans to 1km.");
+            valid = false;
+        } else if (distanceToSend.isEmpty() || Integer.parseInt(distanceToSend) > 70) {
+            distance.setError("Maksymalny dystans to 70km.");
             valid = false;
         } else {
             distance.setError(null);
         }
 
-        if (iHours <= 0 || iHours > 10) {
+        if (iHours > 10) {
             hours.setError("Maksymalny czas biegu to 10h");
             valid = false;
+        } else if (iMins == 0 && iHours == 0) {
+            mins.setError("Nie wpisałeś czasu.");
+            hours.setError("Nie wpisałeś czasu.");
+            valid = false;
         } else {
+            mins.setError(null);
             hours.setError(null);
         }
 
         if (iMins > 60) {
             mins.setError("Minut maksymalnie 60!");
             valid = false;
-        } else {
-            mins.setError(null);
-        }
-
-        if (iMins == 0 && iHours == 0) {
-            hours.setError("Nie wpisałeś czasu.");
+        } else if (iMins == 0 && iHours == 0) {
             mins.setError("Nie wpisałeś czasu.");
+            hours.setError("Nie wpisałeś czasu.");
             valid = false;
         } else {
-            hours.setError(null);
             mins.setError(null);
         }
         return valid;
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

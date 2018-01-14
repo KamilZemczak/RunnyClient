@@ -1,10 +1,18 @@
 package kamilzemczak.runny.activity.activity_user;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.content.Intent;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +23,7 @@ import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -27,6 +36,8 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.activity.activity_social.CommentActivity;
+import kamilzemczak.runny.backgroundworker.CommentBackgroundWorker;
 import kamilzemczak.runny.model.Objective;
 import kamilzemczak.runny.backgroundworker.ObjectiveBackgroundWorker;
 import kamilzemczak.runny.adapter.ObjectiveAdapter;
@@ -43,10 +54,13 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
 
     private LoginActivity loginActivity;
 
-    private TextView noObjectivesFind;
+    private TextView noObjectivesFind, objectiveId;
     private ListView allObjectives;
+    private ImageView deleteButton;
 
     private List<Objective> objectives = new ArrayList<Objective>();
+
+    public static Integer objectiveCurrentId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +92,13 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
         updateObjectives();
         loadHistory();
 
+        allObjectives.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                objectiveCurrentId = objectives.get(position).getId();
+            }
+        });
+
     }
 
     public void updateObjectives() {
@@ -103,7 +124,7 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
             allObjectives.setAdapter(customAdapter);
 
             if (objectives.isEmpty()) {
-                noObjectivesFind.setText("Brak celow.");
+                noObjectivesFind.setText("Brak celów. Dodaj cel już dziś i ciesz się dodatkową motywacją!");
             }
         } catch (
                 InterruptedException e) {
@@ -121,6 +142,57 @@ public class ViewUserObjectivesActivity extends AppCompatActivity
                 IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void openDeleteDialog() {
+        LayoutInflater inflater = LayoutInflater.from(ViewUserObjectivesActivity.this);
+        final View subView = inflater.inflate(R.layout.form_objective_delete_dialog, null);
+        objectiveId = (EditText) subView.findViewById(R.id.objectivesLayout_tvId);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Usuń cel już teraz!");
+        builder.setMessage("Czy jesteś pewien? To nieodwracalne.");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "objective_delete";
+                String sObjectiveCurrentId = String.valueOf(objectiveCurrentId);
+                //String sObjectiveCurrentId2 = objectiveId.getText().toString();
+                ObjectiveBackgroundWorker objectiveBackgroundWorker = new ObjectiveBackgroundWorker(ViewUserObjectivesActivity.this);
+                objectiveBackgroundWorker.execute(type, sObjectiveCurrentId);
+                finish();
+                startActivity(getIntent());
+                Toast.makeText(getBaseContext(), "Cel został usunięty.", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        builder.setNegativeButton("COFNIJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
+
+    public void deleteObjective(View view) {
+        openDeleteDialog();
+    }
+
+    public void goToAddObjectives(View view) {
+        startActivity(new Intent(this, ObjectivesActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

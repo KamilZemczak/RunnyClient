@@ -116,6 +116,15 @@ public class ViewUserProfileActivity extends AppCompatActivity
         addFriendButton.setText("UŻYTKOWNIK ZOSTAŁ DODANY DO ZNAJOMYCH.");
     }
 
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
+    }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

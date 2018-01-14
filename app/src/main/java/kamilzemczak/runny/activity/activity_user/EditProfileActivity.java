@@ -1,6 +1,9 @@
 package kamilzemczak.runny.activity.activity_user;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +29,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
 import kamilzemczak.runny.model.User;
 import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
@@ -45,7 +49,7 @@ public class EditProfileActivity extends AppCompatActivity
 
     private LoginActivity loginActivity;
 
-    private EditText username, email, age, gender, weight, height, city, about;
+    private EditText username, email, age, gender, weight, height, city, about, password, passwordConfirm;
     private TextView user;
     private Button updateButton;
 
@@ -192,6 +196,54 @@ public class EditProfileActivity extends AppCompatActivity
         }
     }
 
+    private void openUpdateDialog() {
+        LayoutInflater inflater = LayoutInflater.from(EditProfileActivity.this);
+        View subView = inflater.inflate(R.layout.form_password_update_dialog, null);
+        password = (EditText) subView.findViewById(R.id.formPasswordUpdate_etPassword);
+        passwordConfirm = (EditText) subView.findViewById(R.id.formPasswordUpdate_etPasswordConfirm);
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Edytuj hasło już teraz!");
+        builder.setView(subView);
+
+        AlertDialog alertDialog = builder.create();
+
+        builder.setPositiveButton("ZATWIERDŹ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String type = "user_password_update";
+                String sPassword = password.getText().toString();
+                String sPasswordConfirm = passwordConfirm.getText().toString();
+                if (!validPassword(sPassword, sPasswordConfirm)) {
+                    openUpdateDialog();
+                    Toast.makeText(getBaseContext(), "Edycja hasła nieudana.", Toast.LENGTH_LONG).show();
+                    setErrors(sPassword, sPasswordConfirm);
+                } else {
+                    UserBackgroundWorker userBackgroundWorker = new UserBackgroundWorker(EditProfileActivity.this);
+                    userBackgroundWorker.execute(type, loginActivity.userCurrentUsername, sPassword, sPasswordConfirm);
+                    finish();
+                    startActivity(getIntent());
+                    Toast.makeText(getBaseContext(), "Edycja hasła udana!", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            private void setErrors(String sPassword, String sPasswordConfirm) {
+                if (sPassword.isEmpty() || sPassword.length() < 8 || sPassword.length() > 26) {
+                    password.setError("Hasło musi zawierać co najmniej 8 znaków.");
+                } else if (!sPasswordConfirm.equals(sPassword)) {
+                    password.setError("Wybrane hasła się od siebie różnią.");
+                }
+            }
+        });
+
+        builder.setNegativeButton("ANULUJ", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        builder.show();
+    }
 
     /**
      * TODO
@@ -415,6 +467,18 @@ public class EditProfileActivity extends AppCompatActivity
         return result;
     }
 
+    private boolean validPassword(String password, String passwordConfirm) {
+        boolean valid = true;
+        if (password.isEmpty() || password.length() < 8 || password.length() > 26) {
+            valid = false;
+        } else if (!passwordConfirm.equals(password)) {
+            valid = false;
+        } else {
+            this.password.setError(null);
+        }
+        return valid;
+    }
+
     /**
      * TODO
      */
@@ -438,6 +502,15 @@ public class EditProfileActivity extends AppCompatActivity
      */
     public void showProfile(View view) {
         startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void changePassword(View view) {
+        openUpdateDialog();
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

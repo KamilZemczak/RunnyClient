@@ -8,9 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
@@ -35,23 +38,20 @@ public class TrainingAdapter extends RecyclerView.Adapter<TrainingAdapter.Contac
     @Override
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
         List<String> commentsSize2 = viewFriendsTrainingsActivity.trainingsSize;
-        Collections.reverse(commentsSize2);
 
         Calendar calendar = Calendar.getInstance();
         Training training = trainingList.get(i);
-
+        DateFormat dateFormat = new SimpleDateFormat("E, HH:mm (dd/MM/yyyy)", new Locale("pl", "pl_PL"));
+        String finalDate = dateFormat.format(training.getTime());
         contactViewHolder.trainingContent.setText(training.getContents());
         contactViewHolder.surname.setText(training.getAuthor().getSurname());
         contactViewHolder.name.setText(training.getAuthor().getName());
-        contactViewHolder.date.setText(calendar.getTime().toString());
+        contactViewHolder.date.setText(finalDate);
         contactViewHolder.distance.setText(training.getDistance().toString() + " " + "KM");
         contactViewHolder.duration.setText("1G:20M");
         contactViewHolder.calories.setText(training.getCalories().toString() + " " + "KCAL");
-        if (commentsSize2.isEmpty()) {
-            contactViewHolder.commentSize.setText("Komentarze (0");
-        } else {
-            contactViewHolder.commentSize.setText("Komentarze" + " " + "(" + commentsSize2.get(i) + ")");
-        }
+        contactViewHolder.commentSize.setText("Komentarze" + " " + "(" + commentsSize2.get(i) + ")");
+
 
         if (loginActivity.userCurrentId.equals(training.getAuthor().getId())) {
             contactViewHolder.updateButton.setVisibility(View.VISIBLE);

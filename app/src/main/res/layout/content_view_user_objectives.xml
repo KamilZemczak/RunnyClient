@@ -12,6 +12,7 @@
         android:id="@+id/viewUserObjectivesActivity_lAllObjectives"
         android:layout_width="395dp"
         android:layout_height="587dp"
+        android:descendantFocusability="blocksDescendants"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 
@@ -20,10 +21,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="55dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="310dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="270dp"
         android:gravity="center_horizontal"
+        android:onClick="goToAddObjectives"
         android:textSize="26sp" />
 
 </RelativeLayout>

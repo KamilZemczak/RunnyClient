@@ -15,6 +15,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -45,7 +47,9 @@ public class SearchUserFriendsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private LoginActivity loginActivity;
+
     private ListView allFriends;
+    private TextView noFriendsFind;
 
     private List<User> friends = new ArrayList<User>();
     private ArrayList<ArrayList<String>> friendsAfterProcessing = new ArrayList<ArrayList<String>>();
@@ -81,6 +85,7 @@ public class SearchUserFriendsActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         allFriends = (ListView) findViewById(R.id.searchUserFriendsActivity_lAllFriends);
+        noFriendsFind = (TextView) findViewById(R.id.searchUserFriendsActivity_tvNoFriendsFind);
 
         loadHistory();
 
@@ -143,6 +148,10 @@ public class SearchUserFriendsActivity extends AppCompatActivity
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        if(friendsAfterProcessing.isEmpty()) {
+            noFriendsFind.setText("Brak znajomych na Twojej liście. Zacznij szukać, dodaj i nawiąż nową znajomość!");
+        }
     }
 
     private void processFriendsList() {
@@ -165,6 +174,19 @@ public class SearchUserFriendsActivity extends AppCompatActivity
             }
             friendsAfterProcessing.add(friendsToProcessing);
         }
+    }
+
+    public void goToSearchFriends(View view) {
+        startActivity(new Intent(this, SearchFriendsActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

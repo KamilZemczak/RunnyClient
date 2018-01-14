@@ -66,8 +66,6 @@ public class WelcomeActivity extends AppCompatActivity
     private List<Post> postHistory = new ArrayList<Post>();
     public static List<String> commentsSize = new ArrayList<String>();
 
-    public String sPostCurrentId = String.valueOf(postCurrentId);
-
     public static String postCurrentContent;
     public static Integer postCurrentId;
 
@@ -181,6 +179,7 @@ public class WelcomeActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "post_update";
+                String sPostCurrentId = String.valueOf(postCurrentId);
                 String postText = postContent.getText().toString();
                 if (!validate(postText)) {
                     openUpdateDialog();
@@ -221,6 +220,7 @@ public class WelcomeActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "post_delete";
+                String sPostCurrentId = String.valueOf(postCurrentId);
                 PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(WelcomeActivity.this);
                 postBackgroundWorker.execute(type, sPostCurrentId);
                 finish();
@@ -292,6 +292,7 @@ public class WelcomeActivity extends AppCompatActivity
             String resultToReplace = result.replace("[", "");
             String finalResult = resultToReplace.replace("]", "");
             commentsSize = new ArrayList<String>(Arrays.asList(finalResult.split(",")));
+            Collections.reverse(commentsSize);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -348,11 +349,13 @@ public class WelcomeActivity extends AppCompatActivity
         openDeleteDialog();
     }
 
-    public void postLike(View view) {
-        String type = "post_like";
-        String sPostCurrentId = String.valueOf(postCurrentId);
-        PostBackgroundWorker postBackgroundWorker = new PostBackgroundWorker(this);
-        postBackgroundWorker.execute(type, loginActivity.userCurrentUsername, sPostCurrentId);
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

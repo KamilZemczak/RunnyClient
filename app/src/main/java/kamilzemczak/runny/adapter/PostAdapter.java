@@ -8,9 +8,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
@@ -34,20 +37,17 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ContactViewHol
     @Override
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
         List<String> commentsSize = welcomeActivity.commentsSize;
-        Collections.reverse(commentsSize);
         Calendar calendar = Calendar.getInstance();
         Post post = contactList.get(i);
+        DateFormat dateFormat = new SimpleDateFormat("E, HH:mm (dd/MM/yyyy)", new Locale("pl", "pl_PL"));
+        String finalDate = dateFormat.format(post.getTime());
         contactViewHolder.postContent.setText(post.getContents());
         contactViewHolder.surname.setText(post.getAuthor().getSurname());
         contactViewHolder.name.setText(post.getAuthor().getName());
-        contactViewHolder.date.setText(calendar.getTime().toString());
-        if (commentsSize.isEmpty()) {
-            contactViewHolder.commentSize.setText("Komentarze (0");
-        } else {
-            contactViewHolder.commentSize.setText("Komentarze" + " " + "(" + commentsSize.get(i) + ")");
-        }
+        contactViewHolder.date.setText(finalDate);
+        contactViewHolder.commentSize.setText("Komentarze" + " " + "(" + commentsSize.get(i) + ")");
 
-        if(loginActivity.userCurrentId.equals(post.getAuthor().getId())) {
+        if (loginActivity.userCurrentId.equals(post.getAuthor().getId())) {
             contactViewHolder.updateButton.setVisibility(View.VISIBLE);
             contactViewHolder.deleteButton.setVisibility(View.VISIBLE);
         }

@@ -65,8 +65,6 @@ public class TCommentActivity extends AppCompatActivity
 
     private List<TComment> commentHistory = new ArrayList<TComment>();
 
-    public String sTCommentCurrentId = String.valueOf(tCommentCurrentId);
-
     public static String tCommentCurrentContent;
     public static Integer tCommentCurrentId;
 
@@ -167,6 +165,7 @@ public class TCommentActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "tcomment_update";
+                String sTCommentCurrentId = String.valueOf(tCommentCurrentId);
                 String commentText = commentContent.getText().toString();
                 if (!validate(commentText)) {
                     openUpdateDialog();
@@ -207,6 +206,7 @@ public class TCommentActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "tcomment_delete";
+                String sTCommentCurrentId = String.valueOf(tCommentCurrentId);
                 TCommentBackgroundWorker tCommentBackgroundWorker = new TCommentBackgroundWorker(TCommentActivity.this);
                 tCommentBackgroundWorker.execute(type, sTCommentCurrentId);
                 finish();
@@ -314,6 +314,15 @@ public class TCommentActivity extends AppCompatActivity
 
     public void showTrainings(View view) {
         startActivity(new Intent(this, ViewFriendsTrainingsActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

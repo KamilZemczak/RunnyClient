@@ -24,51 +24,51 @@
         <activity android:name=".activity.activity_entry.RegisterActivity" />
         <activity
             android:name=".activity.activity_menu.WelcomeActivity"
-            android:label="@string/title_activity_welcome"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.EditProfileActivity"
-            android:label="@string/title_activity_profile"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_menu.TrainingActivity"
-            android:label="@string/title_activity_training"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.SearchFriendsActivity"
-            android:label="@string/title_activity_friend"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_menu.HistoryActivity"
-            android:label="@string/title_activity_historiy"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_menu.ObjectivesActivity"
-            android:label="@string/title_activity_decision"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_menu.ProfileActivity"
-            android:label="@string/title_activity_view_profile"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.ViewUserProfileActivity"
-            android:label="@string/title_activity_view_user_profile"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_menu.FriendsActivity"
-            android:label="@string/title_activity_friend"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.SearchUserFriendsActivity"
-            android:label="@string/title_activity_user_friend_list"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.ViewFriendProfileActivity"
-            android:label="@string/title_activity_view_friend_profile"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_social.MessageActivity"
-            android:label="@string/title_activity_message"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_social.CommentActivity"
@@ -76,15 +76,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.ViewFriendsTrainingsActivity"
-            android:label="@string/title_activity_view_friends_trainings"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_social.TCommentActivity"
-            android:label="@string/title_activity_tcomment"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activity.activity_user.ViewUserObjectivesActivity"
-            android:label="@string/title_activity_view_user_objectives"
+            android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

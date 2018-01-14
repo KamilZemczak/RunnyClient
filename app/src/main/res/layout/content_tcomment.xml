@@ -36,7 +36,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:onClick="showTrainings"
-        android:text="@string/showPosts" />
+        android:text="@string/showTrainings" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/tCommentActivity_rvComments"

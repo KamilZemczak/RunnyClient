@@ -8,6 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import kamilzemczak.runny.R;
@@ -15,7 +18,7 @@ import kamilzemczak.runny.model.Objective;
 
 public class ObjectiveAdapter extends ArrayAdapter<Objective> {
 
-    public ObjectiveAdapter (Context context, int resource, List<Objective> objectiveList) {
+    public ObjectiveAdapter(Context context, int resource, List<Objective> objectiveList) {
         super(context, resource, objectiveList);
     }
 
@@ -37,7 +40,9 @@ public class ObjectiveAdapter extends ArrayAdapter<Objective> {
             TextView objectiveo = (TextView) view.findViewById(R.id.objectivesLayout_tvObjective);
             TextView date = (TextView) view.findViewById(R.id.objectivesLayout_tvDate);
             ImageView image = (ImageView) view.findViewById(R.id.objectivesLayout_image);
-            TextView info = (TextView) view.findViewById(R.id.objectivesLayout_tvInfo);
+            TextView id = (TextView) view.findViewById(R.id.objectivesLayout_tvId);
+            TextView failInfo = (TextView) view.findViewById(R.id.objectivesLayout_tvFailInfo);
+            TextView goodInfo = (TextView) view.findViewById(R.id.objectivesLayout_tvGoodInfo);
 
             if (type != null) {
                 type.setText("Rodzaj:" + " " + objective.getType());
@@ -48,15 +53,27 @@ public class ObjectiveAdapter extends ArrayAdapter<Objective> {
             }
 
             if (date != null) {
-                date.setText("Data dodania celu: 07/01/2018");
+                DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String finalDate = dateFormat.format(objective.getTime());
+                date.setText("Data dodania celu:" + " " + finalDate);
             }
 
-            if(objective.getExecuted().equals("Y")) {
+            if (objective.getExecuted().equals("Y")) {
                 image.setImageResource(R.drawable.check);
-                info.setText("CEL OSIAGNIETY :)");
-            } else {
-                image.setImageResource(R.drawable.cross);
+                goodInfo.setText("CEL OSIĄGNIĘTY!");
+                goodInfo.setVisibility(View.VISIBLE);
+                failInfo.setVisibility(View.INVISIBLE);
+            }
 
+            if(objective.getExecuted().equals("N")) {
+                image.setImageResource(R.drawable.cross);
+                goodInfo.setVisibility(View.INVISIBLE);
+                failInfo.setVisibility(View.VISIBLE);
+                failInfo.setText("CEL NIEOSIĄGNIĘTY");
+            }
+
+            if(id!=null) {
+                id.setText(objective.getId().toString());
             }
         }
         return view;

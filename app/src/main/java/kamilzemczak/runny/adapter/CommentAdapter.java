@@ -8,8 +8,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.support.v7.widget.RecyclerView;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.activity.activity_entry.LoginActivity;
@@ -33,10 +36,12 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ContactV
     public void onBindViewHolder(ContactViewHolder contactViewHolder, int i) {
         Calendar calendar = Calendar.getInstance();
         Comment comment = commentList.get(i);
+        DateFormat dateFormat = new SimpleDateFormat("E, HH:mm (dd/MM/yyyy)", new Locale("pl", "pl_PL"));
+        String finalDate = dateFormat.format(comment.getTime());
         contactViewHolder.commentContent.setText(comment.getContents());
         contactViewHolder.surname.setText(comment.getAuthor().getSurname());
         contactViewHolder.name.setText(comment.getAuthor().getName());
-        contactViewHolder.date.setText(calendar.getTime().toString());
+        contactViewHolder.date.setText(finalDate);
 
         if(loginActivity.userCurrentId.equals(comment.getAuthor().getId())) {
             contactViewHolder.updateButton.setVisibility(View.VISIBLE);

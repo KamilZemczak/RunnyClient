@@ -20,6 +20,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.NavigationView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -32,6 +33,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
@@ -194,7 +196,7 @@ public class MessageActivity extends AppCompatActivity implements NavigationView
             } else {
                 message.setMe(false);
             }
-            DateFormat date = new SimpleDateFormat("E, HH:mm:ss (dd/MM/yyyy)");
+            DateFormat date = new SimpleDateFormat("E, HH:mm:ss (dd/MM/yyyy)", new Locale("pl", "pl_PL"));
             String finalDate = date.format(message.getTime());
             message.setDateTime(finalDate);
         }
@@ -216,6 +218,15 @@ public class MessageActivity extends AppCompatActivity implements NavigationView
      */
     public void showRecipientProfile(View view) {
         startActivity(new Intent(this, ViewFriendProfileActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     @Override

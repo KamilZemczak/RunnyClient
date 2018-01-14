@@ -62,9 +62,6 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
 
     public static List<String> trainingsSize = new ArrayList<String>();
 
-    public String sTrainingCurrentId = String.valueOf(trainingCurrentId);
-
-
     public static Integer trainingCurrentId, trainingCurrentDistance, trainingCurrentDuration;
     public static String trainingCurrentNotes;
 
@@ -93,7 +90,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        noTrainings = (TextView) findViewById(R.id.tvNoTrainingsV);
+        noTrainings = (TextView) findViewById(R.id.viewFriendsTrainingsActivity_tvNoTrainingsFind);
 
         loadHistory();
 
@@ -148,7 +145,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
         setTrainingHistoryToAdapter();
 
         if (trainingHistory.isEmpty()) {
-            noTrainings.setText("Brak treningów.");
+            noTrainings.setText("Brak dostępnych treningów");
         }
     }
 
@@ -170,6 +167,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
             String resultToReplace = result.replace("[", "");
             String finalResult = resultToReplace.replace("]", "");
             trainingsSize = new ArrayList<String>(Arrays.asList(finalResult.split(",")));
+            Collections.reverse(trainingsSize);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -202,6 +200,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String type = "training_update";
+                String sTrainingCurrentId = String.valueOf(trainingCurrentId);
                 String distanceToSend = distance.getText().toString();
                 String sHours = hours.getText().toString();
                 String sMins = mins.getText().toString();
@@ -248,20 +247,25 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
             }
 
             private void setErrors(String distanceToSend, Integer iHours, Integer iMins) {
-                if (distanceToSend.length() <= 0) {
+                if (distanceToSend.isEmpty() || Integer.parseInt(distanceToSend) == 0 || Integer.parseInt(distanceToSend) < 0) {
                     distance.setError("Minimalny dystans to 1km.");
+                } else if (distanceToSend.isEmpty() || Integer.parseInt(distanceToSend) > 70) {
+                    distance.setError("Maksymalny dystans to 70km.");
                 }
+
                 if (iHours > 10) {
                     hours.setError("Maksymalny czas biegu to 10h");
-                }
-                if (iMins > 60) {
-                    mins.setError("Minut maksymalnie 60!");
-                }
-                if (iMins == 0 && iHours == 0) {
+                } else if (iMins == 0 && iHours == 0) {
+                    mins.setError("Nie wpisałeś czasu.");
                     hours.setError("Nie wpisałeś czasu.");
                 }
-                mins.setError("Nie wpisałeś czasu.");
-                hours.setError("Nie wpisałeś czasu.");
+
+                if (iMins > 60) {
+                    mins.setError("Minut maksymalnie 60!");
+                } else if (iMins == 0 && iHours == 0) {
+                    mins.setError("Nie wpisałeś czasu.");
+                    hours.setError("Nie wpisałeś czasu.");
+                }
             }
         });
 
@@ -288,6 +292,7 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
         builder.setPositiveButton("TAK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                String sTrainingCurrentId = String.valueOf(trainingCurrentId);
                 String type = "training_delete";
                 TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(ViewFriendsTrainingsActivity.this);
                 trainingBackgroundWorker.execute(type, sTrainingCurrentId);
@@ -338,28 +343,29 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
      */
     public boolean validate(String distanceToSend, Integer iHours, Integer iMins) {
         boolean valid = true;
-        if (distanceToSend.isEmpty() || distanceToSend.length() < 1) {
+
+        if (distanceToSend.isEmpty() || Integer.parseInt(distanceToSend) == 0 || Integer.parseInt(distanceToSend) < 0) {
+            valid = false;
+        } else if (distanceToSend.isEmpty() || Integer.parseInt(distanceToSend) > 70) {
             valid = false;
         } else {
             distance.setError(null);
         }
 
-        if (iHours <= 0 || iHours > 10) {
+        if (iHours > 10) {
+            valid = false;
+        } else if (iMins == 0 && iHours == 0) {
             valid = false;
         } else {
+            mins.setError(null);
             hours.setError(null);
         }
 
         if (iMins > 60) {
             valid = false;
-        } else {
-            mins.setError(null);
-        }
-
-        if (iMins == 0 && iHours == 0) {
+        } else if (iMins == 0 && iHours == 0) {
             valid = false;
         } else {
-            hours.setError(null);
             mins.setError(null);
         }
         return valid;
@@ -369,13 +375,25 @@ public class ViewFriendsTrainingsActivity extends AppCompatActivity
         Toast.makeText(getBaseContext(), "Funkcjonalność w budowie!", Toast.LENGTH_LONG).show();
     }
 
-
     public void updateTraining(View view) {
         openUpdateDialog();
     }
 
     public void deleteTraining(View view) {
         openDeleteDialog();
+    }
+
+    public void showPosts(View view) {
+        startActivity(new Intent(this, WelcomeActivity.class));
+    }
+
+    public void showProfile(View view) {
+        startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    public void logout(MenuItem menu) {
+        startActivity(new Intent(this, LoginActivity.class));
+        Toast.makeText(getBaseContext(), "Wylogowanie powiodło się!", Toast.LENGTH_LONG).show();
     }
 
     /**
