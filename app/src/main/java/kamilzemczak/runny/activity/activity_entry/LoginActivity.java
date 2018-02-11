@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
+import kamilzemczak.runny.helper.MySingleton;
 import kamilzemczak.runny.model.User;
 import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.LoginBackgroundWorker;
@@ -34,6 +35,8 @@ import kamilzemczak.runny.activity.activity_menu.WelcomeActivity;
  * Klasa odpowiedzialna za logowanie użytkownika do portalu
  */
 public class LoginActivity extends AppCompatActivity {
+
+    MySingleton singleton =  MySingleton.getInstance();
 
     private EditText username, password;
     private Button loginButton;
@@ -125,6 +128,11 @@ public class LoginActivity extends AppCompatActivity {
     private void prepareUserData(User currentUser) {
         userCurrentId = currentUser.getId();
         userCurrentName = currentUser.getName();
+        singleton.setCurrentName(currentUser.getName());
+        singleton.setWeight(currentUser.getWeight());
+        singleton.setHeight(currentUser.getHeight());
+        singleton.setAbout(currentUser.getAbout());
+        singleton.setCity(currentUser.getCity());
         userCurrentSurname = currentUser.getSurname();
         userCurrentUsername = currentUser.getUsername();
         userCurrentEmail = currentUser.getEmail();

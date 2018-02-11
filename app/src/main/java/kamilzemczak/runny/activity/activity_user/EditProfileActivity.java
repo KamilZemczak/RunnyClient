@@ -30,6 +30,7 @@ import java.util.concurrent.ExecutionException;
 
 import kamilzemczak.runny.R;
 import kamilzemczak.runny.backgroundworker.PostBackgroundWorker;
+import kamilzemczak.runny.helper.MySingleton;
 import kamilzemczak.runny.model.User;
 import kamilzemczak.runny.backgroundworker.UniqueBackgroundWorker;
 import kamilzemczak.runny.backgroundworker.UserBackgroundWorker;
@@ -48,6 +49,8 @@ public class EditProfileActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private LoginActivity loginActivity;
+
+    MySingleton singleton =  MySingleton.getInstance();
 
     private EditText username, email, age, gender, weight, height, city, about, password, passwordConfirm;
     private TextView user;
@@ -108,17 +111,17 @@ public class EditProfileActivity extends AppCompatActivity
         if (loginActivity.userCurrentGender != null && loginActivity.userCurrentGender.equals("F")) {
             gender.setText("Kobieta", TextView.BufferType.EDITABLE);
         }
-        if ((loginActivity.userCurrentWeight) != null) {
-            weight.setText(Integer.toString(LoginActivity.userCurrentWeight), TextView.BufferType.EDITABLE);
+        if ((singleton.getWeight()) != null) {
+            weight.setText(Integer.toString(singleton.getWeight()), TextView.BufferType.EDITABLE);
         }
-        if ((loginActivity.userCurrentHeight) != null) {
-            height.setText(Integer.toString(loginActivity.userCurrentHeight), TextView.BufferType.EDITABLE);
+        if ((singleton.getHeight()) != null) {
+            height.setText(Integer.toString(singleton.getHeight()), TextView.BufferType.EDITABLE);
         }
-        if (loginActivity.userCurrentCity != null) {
-            city.setText(loginActivity.userCurrentCity, TextView.BufferType.EDITABLE);
+        if (singleton.getCity() != null) {
+            city.setText(singleton.getCity(), TextView.BufferType.EDITABLE);
         }
-        if (loginActivity.userCurrentAbout != null) {
-            about.setText(loginActivity.userCurrentAbout, TextView.BufferType.EDITABLE);
+        if (singleton.getAbout() != null) {
+            about.setText(singleton.getAbout(), TextView.BufferType.EDITABLE);
         }
     }
 
@@ -182,16 +185,20 @@ public class EditProfileActivity extends AppCompatActivity
         loginActivity.userCurrentEmail = currentUser.getEmail();
         loginActivity.userCurrentAge = currentUser.getAge();
         loginActivity.userCurrentGender = currentUser.getGender();
-        if (currentUser.getWeight() != null) {
+        if (singleton.getWeight() != null) {
+            singleton.setWeight(currentUser.getWeight());
             loginActivity.userCurrentWeight = currentUser.getWeight();
         }
-        if (currentUser.getHeight() != null) {
+        if (singleton.getHeight() != null) {
+            singleton.setHeight(currentUser.getHeight());
             loginActivity.userCurrentHeight = currentUser.getHeight();
         }
-        if (currentUser.getCity() != null) {
+        if (singleton.getCity() != null) {
+            singleton.setCity(currentUser.getCity());
             loginActivity.userCurrentCity = currentUser.getCity();
         }
-        if (currentUser.getAbout() != null) {
+        if (singleton.getAbout() != null) {
+            singleton.setAbout(currentUser.getAbout());
             loginActivity.userCurrentAbout = currentUser.getAbout();
         }
     }

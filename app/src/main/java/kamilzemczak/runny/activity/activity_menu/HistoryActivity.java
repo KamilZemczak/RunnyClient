@@ -180,6 +180,7 @@ public class HistoryActivity extends AppCompatActivity
                 String distanceToSend = distance.getText().toString();
                 String sHours = hours.getText().toString();
                 String sMins = mins.getText().toString();
+                String sFinalTrainingId = String.valueOf(trainingCurrentId);
                 Integer iHours = null;
                 if (!sHours.isEmpty()) {
                     iHours = Integer.valueOf(sHours);
@@ -215,7 +216,7 @@ public class HistoryActivity extends AppCompatActivity
                     setErrors(distanceToSend, iHours, iMins);
                 } else {
                     TrainingBackgroundWorker trainingBackgroundWorker = new TrainingBackgroundWorker(HistoryActivity.this);
-                    trainingBackgroundWorker.execute(type, loginActivity.userCurrentUsername, sTrainingCurrentId, distanceToSend, duratioin, notesToSend, sHours, sMins);
+                    trainingBackgroundWorker.execute(type, loginActivity.userCurrentUsername, sFinalTrainingId, distanceToSend, duratioin, notesToSend, sHours, sMins);
                     finish();
                     startActivity(getIntent());
                     Toast.makeText(getBaseContext(), "Edycja treningu udana!", Toast.LENGTH_LONG).show();
@@ -319,11 +320,11 @@ public class HistoryActivity extends AppCompatActivity
             distance.setError(null);
         }
 
-        if (iHours <= 0 || iHours > 10) {
+        /*if (iHours <= 0 || iHours > 10) {
             valid = false;
         } else {
             hours.setError(null);
-        }
+        }*/
 
         if (iMins > 60) {
             valid = false;
